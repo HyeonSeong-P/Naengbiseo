@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainFragment">
+
+
+    <fragment
+        android:id="@+id/itemStatusFragment"
+        android:label="item_status_fragment"
+        android:name="com.example.naengbiseo.fragment.ItemStatusFragment"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/foodAddFragment"
+        android:label="food_add_fragment"
+        android:name="com.example.naengbiseo.fragment.FoodAddFragment"
+        >
+        <action
+            android:id="@+id/action_foodAddFragment_to_mainFragment"
+            app:popUpTo="@id/foodAddFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/mainFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/coldFragment"
+        android:label="cold_fragment"
+        android:name="com.example.naengbiseo.fragment.ColdFragment"
+        />
+
+    <fragment
+        android:id="@+id/coolFragment"
+        android:label="cool_fragment"
+        android:name="com.example.naengbiseo.fragment.CoolFragment"
+        />
+    <fragment
+        android:id="@+id/shelfFragment"
+        android:label="shelf_fragment"
+        android:name="com.example.naengbiseo.fragment.ShelfFragment"
+        />
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:label="main_fragment"
+        android:name="com.example.naengbiseo.fragment.BaseMainFragment"
+        >
+        <action
+            android:id="@+id/action_mainFragment_to_foodAddFragment"
+            app:destination="@id/foodAddFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trashFragment"
+        android:label="trash_fragment"
+        android:name="com.example.naengbiseo.fragment.TrashFragment"
+        />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:label="setting_fragment"
+        android:name="com.example.naengbiseo.fragment.SettingFragment"
+        />
+
+    <fragment
+        android:id="@+id/basketFragment"
+        android:label="basket_fragment"
+        android:name="com.example.naengbiseo.fragment.BasketFragment"
+        />
+
+</navigation>
