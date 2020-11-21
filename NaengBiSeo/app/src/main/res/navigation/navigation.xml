@@ -25,6 +25,7 @@
             app:destination="@id/mainFragment"
             />
     </fragment>
+
     <fragment
         android:id="@+id/coldFragment"
         android:label="cold_fragment"
@@ -51,7 +52,16 @@
             android:id="@+id/action_mainFragment_to_foodAddFragment"
             app:destination="@id/foodAddFragment"
             />
+        <action
+            android:id="@+id/action_mainFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:label="shopping_cart_fragment"
+        android:name="com.example.naengbiseo.fragment.ShoppingCartFragment"
+        />
 
     <fragment
         android:id="@+id/trashFragment"

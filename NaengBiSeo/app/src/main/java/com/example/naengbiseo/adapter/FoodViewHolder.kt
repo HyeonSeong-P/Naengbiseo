@@ -6,7 +6,7 @@ import com.example.naengbiseo.room.FoodData
 import kotlinx.android.synthetic.main.food_item.view.*
 
 class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
-    companion object { // 체크박스 관련
+    companion object { // companion object는 JAVA로 치면 static
         private var checkbox_state = 0
         fun activateCheckbox() {
             checkbox_state = 1

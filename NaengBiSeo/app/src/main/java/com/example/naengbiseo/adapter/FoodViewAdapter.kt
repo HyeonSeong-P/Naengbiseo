@@ -1,5 +1,6 @@
 package com.example.naengbiseo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,6 @@ import com.example.naengbiseo.R
 import com.example.naengbiseo.viewmodel.MainViewModel
 
 class FoodViewAdapter(private val viewModel: MainViewModel, val location:Int): RecyclerView.Adapter<FoodViewHolder>() {
-
 
     override fun getItemCount(): Int {
         return when(location){
@@ -24,11 +24,10 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location:Int): R
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-
         when(location){
-            0-> holder.bind(viewModel.getShelfData()[position],position)
-            1-> holder.bind(viewModel.getCoolData()[position],position)
-            else -> holder.bind(viewModel.getColdData()[position],position)
+            0-> holder.bind(viewModel.getShelfData()[position], position)
+            1-> holder.bind(viewModel.getCoolData()[position], position)
+            else -> holder.bind(viewModel.getColdData()[position], position)
         }
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
