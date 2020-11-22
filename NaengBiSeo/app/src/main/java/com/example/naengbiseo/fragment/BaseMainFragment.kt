@@ -47,35 +47,25 @@ class BaseMainFragment :Fragment(){
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java)
 
-        viewModel.del_data.observe(viewLifecycleOwner, Observer{})
         trashcan_state = 0
-        //var delList:List<String> = viewModel.getDelData().not
 
-
-
-        viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
-            trashcan_btn.setOnClickListener {
-                if(trashcan_state == 0) {
-                    trashcan_btn.setBackgroundColor(Color.parseColor("#ff0000"))
-                    viewModel.onTrashButton(1)
-                    //FoodViewHolder.activateCheckbox()
-//                    for(i in 0..2) {
-//                        FoodViewAdapter(viewModel,i).notifyDataSetChanged() // checkbox 다시 안보이도록 하기위해
-//                    }
-                    trashcan_state = 1
-                }
-                else {
-                    if(viewModel.getDelData()==null) Log.d("b","비었어 ")
-                    viewModel.deleteData()
-                    trashcan_state = 0
-                    viewModel.onTrashButton(0)
-                    //FoodViewHolder.inActivateCheckbox()
-                    viewModel.clearDelData()
-                    trashcan_btn.setBackgroundColor(Color.parseColor("#ffffff"))
-                }
+        // 아 이게 각 프래그먼트마다 notify를 통해 화면 갱신을 해주니 여기서 일일이 옵저브 할 필요가 없네!!
+        // 왜냐면 여기도 뷰모델 온트래쉬버튼(트래시 버튼 이벤트를 call 함)을 이용해 알려주기 때문!
+        trashcan_btn.setOnClickListener {
+            if(trashcan_state == 0) {
+                trashcan_btn.setBackgroundColor(Color.parseColor("#ff0000"))
+                viewModel.onTrashButton(1)
+                trashcan_state = 1
             }
-
-        }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
+            else {
+                if(viewModel.getDelData()==null) Log.d("b","비었어 ")
+                viewModel.deleteData()
+                trashcan_state = 0
+                viewModel.onTrashButton(0)
+                viewModel.clearDelData()
+                trashcan_btn.setBackgroundColor(Color.parseColor("#ffffff"))
+            }
+        }
 
         view_pager_main.adapter =
             ViewPagerAdapter2(

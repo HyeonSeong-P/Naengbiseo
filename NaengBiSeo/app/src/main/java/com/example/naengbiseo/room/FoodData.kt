@@ -14,12 +14,12 @@ import androidx.room.PrimaryKey
 data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name = "재료명") var foodName: String,
-    @ColumnInfo(name = "보관장소") var storeLocation: String/*,
-    @ColumnInfo(name = "카테고리") var foodCategory: String,
+    @ColumnInfo(name = "보관장소") var storeLocation: String,
+//    @ColumnInfo(name = "카테고리") var foodCategory: String="",
     @ColumnInfo(name = "수량") var foodNumber: Int,
-    @ColumnInfo(name = "메모") var foodMemo: String,
-    @ColumnInfo(name = "보관방법") var storeWay: String,
-    @ColumnInfo(name = "처리방법") var treatWay: String,
+    @ColumnInfo(name = "메모") var foodMemo: String="",
+    @ColumnInfo(name = "보관방법") var storeWay: String="",
+    @ColumnInfo(name = "처리방법") var treatWay: String="",
     @ColumnInfo(name = "유통기한") var expirationDate: String,
-    @ColumnInfo(name = "구매일자") var buyDate: String*/
+    @ColumnInfo(name = "구매일자") var buyDate: String
 )

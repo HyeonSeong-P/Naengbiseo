@@ -1,5 +1,6 @@
 package com.example.naengbiseo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,6 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location:Int): R
     }
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-
         when(location){
             0-> holder.bind(viewModel.getShelfData()[position],position)
             1-> holder.bind(viewModel.getCoolData()[position],position)
