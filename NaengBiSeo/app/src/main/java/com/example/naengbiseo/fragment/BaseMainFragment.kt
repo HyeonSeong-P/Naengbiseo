@@ -57,7 +57,7 @@ class BaseMainFragment :Fragment(){
             trashcan_btn.setOnClickListener {
                 if(trashcan_state == 0) {
                     trashcan_btn.setBackgroundColor(Color.parseColor("#ff0000"))
-                    viewModel.onTrashButton(1)
+                    viewModel.onTrashButton(1) // 여기서 Live data 값을 바꿔주네
                     //FoodViewHolder.activateCheckbox()
 //                    for(i in 0..2) {
 //                        FoodViewAdapter(viewModel,i).notifyDataSetChanged() // checkbox 다시 안보이도록 하기위해
@@ -94,6 +94,9 @@ class BaseMainFragment :Fragment(){
 
         go_to_add_item_page_btn.setOnClickListener{
             findNavController().navigate(R.id.action_mainFragment_to_foodAddFragment)
+        }
+        go_to_shopping_cart_page_btn.setOnClickListener{
+            findNavController().navigate(R.id.action_mainFragment_to_shoppingCartFragment)
         }
     }
 }

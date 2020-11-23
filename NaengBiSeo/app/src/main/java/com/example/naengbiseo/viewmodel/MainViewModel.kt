@@ -89,25 +89,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
         }
 
     }
-    /*fun deleteData(){
-        viewModelScope.launch {
-            Log.d("ss","진입함")
-            var delList=_del_data.value
-            var foodList:List<FoodData>? = allFoodData.value
-            if(delList!=null && foodList != null){
-                Log.d("ss","진입해ㅐㅆ냐?!!")
-                for (s in delList) {
-                        for (foodData: FoodData in foodList) {
-                            if (foodData.foodName == s) {
-                                Log.d("ss","삭제 전")
-                                foodDataRepository.delete(foodData)
-                            }
-                        }
 
-                }
-            }
-        }
-    }*/
     fun getColdData(): List<FoodData> {
         var coldFoodData:MutableList<FoodData> = mutableListOf()
         var foodList:List<FoodData>? = allFoodData.value
