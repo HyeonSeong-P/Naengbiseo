@@ -48,6 +48,7 @@ class ShoppingCartFragment: Fragment() {
         iconList.add(FoodIcon("딸기", R.drawable.strawberry))
         iconList.add(FoodIcon("배", R.drawable.pear))
         iconList.add(FoodIcon("귤", R.drawable.mandarin))
+//        iconList.add(FoodIcon("사과", R.drawable.apple))
         iconList.add(FoodIcon("footer", TYPE_CATEGORY_FOOTER))
         iconList.add(FoodIcon("채소류", TYPE_CATEGORY_HEADER))
         iconList.add(FoodIcon("브로콜리", R.drawable.broccoli))
