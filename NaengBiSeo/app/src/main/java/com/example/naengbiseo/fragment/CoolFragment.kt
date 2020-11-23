@@ -21,6 +21,7 @@ import com.example.naengbiseo.viewmodel.MainViewModel
 import com.example.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.fragment_cold.*
+import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
 
 class CoolFragment: Fragment() {
@@ -45,41 +46,38 @@ class CoolFragment: Fragment() {
         val factory = MainViewModelFactory(repository)
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java)
-        viewModel.del_data.observe(viewLifecycleOwner, Observer{
+        /*viewModel.del_data.observe(viewLifecycleOwner, Observer{
             for(s in it){
                 Log.d("sd",s)
             }
-        })
+        })*/
+
         // 화면 갱신이 문제다
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
-            // 여기 바로 밑에 구문들을 여기 옵저버 안에 넣어놔야 실시간으로 데이터 수정된다.
-            //adapter 추가
-            search_recyclerview_cool.adapter =
-                FoodViewAdapter(viewModel,1)
-            //레이아웃 매니저 추가
-            search_recyclerview_cool.layoutManager = LinearLayoutManager(activity)
+            (search_recyclerview_cool.adapter as FoodViewAdapter).notifyDataSetChanged() // 화면 갱신에 사용
+        }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
 
-            (search_recyclerview_cool.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
-                override fun onClick(v: View, position: Int) {
-                    Log.d("s","떳다2")
-                    if (sel == 1) {
-                        Log.d("s","떳다1")
-                        v.check_box.toggle()
-                        if (v.check_box.isChecked) {
-                            var st="apfhd"
-                            Log.d("s","추가"+v.food_name.text.toString())
-                            viewModel.addDelData(v.food_name.text.toString())
-                        } else {
-                            Log.d("s","지움"+v.food_name.text.toString())
-                            viewModel.removeDelData(v.food_name.text.toString())
-                        }
-                    }
-                    else{
-                        Log.d("s","떳다3")
+        //adapter 추가
+        search_recyclerview_cool.adapter =
+            FoodViewAdapter(viewModel,1)
+        //레이아웃 매니저 추가
+        search_recyclerview_cool.layoutManager = LinearLayoutManager(activity)
+
+        (search_recyclerview_cool.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                if (sel == 1) {
+                    v.check_box.toggle()
+                    if (v.check_box.isChecked) {
+                        viewModel.addDelData(v.food_name.text.toString())
+                    } else {
+                        viewModel.removeDelData(v.food_name.text.toString())
                     }
                 }
-            })
-        }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
+                else{
+                    Log.d("s","떳다3")
+                }
+            }
+        })
 
         viewModel.trash_button_cool_event.observe(viewLifecycleOwner, Observer{
             if(it==1){

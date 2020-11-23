@@ -24,9 +24,6 @@ import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
 
 class ShelfFragment : Fragment(){
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
     var sel:Int=0
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,30 +42,31 @@ class ShelfFragment : Fragment(){
         val factory = MainViewModelFactory(repository)
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java)
-        viewModel.del_data.observe(viewLifecycleOwner, Observer{})
+        //viewModel.del_data.observe(viewLifecycleOwner, Observer{}) 없어도 되네?
+
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
-
-            //adapter 추가
-            search_recyclerview_shelf.adapter =
-                FoodViewAdapter(viewModel,0)
-            //레이아웃 매니저 추가
-            search_recyclerview_shelf.layoutManager = LinearLayoutManager(activity)
-
-            (search_recyclerview_shelf.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
-                override fun onClick(v: View, position: Int) {
-//                    Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
-                    if (sel == 1) {
-                        v.check_box.toggle()
-                        if (v.check_box.isChecked) {
-                            viewModel.addDelData(v.food_name.text.toString())
-                        } else {
-                            viewModel.removeDelData(v.food_name.text.toString())
-                        }
-                    }
-                }
-            })
+            (search_recyclerview_shelf.adapter as FoodViewAdapter).notifyDataSetChanged()
         }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
 
+        //adapter 추가
+        search_recyclerview_shelf.adapter =
+            FoodViewAdapter(viewModel,0)
+        //레이아웃 매니저 추가
+        search_recyclerview_shelf.layoutManager = LinearLayoutManager(activity)
+
+        (search_recyclerview_shelf.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+//                    Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+                if (sel == 1) {
+                    v.check_box.toggle()
+                    if (v.check_box.isChecked) {
+                        viewModel.addDelData(v.food_name.text.toString())
+                    } else {
+                        viewModel.removeDelData(v.food_name.text.toString())
+                    }
+                }
+            }
+        })
         viewModel.trash_button_shelf_event.observe(viewLifecycleOwner, Observer{
 
             if(it==1){

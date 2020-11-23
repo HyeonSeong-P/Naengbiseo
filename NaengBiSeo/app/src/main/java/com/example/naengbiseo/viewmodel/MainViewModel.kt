@@ -38,13 +38,13 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
 
 
     private val _trash_button_cool_event = SingleLiveEvent<Int>()
-    val trash_button_cool_event get() = _trash_button_cool_event
+    val trash_button_cool_event:LiveData<Int> get() = _trash_button_cool_event
 
     private val _trash_button_cold_event = SingleLiveEvent<Int>()
-    val trash_button_cold_event get() = _trash_button_cold_event
+    val trash_button_cold_event:LiveData<Int> get() = _trash_button_cold_event
 
     private val _trash_button_shelf_event = SingleLiveEvent<Int>()
-    val trash_button_shelf_event get() = _trash_button_shelf_event
+    val trash_button_shelf_event:LiveData<Int> get() = _trash_button_shelf_event
 
     fun onTrashButton(i:Int) { /** 뷰의 onClickListener 호출될때 얘를 호출해 싱글라이브데이터 의 Setdata를 call
     뷰와 뷰모델의 연결?....*/
@@ -66,18 +66,15 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
     }
 
     fun deleteData(){
-        Log.d("ss","진입함")
+
         var foodList:List<FoodData>? = allFoodData.value
         var dList=del_data.value
         if(foodList != null){
-            Log.d("ss","진입해ㅐㅆ냐?!!")
             if(dList!=null) {
-                Log.d("ss","진입해ㅐㅆ냐222?!!")
                 for (s in dList) {
                     Log.d("copyDelList", s)
                     for (foodData in foodList) {
                         if (foodData.foodName == s) {
-                            Log.d("ss", "삭제 전")
                             viewModelScope.launch {
                                 foodDataRepository.delete(foodData)
                             }
