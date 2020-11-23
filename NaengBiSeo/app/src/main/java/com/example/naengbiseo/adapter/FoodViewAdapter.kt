@@ -1,9 +1,11 @@
 package com.example.naengbiseo.adapter
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.R
 import com.example.naengbiseo.viewmodel.MainViewModel
@@ -24,6 +26,7 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location:Int): R
         return FoodViewHolder(inflatedView)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         when(location){
             0-> holder.bind(viewModel.getShelfData()[position],position)

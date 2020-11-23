@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  */
 
 //@Entity(tableName = "inputMsg")
-@Entity(indices = [Index(value = ["재료명", "보관장소"], unique = true)])
+@Entity(indices = [Index(value = ["재료명", "보관장소","구매일자"], unique = true)]) // 이걸로 푸드데이터의 유니크를 정할 수 있다!
 
 data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
