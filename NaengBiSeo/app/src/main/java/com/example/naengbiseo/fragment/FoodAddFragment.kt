@@ -39,6 +39,10 @@ class FoodAddFragment: Fragment() {
         var viewModel = ViewModelProviders.of(this, factory).get(
             FoodAddViewModel::class.java)
 
+
+        go_to_select_button.setOnClickListener {
+            findNavController().navigate(R.id.action_foodAddFragment_to_foodIconAddFragment)
+        }
         add_food_btn.setOnClickListener {
             val food_name = food_edit_text.text.toString()
             val food_number_text = food_number_edit_text.text.toString()

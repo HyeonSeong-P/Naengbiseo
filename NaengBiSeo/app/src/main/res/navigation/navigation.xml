@@ -6,11 +6,21 @@
 
 
     <fragment
+        android:id="@+id/foodIconAddFragment"
+        android:label="food_icon_add_fragment"
+        android:name="com.example.naengbiseo.fragment.FoodIconAddFragment">
+
+        <action
+            android:id="@+id/action_foodIconAddFragment_to_foodAddFragment"
+            app:destination="@id/foodAddFragment"
+            />
+    </fragment>
+
+    <fragment
         android:id="@+id/itemStatusFragment"
         android:label="item_status_fragment"
         android:name="com.example.naengbiseo.fragment.ItemStatusFragment"
         >
-
     </fragment>
 
     <fragment
@@ -18,6 +28,10 @@
         android:label="food_add_fragment"
         android:name="com.example.naengbiseo.fragment.FoodAddFragment"
         >
+        <action
+            android:id="@+id/action_foodAddFragment_to_foodIconAddFragment"
+            app:destination="@id/foodIconAddFragment"
+            />
         <action
             android:id="@+id/action_foodAddFragment_to_mainFragment"
             app:popUpTo="@id/foodAddFragment"
