@@ -1,16 +1,22 @@
 package com.example.naengbiseo.fragment
 
+import androidx.lifecycle.Observer
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
+import com.example.naengbiseo.adapter.FoodViewAdapter
 import com.example.naengbiseo.room.AppDatabase
 import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.room.FoodDataRepository
@@ -19,10 +25,12 @@ import com.example.naengbiseo.viewmodel.FoodAddViewModelFactory
 import com.example.naengbiseo.viewmodel.MainViewModel
 import com.example.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_food_add.*
+import kotlinx.android.synthetic.main.frament_cool.*
 import java.lang.NumberFormatException
 import java.util.*
 
-class FoodAddFragment: Fragment() {
+open class FoodAddFragment: Fragment() {
+    var foodIcon: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,13 +44,21 @@ class FoodAddFragment: Fragment() {
         val dao = AppDatabase.getInstance(ac).foodDao()
         val repository = FoodDataRepository.getInstance(dao)
         val factory = FoodAddViewModelFactory(repository)
-        var viewModel = ViewModelProviders.of(this, factory).get(
+        var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             FoodAddViewModel::class.java)
-
 
         go_to_select_button.setOnClickListener {
             findNavController().navigate(R.id.action_foodAddFragment_to_foodIconAddFragment)
         }
+
+        viewModel.icon_data.observe(viewLifecycleOwner, Observer{
+            Log.d("sd","변경됐냐?!!")
+            foodIcon=it.first
+
+            go_to_select_button.setImageResource(it.first)
+            food_edit_text.setText(it.second)
+        })
+
         add_food_btn.setOnClickListener {
             val food_name = food_edit_text.text.toString()
             val food_number_text = food_number_edit_text.text.toString()
@@ -63,15 +79,15 @@ class FoodAddFragment: Fragment() {
                 val food_number = food_number_text.toInt()
                 when(radio_btn_id) {
                     radio_btn1.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo) ) // 음식 정보 저장
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,icon=foodIcon) ) // 음식 정보 저장
                         food_edit_text.setText("")
                     }
                     radio_btn2.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo)) //Contacts 생성
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,icon=foodIcon)) //Contacts 생성
                         food_edit_text.setText("")
                     }
                     radio_btn3.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo)) //Contacts 생성
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,icon=foodIcon)) //Contacts 생성
                         food_edit_text.setText("")
                     }
                     else -> {

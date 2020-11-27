@@ -1,13 +1,18 @@
 package com.example.naengbiseo.adapter
 
+import android.os.Build
+import android.util.Log
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.R
 
 class ShoppingCartViewAdapter(private val iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartViewHolder>() {
+    var selectList= mutableListOf<Boolean>()
     private val TYPE_CATEGORY_HEADER = 0
     private val TYPE_ITEM = 1
     private val TYPE_CATEGORY_FOOTER = 2
@@ -27,6 +32,9 @@ class ShoppingCartViewAdapter(private val iconList: MutableList<FoodIcon>): Recy
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingCartViewHolder {
+        for(i in 0..iconList.size-1){
+            selectList.add(false)
+        }
         var myLayout: Int
         when(viewType) {
             TYPE_CATEGORY_HEADER -> myLayout = R.layout.food_category_header_item
@@ -37,6 +45,7 @@ class ShoppingCartViewAdapter(private val iconList: MutableList<FoodIcon>): Recy
         return ShoppingCartViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ShoppingCartViewHolder, position: Int) {
         val icon = iconList[position]
         holder.bind(icon, position)

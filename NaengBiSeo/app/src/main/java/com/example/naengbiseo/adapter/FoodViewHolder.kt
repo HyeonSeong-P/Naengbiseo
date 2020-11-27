@@ -6,6 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.room.FoodData
+import kotlinx.android.synthetic.main.food_icon_item.view.*
 import kotlinx.android.synthetic.main.food_item.view.*
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
@@ -54,6 +55,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
         view.food_number.setText(foodData.foodNumber.toString())
         view.buy_date.setText(foodData.buyDate)
         view.d_day.setText(dDayText)
+        view.food_icon.setImageResource(foodData.icon)
 
 
         // 체크박스 관련

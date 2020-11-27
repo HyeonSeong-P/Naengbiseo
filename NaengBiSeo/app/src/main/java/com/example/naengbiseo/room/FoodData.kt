@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.naengbiseo.FoodIcon
 
 /**데이터를 저장할 Entity, ROOM(MODEL) 관련 클래스.
  */
@@ -15,6 +16,7 @@ data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name = "재료명") var foodName: String,
     @ColumnInfo(name = "보관장소") var storeLocation: String,
+    @ColumnInfo(name = "아이콘") var icon: Int,
 //    @ColumnInfo(name = "카테고리") var foodCategory: String="",
     @ColumnInfo(name = "수량") var foodNumber: Int,
     @ColumnInfo(name = "메모") var foodMemo: String="",

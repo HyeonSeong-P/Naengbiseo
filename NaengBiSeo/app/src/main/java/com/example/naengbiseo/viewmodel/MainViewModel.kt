@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 
 class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewModel() {
-    private val _del_data=SingleLiveEvent<MutableList<String>>()
+    private val _del_data = SingleLiveEvent<MutableList<String>>()
     val del_data: LiveData<MutableList<String>> get() = _del_data
     val copyDelList:MutableList<String> = mutableListOf<String>()
 

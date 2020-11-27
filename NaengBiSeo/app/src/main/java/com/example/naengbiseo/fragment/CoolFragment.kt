@@ -46,13 +46,8 @@ class CoolFragment: Fragment() {
         val factory = MainViewModelFactory(repository)
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java)
-        /*viewModel.del_data.observe(viewLifecycleOwner, Observer{
-            for(s in it){
-                Log.d("sd",s)
-            }
-        })*/
 
-        // 화면 갱신이 문제다
+
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
             (search_recyclerview_cool.adapter as FoodViewAdapter).notifyDataSetChanged() // 화면 갱신에 사용
         }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,

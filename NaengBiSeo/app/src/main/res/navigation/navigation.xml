@@ -12,6 +12,8 @@
 
         <action
             android:id="@+id/action_foodIconAddFragment_to_foodAddFragment"
+            app:popUpTo="@id/foodIconAddFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/foodAddFragment"
             />
     </fragment>
