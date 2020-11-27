@@ -60,7 +60,16 @@
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:label="shopping_cart_fragment"
-        android:name="com.example.naengbiseo.fragment.ShoppingCartFragment"
+        android:name="com.example.naengbiseo.fragment.ShoppingCartFragment">
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_basketFragment"
+            app:destination="@id/basketFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/basketFragment"
+        android:label="basket_fragment"
+        android:name="com.example.naengbiseo.fragment.BasketFragment"
         />
 
     <fragment
@@ -75,10 +84,5 @@
         android:name="com.example.naengbiseo.fragment.SettingFragment"
         />
 
-    <fragment
-        android:id="@+id/basketFragment"
-        android:label="basket_fragment"
-        android:name="com.example.naengbiseo.fragment.BasketFragment"
-        />
 
 </navigation>

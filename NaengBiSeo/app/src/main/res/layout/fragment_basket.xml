@@ -5,12 +5,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ImageButton
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:src="@drawable/back_button"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="@id/basketTextView"
+        app:layout_constraintBottom_toBottomOf="@id/basketTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
+
+    <TextView
+        android:id="@+id/basketTextView"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="장바구니"
+        android:textSize="15sp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="13dp"
+        android:background="@drawable/category_underline"
+        app:layout_constraintTop_toBottomOf="@id/basketTextView"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewInBasketFragment"
         android:scrollbars="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         tools:context=".fragment.BasketFragment"
+        app:layout_constraintTop_toBottomOf="@id/basketTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

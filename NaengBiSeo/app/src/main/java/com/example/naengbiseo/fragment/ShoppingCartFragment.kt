@@ -9,12 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
+import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
 import com.example.naengbiseo.adapter.*
+import com.example.naengbiseo.room.AppDatabase
+import com.example.naengbiseo.room.FoodDataRepository
+import com.example.naengbiseo.viewmodel.BasketViewModel
+import com.example.naengbiseo.viewmodel.BasketViewModelFactory
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 class ShoppingCartFragment: Fragment() {
@@ -37,6 +44,13 @@ class ShoppingCartFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val ac=activity as MainActivity
+        val dao = AppDatabase.getInstance(ac).foodDao()
+        val repository = FoodDataRepository.getInstance(dao)
+        val factory = BasketViewModelFactory(repository)
+        var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
+            BasketViewModel::class.java)
+
         iconList.add(FoodIcon("과일류", TYPE_CATEGORY_HEADER))
         iconList.add(FoodIcon("포도", R.drawable.grape))
         iconList.add(FoodIcon("딸기", R.drawable.strawberry))
@@ -75,6 +89,11 @@ class ShoppingCartFragment: Fragment() {
 
         shoppingCartSearchButton.setOnClickListener {
             Log.d("MSG","Button clicked")
+        }
+
+        addIconsToBasketButton.setOnClickListener {
+            findNavController().navigate(R.id.action_shoppingCartFragment_to_basketFragment)
+            viewModel.setIcon(selectedIcon)
         }
 
         searchIconEditText.addTextChangedListener(object: TextWatcher {

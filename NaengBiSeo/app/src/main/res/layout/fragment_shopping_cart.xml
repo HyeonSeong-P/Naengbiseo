@@ -48,4 +48,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".fragment.ShoppingCartFragment"
         />
+    
+    <Button
+        android:id="@+id/addIconsToBasketButton"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="#95aed7"
+        android:text="등록하기"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginBottom="13dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
