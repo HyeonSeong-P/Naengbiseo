@@ -1,10 +1,13 @@
 package com.example.naengbiseo.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,9 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
-import com.example.naengbiseo.adapter.FoodViewAdapter
-import com.example.naengbiseo.adapter.FoodViewHolder
-import com.example.naengbiseo.adapter.ShoppingCartViewAdapter
+import com.example.naengbiseo.adapter.*
 import com.example.naengbiseo.room.AppDatabase
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.MainViewModel
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 class ShoppingCartFragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: RecyclerView.Adapter<ShoppingCartViewHolder>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private val iconList = mutableListOf<FoodIcon>()
     private val TYPE_CATEGORY_HEADER = 0
@@ -48,7 +49,7 @@ class ShoppingCartFragment: Fragment() {
         iconList.add(FoodIcon("딸기", R.drawable.strawberry))
         iconList.add(FoodIcon("배", R.drawable.pear))
         iconList.add(FoodIcon("귤", R.drawable.mandarin))
-//        iconList.add(FoodIcon("사과", R.drawable.apple))
+        iconList.add(FoodIcon("사과", R.drawable.apple))
         iconList.add(FoodIcon("footer", TYPE_CATEGORY_FOOTER))
         iconList.add(FoodIcon("채소류", TYPE_CATEGORY_HEADER))
         iconList.add(FoodIcon("브로콜리", R.drawable.broccoli))
@@ -57,7 +58,7 @@ class ShoppingCartFragment: Fragment() {
         iconList.add(FoodIcon("양파", R.drawable.onion))
         iconList.add(FoodIcon("footer", TYPE_CATEGORY_FOOTER))
 
-
+        horizontalRecyclerViewInShoppingCart.adapter = ShoppingCartHorizontalAdapter(mutableListOf())
         search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(iconList)
 
         // 열을 3으로 설정한 GridLayoutManager 의 인스턴스를 생성하고 설정
@@ -76,5 +77,32 @@ class ShoppingCartFragment: Fragment() {
         }
         //레이아웃 매니저 추가
         search_recyclerview_shopping_cart.layoutManager = gridLayoutManager
+
+        shoppingCartSearchButton.setOnClickListener {
+            Log.d("MSG","Button clicked")
+        }
+
+        searchIconEditText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                searching(p0.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+    }
+
+    fun searching(text: String) {
+        var data = iconList
+        var searchedData = data.filter { it.iconName == text }
+        Log.d("MSG", "This is text: " + text)
+        if (text.isEmpty()) {
+            search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(iconList)
+        } else {
+            search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(searchedData.toMutableList())
+        }
     }
 }

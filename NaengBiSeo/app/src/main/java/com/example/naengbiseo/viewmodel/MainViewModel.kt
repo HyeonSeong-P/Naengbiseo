@@ -46,6 +46,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
     private val _trash_button_shelf_event = SingleLiveEvent<Int>()
     val trash_button_shelf_event get() = _trash_button_shelf_event
 
+    private val _searchText = SingleLiveEvent<String>()
+    val searchText get() = _searchText
+
     fun onTrashButton(i:Int) { /** 뷰의 onClickListener 호출될때 얘를 호출해 싱글라이브데이터 의 Setdata를 call
     뷰와 뷰모델의 연결?....*/
         _trash_button_cool_event.setValue(i)

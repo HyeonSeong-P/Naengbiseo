@@ -9,12 +9,13 @@ import androidx.room.PrimaryKey
  */
 
 //@Entity(tableName = "inputMsg")
-@Entity(indices = [Index(value = ["재료명", "보관장소"], unique = true)])
+@Entity(indices = [Index(value = ["재료명", "보관장소", "아이콘"], unique = true)])
 
 data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     @ColumnInfo(name = "재료명") var foodName: String,
-    @ColumnInfo(name = "보관장소") var storeLocation: String/*,
+    @ColumnInfo(name = "보관장소") var storeLocation: String,
+    @ColumnInfo(name = "아이콘") var foodIcon: Int/*,
     @ColumnInfo(name = "카테고리") var foodCategory: String,
     @ColumnInfo(name = "수량") var foodNumber: Int,
     @ColumnInfo(name = "메모") var foodMemo: String,

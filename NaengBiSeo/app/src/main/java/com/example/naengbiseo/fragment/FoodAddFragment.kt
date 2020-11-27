@@ -19,6 +19,7 @@ import com.example.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_food_add.*
 
 class FoodAddFragment: Fragment() {
+    private val TYPE_NO_ICON = -1
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,15 +42,15 @@ class FoodAddFragment: Fragment() {
             if(food_name == null || food_name.isEmpty()) return@setOnClickListener
             when(radio_btn_id) {
                 radio_btn1.id -> {
-                    viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf") ) // 음식 정보 저장
+                    viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf", foodIcon = TYPE_NO_ICON)) // 음식 정보 저장
                     food_edit_text.setText("")
                 }
                 radio_btn2.id -> {
-                    viewModel.insertData(FoodData(foodName=food_name, storeLocation ="cool")) //Contacts 생성
+                    viewModel.insertData(FoodData(foodName=food_name, storeLocation ="cool", foodIcon = TYPE_NO_ICON)) //Contacts 생성
                     food_edit_text.setText("")
                 }
                 radio_btn3.id -> {
-                    viewModel.insertData(FoodData(foodName=food_name, storeLocation ="cold")) //Contacts 생성
+                    viewModel.insertData(FoodData(foodName=food_name, storeLocation ="cold", foodIcon = TYPE_NO_ICON)) //Contacts 생성
                     food_edit_text.setText("")
                 }
             }
