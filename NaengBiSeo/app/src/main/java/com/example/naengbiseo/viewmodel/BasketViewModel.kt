@@ -18,6 +18,12 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
         _icons_data.setValue(iconList)
     }
 
+    fun delIcon(position: Int) {
+        var iconList: MutableList<FoodIcon> = icons_data.value!!
+        iconList.removeAt(position)
+        _icons_data.setValue(iconList)
+    }
+
     var TAG = javaClass.simpleName
 
     /** 뷰모델에서 모델로 데이터를 넣기위한거?*/

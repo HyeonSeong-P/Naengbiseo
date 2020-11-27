@@ -20,6 +20,7 @@ import com.example.naengbiseo.viewmodel.BasketViewModel
 import com.example.naengbiseo.viewmodel.BasketViewModelFactory
 import com.example.naengbiseo.viewmodel.FoodAddViewModel
 import com.example.naengbiseo.viewmodel.FoodAddViewModelFactory
+import kotlinx.android.synthetic.main.basket_food_item.*
 import kotlinx.android.synthetic.main.fragment_basket.*
 
 class BasketFragment :Fragment(){
@@ -48,5 +49,9 @@ class BasketFragment :Fragment(){
             Log.d("MSG","icons_data changed")
             viewAdapter.iconList = it
         })
+
+        backButtonInBasketFragment.setOnClickListener {
+            TODO()
+        }
     }
 }

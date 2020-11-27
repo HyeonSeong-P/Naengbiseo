@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="재료명"
+        android:textColor="#666666"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,6 +26,7 @@
         android:layout_marginLeft="95dp"/>
 
     <EditText
+        android:id="@+id/foodNameEditText"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -38,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="수량"
+        android:textColor="#666666"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,7 +55,10 @@
         app:layout_constraintTop_toTopOf="@id/quantity"
         app:layout_constraintBottom_toBottomOf="@id/quantity"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="159dp"/>
+        android:layout_marginLeft="159dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="#FFFFFF"/>
 
     <TextView
         android:id="@+id/quantityTextView"
@@ -70,17 +76,21 @@
         android:id="@+id/plusBtn"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/minus_btn"
+        android:src="@drawable/plus_btn"
         app:layout_constraintTop_toTopOf="@id/quantity"
         app:layout_constraintBottom_toBottomOf="@id/quantity"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="211dp"/>
+        android:layout_marginLeft="211dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:background="#FFFFFF"/>
 
     <TextView
         android:id="@+id/whereToStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="보관장소"
+        android:textColor="#666666"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -158,5 +168,18 @@
         android:layout_marginHorizontal="13dp"
         android:background="@drawable/category_underline"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/buyButton"
+        android:layout_width="36dp"
+        android:layout_height="45dp"
+        android:src="@drawable/buy_button"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
