@@ -1,5 +1,6 @@
 package com.example.naengbiseo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.R
 
-class ShoppingCartHorizontalAdapter(private val iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartHorizontalHolder>() {
+class ShoppingCartHorizontalAdapter(var iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartHorizontalHolder>() {
     override fun getItemCount(): Int {
         return iconList.size
     }

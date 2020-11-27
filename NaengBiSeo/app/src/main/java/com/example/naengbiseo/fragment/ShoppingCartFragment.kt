@@ -7,30 +7,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
-import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
 import com.example.naengbiseo.adapter.*
-import com.example.naengbiseo.room.AppDatabase
-import com.example.naengbiseo.room.FoodDataRepository
-import com.example.naengbiseo.viewmodel.MainViewModel
-import com.example.naengbiseo.viewmodel.MainViewModelFactory
-import kotlinx.android.synthetic.main.food_item.view.*
-import kotlinx.android.synthetic.main.fragment_cold.*
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 class ShoppingCartFragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<ShoppingCartViewHolder>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private var verticalViewAdapter = ShoppingCartViewAdapter(mutableListOf())
+    private var horizontalViewAdapter = ShoppingCartHorizontalAdapter(mutableListOf())
     private val iconList = mutableListOf<FoodIcon>()
+    private val selectedIcon = mutableListOf<FoodIcon>()
     private val TYPE_CATEGORY_HEADER = 0
     private val TYPE_CATEGORY_FOOTER = 1
     var sel:Int=0
@@ -58,8 +51,9 @@ class ShoppingCartFragment: Fragment() {
         iconList.add(FoodIcon("양파", R.drawable.onion))
         iconList.add(FoodIcon("footer", TYPE_CATEGORY_FOOTER))
 
-        horizontalRecyclerViewInShoppingCart.adapter = ShoppingCartHorizontalAdapter(mutableListOf())
-        search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(iconList)
+        verticalViewAdapter.iconList = iconList
+        verticalRecyclerViewInShoppingCart.adapter = verticalViewAdapter
+        horizontalRecyclerViewInShoppingCart.adapter = horizontalViewAdapter
 
         // 열을 3으로 설정한 GridLayoutManager 의 인스턴스를 생성하고 설정
         val gridLayoutManager = GridLayoutManager(activity, 4)
@@ -76,7 +70,8 @@ class ShoppingCartFragment: Fragment() {
             }
         }
         //레이아웃 매니저 추가
-        search_recyclerview_shopping_cart.layoutManager = gridLayoutManager
+        verticalRecyclerViewInShoppingCart.layoutManager = gridLayoutManager
+        horizontalRecyclerViewInShoppingCart.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
 
         shoppingCartSearchButton.setOnClickListener {
             Log.d("MSG","Button clicked")
@@ -93,16 +88,35 @@ class ShoppingCartFragment: Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+
+        (verticalRecyclerViewInShoppingCart.adapter as ShoppingCartViewAdapter).setItemClickListener(object : ShoppingCartViewAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                if (iconList[position].iconResource > 1) { // header, footer는 추가하면 안됨
+                    selectedIcon.add(iconList[position])
+                    horizontalViewAdapter.iconList = selectedIcon
+                    horizontalViewAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+
+        (horizontalRecyclerViewInShoppingCart.adapter as ShoppingCartHorizontalAdapter).setItemClickListener(object : ShoppingCartHorizontalAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                selectedIcon.removeAt(position)
+                horizontalViewAdapter.iconList = selectedIcon
+                horizontalViewAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     fun searching(text: String) {
         var data = iconList
         var searchedData = data.filter { it.iconName == text }
-        Log.d("MSG", "This is text: " + text)
         if (text.isEmpty()) {
-            search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(iconList)
+            verticalViewAdapter.iconList = iconList
+            verticalViewAdapter.notifyDataSetChanged()
         } else {
-            search_recyclerview_shopping_cart.adapter = ShoppingCartViewAdapter(searchedData.toMutableList())
+            verticalViewAdapter.iconList = searchedData.toMutableList()
+            verticalViewAdapter.notifyDataSetChanged()
         }
     }
 }
