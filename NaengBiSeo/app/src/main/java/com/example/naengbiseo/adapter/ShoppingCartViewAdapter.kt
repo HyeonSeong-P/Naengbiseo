@@ -1,5 +1,6 @@
 package com.example.naengbiseo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class ShoppingCartViewAdapter(var iconList: MutableList<FoodIcon>): RecyclerView
     override fun onBindViewHolder(holder: ShoppingCartViewHolder, position: Int) {
         val icon = iconList[position]
         holder.bind(icon, position)
-
+//        Log.d("MSG", "iconList size: " + iconList.size.toString() + ", icon name: " + icon.getIconName)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }

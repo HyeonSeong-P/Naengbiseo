@@ -19,20 +19,6 @@ class BasketViewHolder(v: View): RecyclerView.ViewHolder(v) {
     fun bind(icon: FoodIcon, position: Int) {
         view.foodIcon.setImageResource(icon.getIconResource)
         view.foodNameEditText.setText(icon.getIconName)
-
-        view.buyButton.setOnClickListener {
-            Toast.makeText(view.context, "구매 완료 되었습니다.", Toast.LENGTH_SHORT).show()
-        }
-
-        view.minusBtn.setOnClickListener {
-            var quantity = view.quantityTextView.text.toString().toInt()
-            view.quantityTextView.setText((quantity - 1).toString())
-        }
-
-        view.plusBtn.setOnClickListener {
-            var quantity = view.quantityTextView.text.toString().toInt()
-            view.quantityTextView.setText((quantity + 1).toString())
-        }
     }
 }
 

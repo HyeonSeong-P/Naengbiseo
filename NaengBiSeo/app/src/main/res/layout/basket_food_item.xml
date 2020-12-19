@@ -140,6 +140,7 @@
             android:background="@drawable/radio_button_selector"
             android:button="@android:color/transparent"
             android:layout_gravity="center_horizontal"
+            android:checked="true"
             />
         <View
             android:layout_width="0dp"

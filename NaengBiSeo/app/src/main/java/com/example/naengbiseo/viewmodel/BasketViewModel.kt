@@ -33,7 +33,11 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    fun insertData(foodData: FoodData) {
-        viewModelScope.launch { foodDataRepository.insert(foodData) }
+    fun insertData(foodDataList: MutableList<FoodIcon>) {
+        viewModelScope.launch {
+            for (foodData in foodDataList) {
+                foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cold", foodIcon = foodData.iconResource, purchaseStatus = 0))
+            }
+        }
     }
 }
