@@ -18,7 +18,7 @@ data class FoodData(
     @ColumnInfo(name = "보관장소") var storeLocation: String,
     @ColumnInfo(name = "아이콘") var foodIcon: Int,
     @ColumnInfo(name = "구매유무") var purchaseStatus: Int=1,
-    @ColumnInfo(name = "카테고리") var foodCategory: String,
+    //@ColumnInfo(name = "카테고리") var foodCategory: String,
     @ColumnInfo(name = "수량") var foodNumber: Int,
     @ColumnInfo(name = "메모") var foodMemo: String="",
     @ColumnInfo(name = "보관방법") var storeWay: String="",
