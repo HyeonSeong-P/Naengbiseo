@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.MainActivity
@@ -31,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 import kotlinx.android.synthetic.main.fragment_shopping_cart.search_recyclerview_shopping_cart
 
 class FoodIconAddFragment : Fragment() {
+
     var selectList = mutableListOf<Boolean>()
     private val iconList = mutableListOf<FoodIcon>()
     private val TYPE_CATEGORY_HEADER = 0
@@ -124,7 +126,8 @@ class FoodIconAddFragment : Fragment() {
                 ).show()
                 return@setOnClickListener
             }
-            findNavController().navigate(R.id.action_foodIconAddFragment_to_foodAddFragment)
+
+            else findNavController().navigate(R.id.action_foodIconAddFragment_to_foodAddFragment)
         }
     }
 

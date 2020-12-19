@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.MainActivity
@@ -69,7 +70,12 @@ class CoolFragment: Fragment() {
                     }
                 }
                 else{
-                    Log.d("s","떳다3")
+                    viewModel.setCompareData(
+                        v.food_name.text.toString(),
+                        "cool",
+                        v.buy_date.text.toString()
+                    )
+                    findNavController().navigate(R.id.itemStatusFragment)
                 }
             }
         })

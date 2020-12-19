@@ -5,16 +5,29 @@
     app:startDestination="@id/mainFragment">
 
 
+
     <fragment
         android:id="@+id/foodIconAddFragment"
         android:label="food_icon_add_fragment"
         android:name="com.example.naengbiseo.fragment.FoodIconAddFragment">
 
+        <argument
+            android:name="a1"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
         <action
             android:id="@+id/action_foodIconAddFragment_to_foodAddFragment"
             app:popUpTo="@id/foodIconAddFragment"
             app:popUpToInclusive="true"
             app:destination="@id/foodAddFragment"
+            />
+        <action
+            android:id="@+id/action_foodIconAddFragment_to_itemStatusFragment"
+            app:popUpTo="@id/foodIconAddFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/itemStatusFragment"
             />
     </fragment>
 
@@ -23,7 +36,12 @@
         android:label="item_status_fragment"
         android:name="com.example.naengbiseo.fragment.ItemStatusFragment"
         >
+        <action
+            android:id="@+id/action_itemStatusFragment_to_foodIconAddFragment"
+            app:destination="@id/foodIconAddFragment"
+            />
     </fragment>
+
 
     <fragment
         android:id="@+id/foodAddFragment"

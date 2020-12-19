@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.MainActivity
@@ -64,6 +65,14 @@ class ShelfFragment : Fragment(){
                     } else {
                         viewModel.removeDelData(v.food_name.text.toString())
                     }
+                }
+                else{
+                    viewModel.setCompareData(
+                        v.food_name.text.toString(),
+                        "shelf",
+                        v.buy_date.text.toString()
+                    )
+                    findNavController().navigate(R.id.itemStatusFragment)
                 }
             }
         })
