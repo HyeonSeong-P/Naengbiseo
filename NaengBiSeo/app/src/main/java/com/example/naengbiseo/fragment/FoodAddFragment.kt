@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.MainActivity
@@ -47,6 +48,9 @@ open class FoodAddFragment: Fragment() {
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             FoodAddViewModel::class.java)
 
+        back_button.setOnClickListener {
+            findNavController().navigateUp()
+        }
         go_to_select_button.setOnClickListener {
             findNavController().navigate(R.id.action_foodAddFragment_to_foodIconAddFragment)
         }

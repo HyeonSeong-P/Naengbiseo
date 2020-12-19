@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
+
     companion object { // companion object는 JAVA로 치면 static
         private var checkbox_state = 0
         fun activateCheckbox() {

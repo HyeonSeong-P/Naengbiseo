@@ -65,6 +65,11 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
         viewModelScope.launch { foodDataRepository.insert(foodData) }
     }
 
+    fun updateData(foodData: FoodData){
+        viewModelScope.launch {
+            foodDataRepository.update(foodData)
+        }
+    }
     fun deleteData(){
 
         var foodList:List<FoodData>? = allFoodData.value
@@ -125,4 +130,35 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
         }
         return shelfFoodData.toList()
     }
+
+
+    private val _compare_data = SingleLiveEvent<Triple<String, String, String>>() // 내부에서 작동
+    val compare_data: LiveData<Triple<String, String, String>> get() = _compare_data // 외부로 노출
+
+    fun setCompareData(foodName: String, storeLocation: String, buyDate: String) {
+        var compareTriple: Triple<String, String, String> = Triple(foodName, storeLocation, buyDate)
+        _compare_data.setValue(compareTriple)
+    }
+
+
+    fun getFoodData(): FoodData? {
+        var foodList = allFoodData.value
+        var compareData = compare_data.value
+        var returnFoodData: FoodData? = null
+        for (foodData in foodList!!) { // !!로 null check
+            if (compareUniqueEntity(foodData, compareData!!)) {
+                returnFoodData = foodData
+                return returnFoodData
+            }
+        }
+        return returnFoodData
+    }
+
+    fun compareUniqueEntity(
+        foodData: FoodData,
+        compareTriple: Triple<String, String, String>
+    ): Boolean {
+        return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == compareTriple.third
+    }
+
 }

@@ -19,6 +19,12 @@ class FoodDataRepository private constructor(private val foodDao: FoodDao) {
         }
     }
 
+    suspend fun update(foodData: FoodData) {
+        withContext(Dispatchers.IO) {
+            foodDao.updateData(foodData)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: FoodDataRepository? = null

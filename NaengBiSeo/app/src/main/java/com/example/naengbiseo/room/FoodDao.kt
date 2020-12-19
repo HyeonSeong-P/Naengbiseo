@@ -13,4 +13,7 @@ interface FoodDao {
 
     @Delete // db 데이터 삭제기능
     fun deleteData(food: FoodData)
+
+    @Update
+    fun updateData(food: FoodData)
 }
