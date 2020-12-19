@@ -29,7 +29,7 @@ import com.example.naengbiseo.viewmodel.FoodAddViewModel
 import com.example.naengbiseo.viewmodel.FoodAddViewModelFactory
 import kotlinx.android.synthetic.main.fragment_food_icon_add.*
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
-import kotlinx.android.synthetic.main.fragment_shopping_cart.search_recyclerview_shopping_cart
+import kotlinx.android.synthetic.main.fragment_food_icon_add.search_recyclerview_shopping_cart
 
 class FoodIconAddFragment : Fragment() {
 

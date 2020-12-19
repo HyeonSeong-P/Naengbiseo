@@ -100,6 +100,7 @@ class ItemStatusFragment : Fragment() {
 
         back_button.setOnClickListener {
             foodData?.foodName = food_edit_text.text.toString()
+            foodData?.foodNumber = foodNum
             viewModel.updateData(foodData!!)
             findNavController().navigateUp()
         }
