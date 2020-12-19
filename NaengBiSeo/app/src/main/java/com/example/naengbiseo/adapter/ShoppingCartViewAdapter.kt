@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.R
 
-class ShoppingCartViewAdapter(private val iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartViewHolder>() {
+class ShoppingCartViewAdapter(var iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartViewHolder>() {
+    private val TYPE_NO_ICON = -1
     var selectList= mutableListOf<Boolean>()
     private val TYPE_CATEGORY_HEADER = 0
-    private val TYPE_ITEM = 1
-    private val TYPE_CATEGORY_FOOTER = 2
+    private val TYPE_CATEGORY_FOOTER = 1
+    private val TYPE_ITEM = 2
 
     override fun getItemCount(): Int {
         return iconList.size
@@ -49,7 +50,7 @@ class ShoppingCartViewAdapter(private val iconList: MutableList<FoodIcon>): Recy
     override fun onBindViewHolder(holder: ShoppingCartViewHolder, position: Int) {
         val icon = iconList[position]
         holder.bind(icon, position)
-
+//        Log.d("MSG", "iconList size: " + iconList.size.toString() + ", icon name: " + icon.getIconName)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }

@@ -30,7 +30,8 @@ import kotlinx.android.synthetic.main.frament_cool.*
 import java.lang.NumberFormatException
 import java.util.*
 
-open class FoodAddFragment: Fragment() {
+class FoodAddFragment: Fragment() {
+    private val TYPE_NO_ICON = -1
     var foodIcon: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater,
