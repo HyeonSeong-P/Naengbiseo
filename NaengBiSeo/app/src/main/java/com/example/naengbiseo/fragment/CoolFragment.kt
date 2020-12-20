@@ -21,7 +21,9 @@ import com.example.naengbiseo.viewmodel.FoodAddViewModelFactory
 import com.example.naengbiseo.viewmodel.MainViewModel
 import com.example.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.food_item.view.*
+import kotlinx.android.synthetic.main.food_item.view.food_name
 import kotlinx.android.synthetic.main.fragment_cold.*
+import kotlinx.android.synthetic.main.fragment_food_add.view.*
 import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
 
@@ -64,9 +66,9 @@ class CoolFragment: Fragment() {
                 if (sel == 1) {
                     v.check_box.toggle()
                     if (v.check_box.isChecked) {
-                        viewModel.addDelData(v.food_name.text.toString())
+                        viewModel.addDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
                     } else {
-                        viewModel.removeDelData(v.food_name.text.toString())
+                        viewModel.removeDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
                     }
                 }
                 else{

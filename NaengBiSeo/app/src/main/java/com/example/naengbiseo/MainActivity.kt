@@ -3,7 +3,10 @@ package com.example.naengbiseo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.PopupMenu
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -41,16 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home -> {
-                findNavController(R.id.nav_host_fragment).navigateUp() // 뒤로가기(이전화면으로)
-                return true
-            }
-
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
     /*override fun onSupportNavigateUp(): Boolean {
 
         return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
@@ -79,24 +72,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonEvent() {
-        menu_button.setOnClickListener{
-            main_drawer_layout.openDrawer(Gravity.RIGHT)
+
+        sort_button.setOnClickListener {
+            val popup = PopupMenu(this, sort_button)
+            val inflater: MenuInflater = popup.menuInflater
+            inflater.inflate(R.menu.sort_menu, popup.menu)
+            popup.show()
         }
         x_button.setOnClickListener{
             main_drawer_layout.closeDrawers()
         }
-        button_basket.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.basketFragment) //nav_host_fragment 에서 subFragment1로
-            main_drawer_layout.closeDrawers()
-        }
-        button_trash.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.trashFragment) //nav_host_fragment 에서 subFragment1로
-            main_drawer_layout.closeDrawers()
-        }
-        button_setting.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.settingFragment) //nav_host_fragment 에서 subFragment1로
-            main_drawer_layout.closeDrawers()
-        }
+
     }
 
 

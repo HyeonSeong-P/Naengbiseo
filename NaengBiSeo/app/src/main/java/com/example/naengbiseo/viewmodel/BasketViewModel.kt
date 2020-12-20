@@ -36,7 +36,7 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
     fun insertData(foodDataList: MutableList<FoodIcon>) {
         viewModelScope.launch {
             for (foodData in foodDataList) {
-                foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cold", foodIcon = foodData.iconResource, purchaseStatus = 0))
+                //foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cold", foodIcon = foodData.iconResource, purchaseStatus = 0))
             }
         }
     }

@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_base_main.*
 import kotlinx.android.synthetic.main.host_activity.*
 
 class BaseMainFragment :Fragment(){
-    private val tabTextList = arrayListOf("선반", "냉장실", "냉동실")
+    private val tabTextList = arrayListOf("선반", "냉장", "냉동")
     var trashcan_state = 0
     override fun onCreateView(
         inflater: LayoutInflater,

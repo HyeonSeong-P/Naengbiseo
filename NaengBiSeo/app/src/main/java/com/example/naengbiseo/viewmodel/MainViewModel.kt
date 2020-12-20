@@ -11,46 +11,50 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 
-class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewModel() {
-    private val _del_data = SingleLiveEvent<MutableList<String>>()
-    val del_data: LiveData<MutableList<String>> get() = _del_data
-    val copyDelList:MutableList<String> = mutableListOf<String>()
+class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewModel() {
+    private val _del_data = SingleLiveEvent<MutableList<Triple<String, String, String>>>()
+    val del_data: LiveData<MutableList<Triple<String, String, String>>> get() = _del_data
+    val copyDelList: MutableList<Triple<String, String, String>> =
+        mutableListOf<Triple<String, String, String>>()
 
-    fun addDelData(s:String){
-        Log.d("dd","추가됐음")
-        copyDelList.add(s)
+    fun addDelData(foodName: String, storeLocation: String, buyDate: String) {
+        Log.d("dd", "추가됐음")
+        copyDelList.add(Triple(foodName, storeLocation, buyDate))
         _del_data.setValue(copyDelList)
     }
 
-    fun removeDelData(s:String){
-        Log.d("dd","제거됐음")
-        copyDelList.remove(s)
+    fun removeDelData(foodName: String, storeLocation: String, buyDate: String) {
+        Log.d("dd", "제거됐음")
+        copyDelList.remove(Triple(foodName, storeLocation, buyDate))
         _del_data.setValue(copyDelList)
     }
 
-    fun clearDelData(){
+    fun clearDelData() {
         _del_data.value?.clear()
     }
-    fun getDelData():MutableList<String>?{
+
+    fun getDelData(): MutableList<Triple<String, String, String>>? {
         return _del_data.value
     }
+
     var TAG = javaClass.simpleName
 
 
     private val _trash_button_cool_event = SingleLiveEvent<Int>()
-    val trash_button_cool_event:LiveData<Int> get() = _trash_button_cool_event
+    val trash_button_cool_event: LiveData<Int> get() = _trash_button_cool_event
 
     private val _trash_button_cold_event = SingleLiveEvent<Int>()
-    val trash_button_cold_event:LiveData<Int> get() = _trash_button_cold_event
+    val trash_button_cold_event: LiveData<Int> get() = _trash_button_cold_event
 
     private val _trash_button_shelf_event = SingleLiveEvent<Int>()
-    val trash_button_shelf_event:LiveData<Int> get() = _trash_button_shelf_event
+    val trash_button_shelf_event: LiveData<Int> get() = _trash_button_shelf_event
 
     private val _searchText = SingleLiveEvent<String>()
     val searchText get() = _searchText
 
-    fun onTrashButton(i:Int) { /** 뷰의 onClickListener 호출될때 얘를 호출해 싱글라이브데이터 의 Setdata를 call
-    뷰와 뷰모델의 연결?....*/
+    fun onTrashButton(i: Int) {
+        /** 뷰의 onClickListener 호출될때 얘를 호출해 싱글라이브데이터 의 Setdata를 call
+        뷰와 뷰모델의 연결?....*/
         _trash_button_cool_event.setValue(i)
         _trash_button_cold_event.setValue(i)
         _trash_button_shelf_event.setValue(i)
@@ -59,7 +63,12 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
 
     /** 뷰모델에서 모델로 데이터를 넣기위한거?*/
     var allFoodData: LiveData<List<FoodData>> = foodDataRepository.getAllData()
-
+    var fl: MutableList<FoodData>? = null
+    fun sort() {
+        if(allFoodData.value != null){
+            fl = allFoodData.value!!.sortedBy { it.foodNumber }.toMutableList()
+        }
+    }
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -68,21 +77,20 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
         viewModelScope.launch { foodDataRepository.insert(foodData) }
     }
 
-    fun updateData(foodData: FoodData){
+    fun updateData(foodData: FoodData) {
         viewModelScope.launch {
             foodDataRepository.update(foodData)
         }
     }
-    fun deleteData(){
 
-        var foodList:List<FoodData>? = allFoodData.value
-        var dList=del_data.value
-        if(foodList != null){
-            if(dList!=null) {
-                for (s in dList) {
-                    Log.d("copyDelList", s)
+    fun deleteData() {
+        var foodList: List<FoodData>? = allFoodData.value
+        var dList = del_data.value
+        if (foodList != null) {
+            if (dList != null) {
+                for (triple in dList) {
                     for (foodData in foodList) {
-                        if (foodData.foodName == s) {
+                        if (foodData.foodName == triple.first && foodData.storeLocation == triple.second && foodData.buyDate == triple.third) {
                             viewModelScope.launch {
                                 foodDataRepository.delete(foodData)
                             }
@@ -96,11 +104,11 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
     }
 
     fun getColdData(): List<FoodData> {
-        var coldFoodData:MutableList<FoodData> = mutableListOf()
-        var foodList:List<FoodData>? = allFoodData.value
-        if(foodList != null){
-            for(data: FoodData in foodList){
-                if(data.storeLocation=="cold"){
+        var coldFoodData: MutableList<FoodData> = mutableListOf()
+        //var foodList: List<FoodData>? = fl?.toList()
+        if (fl != null) {
+            for (data: FoodData in fl!!) {
+                if (data.storeLocation == "cold") {
                     coldFoodData.add(data)
                 }
             }
@@ -109,11 +117,11 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
     }
 
     fun getCoolData(): List<FoodData> {
-        var coolFoodData:MutableList<FoodData> = mutableListOf()
-        var foodList:List<FoodData>? = allFoodData.value
-        if(foodList != null){
-            for(data: FoodData in foodList){
-                if(data.storeLocation=="cool"){
+        var coolFoodData: MutableList<FoodData> = mutableListOf()
+        var foodList: List<FoodData>? = allFoodData.value
+        if (foodList != null) {
+            for (data: FoodData in foodList) {
+                if (data.storeLocation == "cool") {
                     coolFoodData.add(data)
                 }
             }
@@ -122,11 +130,11 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository): ViewMod
     }
 
     fun getShelfData(): List<FoodData> {
-        var shelfFoodData:MutableList<FoodData> = mutableListOf()
-        var foodList:List<FoodData>? = allFoodData.value
-        if(foodList != null){
-            for(data: FoodData in foodList){
-                if(data.storeLocation=="shelf"){
+        var shelfFoodData: MutableList<FoodData> = mutableListOf()
+        var foodList: List<FoodData>? = allFoodData.value
+        if (foodList != null) {
+            for (data: FoodData in foodList) {
+                if (data.storeLocation == "shelf") {
                     shelfFoodData.add(data)
                 }
             }

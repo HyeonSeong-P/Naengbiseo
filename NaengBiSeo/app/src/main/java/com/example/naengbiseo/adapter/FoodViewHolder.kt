@@ -56,7 +56,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
         view.food_number.setText(foodData.foodNumber.toString())
         view.buy_date.setText(foodData.buyDate)
         view.d_day.setText(dDayText)
-        view.food_icon.setImageResource(foodData.icon)
+        view.food_icon.setImageResource(foodData.foodIcon)
 
 
         // 체크박스 관련
