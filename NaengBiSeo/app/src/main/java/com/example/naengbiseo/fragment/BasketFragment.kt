@@ -52,10 +52,20 @@ class BasketFragment :Fragment(){
         RecyclerViewInBasketFragment.adapter = viewAdapter
         RecyclerViewInBasketFragment.layoutManager = LinearLayoutManager(activity)
 
+        /*val allFoodData = viewModel.getAllFoodData()
+        Log.d("MSG","allFoodData: " + allFoodData)
+        var foodListToPurchase = allFoodData!!.filter { it.purchaseStatus == 0 }
+        Log.d("MSG", "foods to purchase: " + foodListToPurchase)
+        iconList.clear()
+        for (foodData in foodListToPurchase) {
+            iconList.add(FoodIcon(foodData.foodName, foodData.foodIcon))
+        }
+        viewAdapter.iconList = iconList
+        viewAdapter.notifyDataSetChanged()*/
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
             Log.d("MSG","allFoodData: " + it)
             var foodListToPurchase = it.filter { it.purchaseStatus == 0 }
-            Log.d("MSG", "foods to purchase: " + foodListToPurchase)
+//            Log.d("MSG", "foods to purchase: " + foodListToPurchase)
             iconList.clear()
             for (foodData in foodListToPurchase) {
                 iconList.add(FoodIcon(foodData.foodName, foodData.foodIcon))

@@ -1,5 +1,6 @@
 package com.example.naengbiseo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.naengbiseo.FoodIcon
@@ -36,8 +37,14 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
     fun insertData(foodDataList: MutableList<FoodIcon>) {
         viewModelScope.launch {
             for (foodData in foodDataList) {
-                //foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cold", foodIcon = foodData.iconResource, purchaseStatus = 0))
+                foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cold", foodIcon = foodData.iconResource, purchaseStatus = 0, foodNumber = 1, expirationDate = "1111년 11월 11일", buyDate = "1111년 11월 11일"))
             }
         }
+        /*allFoodData = foodDataRepository.getAllData()
+        Log.d("MSG","allFoodData: " + foodDataRepository.getAllData().value)*/
     }
+
+    /*fun getAllFoodData(): List<FoodData>? {
+        return foodDataRepository.getAllData().value
+    }*/
 }
