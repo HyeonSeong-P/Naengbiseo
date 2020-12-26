@@ -10,7 +10,7 @@ import com.example.naengbiseo.FoodIcon
  */
 
 //@Entity(tableName = "inputMsg")
-@Entity(indices = [Index(value = ["재료명", "보관장소","구매일자","구매유무"], unique = true)]) // 이걸로 푸드데이터의 유니크를 정할 수 있다!
+@Entity(indices = [Index(value = ["재료명", "보관장소", "아이콘", "구매유무", "수량", "구매일자", "고유아이디"], unique = true)]) // 이걸로 푸드데이터의 유니크를 정할 수 있다!
 
 data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int=0,
@@ -24,5 +24,6 @@ data class FoodData(
     @ColumnInfo(name = "보관방법") var storeWay: String="",
     @ColumnInfo(name = "처리방법") var treatWay: String="",
     @ColumnInfo(name = "유통기한") var expirationDate: String,
-    @ColumnInfo(name = "구매일자") var buyDate: String
+    @ColumnInfo(name = "구매일자") var buyDate: String,
+    @ColumnInfo(name = "고유아이디") var uniqueId: Int
 )

@@ -84,15 +84,15 @@ class FoodAddFragment: Fragment() {
                 val food_number = food_number_text.toInt()
                 when(radio_btn_id) {
                     radio_btn1.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon) ) // 음식 정보 저장
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()) ) // 음식 정보 저장
                         food_edit_text.setText("")
                     }
                     radio_btn2.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon)) //Contacts 생성
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
                     }
                     radio_btn3.id -> {
-                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon)) //Contacts 생성
+                        viewModel.insertData(FoodData(foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
                     }
                     else -> {

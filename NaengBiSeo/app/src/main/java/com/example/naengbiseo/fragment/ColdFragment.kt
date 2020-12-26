@@ -19,7 +19,9 @@ import com.example.naengbiseo.room.AppDatabase
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.*
 import kotlinx.android.synthetic.main.food_item.view.*
+import kotlinx.android.synthetic.main.food_item.view.food_name
 import kotlinx.android.synthetic.main.fragment_cold.*
+import kotlinx.android.synthetic.main.fragment_food_add.view.*
 import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
 
@@ -56,8 +58,10 @@ class ColdFragment : Fragment() {
         )*/
 
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer {
-            (search_recyclerview_cold.adapter as FoodViewAdapter).notifyDataSetChanged()
+            viewModel.sort()
+            (search_recyclerview_cold.adapter as FoodViewAdapter).notifyDataSetChanged() // 이게 중요
         }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
+
 
 
         //adapter 추가
@@ -73,9 +77,9 @@ class ColdFragment : Fragment() {
                 if (sel == 1) {
                     v.check_box.toggle()
                     if (v.check_box.isChecked) {
-                        viewModel.addDelData(v.food_name.text.toString())
+                        viewModel.addDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
                     } else {
-                        viewModel.removeDelData(v.food_name.text.toString())
+                        viewModel.removeDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
                     }
                 } else {
                     viewModel.setCompareData(

@@ -87,8 +87,8 @@
             app:destination="@id/foodAddFragment"
             />
         <action
-            android:id="@+id/action_mainFragment_to_shoppingCartFragment"
-            app:destination="@id/shoppingCartFragment"/>
+            android:id="@+id/action_mainFragment_to_basketFragment"
+            app:destination="@id/basketFragment"/>
     </fragment>
 
     <fragment
@@ -103,8 +103,12 @@
     <fragment
         android:id="@+id/basketFragment"
         android:label="basket_fragment"
-        android:name="com.example.naengbiseo.fragment.BasketFragment"
-        />
+        android:name="com.example.naengbiseo.fragment.BasketFragment">
+        <action
+            android:id="@+id/action_basketFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/trashFragment"
