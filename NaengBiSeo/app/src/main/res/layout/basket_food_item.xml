@@ -33,7 +33,9 @@
         app:layout_constraintTop_toTopOf="@id/foodName"
         app:layout_constraintBottom_toBottomOf="@id/foodName"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="159dp"/>
+        android:layout_marginLeft="159dp"
+        android:textColor="#333333"
+        android:textCursorDrawable="@drawable/text_cursor"/>
 
     <TextView
         android:id="@+id/quantity"
@@ -64,7 +66,7 @@
         android:id="@+id/quantityTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
+        android:text=""
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/minusBtn"
         app:layout_constraintRight_toRightOf="@id/plusBtn"
