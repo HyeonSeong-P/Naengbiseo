@@ -1,9 +1,12 @@
 package com.example.naengbiseo.fragment
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +59,12 @@ class ColdFragment : Fragment() {
         ).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             ItemStatusViewModel::class.java
         )*/
+        //viewModel.initSortData()
+        viewModel.sort_cold_data.observe(viewLifecycleOwner, Observer {
+            Log.d("a","반응 왔다")
+            viewModel.sort()
+            (search_recyclerview_cold.adapter as FoodViewAdapter).notifyDataSetChanged()
+        })
 
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer {
             viewModel.sort()
@@ -65,6 +74,7 @@ class ColdFragment : Fragment() {
 
 
         //adapter 추가
+
         search_recyclerview_cold.adapter =
             FoodViewAdapter(viewModel, 2)
         //레이아웃 매니저 추가
@@ -72,23 +82,31 @@ class ColdFragment : Fragment() {
 
         (search_recyclerview_cold.adapter as FoodViewAdapter).setItemClickListener(object :
             FoodViewAdapter.OnItemClickListener {
+            @RequiresApi(Build.VERSION_CODES.Q)
             override fun onClick(v: View, position: Int) {
 //                    Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
-                if (sel == 1) {
-                    v.check_box.toggle()
-                    if (v.check_box.isChecked) {
-                        viewModel.addDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                if(v.id == R.id.food_item_layout){
+                    if (sel == 1) {
+                        v.check_box.toggle()
+                        if (v.check_box.isChecked) {
+                            viewModel.addDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                        } else {
+                            viewModel.removeDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                        }
                     } else {
-                        viewModel.removeDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                        viewModel.setCompareData( // 재료 정보창에서 메인에서 선택한 아이템 정보를 가져올수 있게 만든것.
+                            v.food_name.text.toString(),
+                            "cold",
+                            v.buy_date.text.toString()
+                        )
+                        findNavController().navigate(R.id.itemStatusFragment)
                     }
-                } else {
-                    viewModel.setCompareData(
-                        v.food_name.text.toString(),
-                        "cold",
-                        v.buy_date.text.toString()
-                    )
-                    findNavController().navigate(R.id.itemStatusFragment)
                 }
+                else {
+
+                }
+
+
             }
         })
 

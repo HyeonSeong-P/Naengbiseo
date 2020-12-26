@@ -50,8 +50,14 @@ class CoolFragment: Fragment() {
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java)
 
-
+        //viewModel.initSortData()
+        viewModel.sort_data.observe(viewLifecycleOwner, Observer {
+            Log.d("a","반응 왔다,냉장고에")
+            viewModel.sort()
+            (search_recyclerview_cool.adapter as FoodViewAdapter).notifyDataSetChanged()
+        })
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
+            viewModel.sort()
             (search_recyclerview_cool.adapter as FoodViewAdapter).notifyDataSetChanged() // 화면 갱신에 사용
         }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
 
@@ -63,22 +69,26 @@ class CoolFragment: Fragment() {
 
         (search_recyclerview_cool.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-                if (sel == 1) {
-                    v.check_box.toggle()
-                    if (v.check_box.isChecked) {
-                        viewModel.addDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
-                    } else {
-                        viewModel.removeDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
+                if(v.id == R.id.food_item_layout){
+                    if (sel == 1) {
+                        v.check_box.toggle()
+                        if (v.check_box.isChecked) {
+                            viewModel.addDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
+                        } else {
+                            viewModel.removeDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
+                        }
+                    }
+                    else{
+                        Log.d("s","클릭")
+                        viewModel.setCompareData(
+                            v.food_name.text.toString(),
+                            "cool",
+                            v.buy_date.text.toString()
+                        )
+                        findNavController().navigate(R.id.itemStatusFragment)
                     }
                 }
-                else{
-                    viewModel.setCompareData(
-                        v.food_name.text.toString(),
-                        "cool",
-                        v.buy_date.text.toString()
-                    )
-                    findNavController().navigate(R.id.itemStatusFragment)
-                }
+
             }
         })
 

@@ -11,33 +11,25 @@ import com.example.naengbiseo.R
 import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.viewmodel.MainViewModel
 
-class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
+class SearchViewAdapter(private val viewModel: MainViewModel) :
     RecyclerView.Adapter<FoodViewHolder>() {
-
+    private val TYPE_NULL = 2
     private val TYPE_CATEGORY_HEADER = 1
     private val TYPE_ITEM = 0
 
     override fun getItemCount(): Int {
         //Log.d("dataSize",viewModel.getSortedData(1).size.toString())
-        return when (location) {
-            0 -> viewModel.getShelfData().size
-            1 -> viewModel.getCoolData().size
-            else -> {
-                viewModel.getColdData().size
-                //Log.d("dataSize",viewModel.getColdData().size.toString())
-            }
-        }
+        return viewModel.getSearchData()!!.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        var foodList: List<FoodData>?
+        var foodList: List<FoodData>? = viewModel.getSearchData()
         //Log.d("dataSize",viewModel.getColdData().size.toString())
-        when (location) {
-            0 -> foodList = viewModel.getShelfData()
-            1 -> foodList = viewModel.getCoolData()
-            else -> foodList = viewModel.getColdData()
+
+        if(foodList!![position].Null == 1){
+            return TYPE_NULL
         }
-        if (foodList[position].header == 1) {
+        else if (foodList[position].header == 1) {
             return TYPE_CATEGORY_HEADER
         }
         else return TYPE_ITEM
@@ -46,7 +38,8 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val myLayout: Int = when (viewType) {
             TYPE_CATEGORY_HEADER -> R.layout.main_header
-            TYPE_ITEM -> R.layout.food_item
+            TYPE_ITEM -> R.layout.food_item_search_version
+            TYPE_NULL -> R.layout.not_found_food
             else -> R.layout.fragment_error
         }
         return FoodViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))
@@ -57,11 +50,9 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        when (location) {
-            0 -> holder.bind(viewModel.getShelfData()[position], position)
-            1 -> holder.bind(viewModel.getCoolData()[position], position)
-            else -> holder.bind(viewModel.getColdData()[position], position)
-        }
+
+        holder.bind((viewModel.getSearchData() ?: return)[position],position)
+
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }
