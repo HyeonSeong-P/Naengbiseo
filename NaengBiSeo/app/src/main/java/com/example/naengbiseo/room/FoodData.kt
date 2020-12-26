@@ -29,3 +29,4 @@ data class FoodData(
     @ColumnInfo(name = "헤더") var header: Int = 0,
     @ColumnInfo(name = "없음") var Null: Int = 0,
     @ColumnInfo(name = "고유아이디") var uniqueId: Int = 0
+)
