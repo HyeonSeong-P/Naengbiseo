@@ -64,12 +64,7 @@ class ItemStatusFragment : Fragment() {
         ).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             FoodAddViewModel::class.java
         )
-        /*var statusViewModel = ViewModelProvider(
-            requireParentFragment(),
-            statusFactory
-        ).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
-            ItemStatusViewModel::class.java
-        )*/
+
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
             MainViewModel::class.java
         )

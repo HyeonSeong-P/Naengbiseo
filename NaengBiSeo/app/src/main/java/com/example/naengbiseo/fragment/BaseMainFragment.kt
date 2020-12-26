@@ -85,8 +85,6 @@ class BaseMainFragment :Fragment(){
         go_to_add_item_page_btn.setOnClickListener{
             findNavController().navigate(R.id.action_mainFragment_to_foodAddFragment)
         }
-        go_to_shopping_cart_page_btn.setOnClickListener{
-            findNavController().navigate(R.id.action_mainFragment_to_shoppingCartFragment)
-        }
+
     }
 }

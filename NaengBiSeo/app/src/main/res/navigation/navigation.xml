@@ -4,7 +4,10 @@
     android:id="@+id/navigation"
     app:startDestination="@id/mainFragment">
 
-
+    <fragment
+        android:id="@+id/searchFragment"
+        android:label="search_fragment"
+        android:name="com.example.naengbiseo.fragment.SearchFragment"/>
 
     <fragment
         android:id="@+id/foodIconAddFragment"

@@ -22,6 +22,7 @@
             android:layout_height="111dp"
             android:background="@android:color/transparent"
             android:visibility="gone"
+
            >
 
 
@@ -29,8 +30,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent">
-
-                <EditText
+                <ImageButton
+                    android:id="@+id/search_button"
+                    android:layout_width="246dp"
+                    android:layout_height="35dp"
+                    android:textSize="16sp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toTopOf="@id/tabLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/search_bar"
+                    android:layout_marginLeft="10dp"/>
+                <!--<EditText
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:id="@+id/searchIconEditText"
                     android:layout_width="246dp"
                     android:layout_height="26dp"
@@ -53,7 +66,7 @@
                     android:src="@drawable/search_icon"
                     app:layout_constraintBottom_toBottomOf="@id/searchIconEditText"
                     app:layout_constraintRight_toRightOf="@id/searchIconEditText"
-                    app:layout_constraintTop_toTopOf="@id/searchIconEditText" />
+                    app:layout_constraintTop_toTopOf="@id/searchIconEditText" />-->
 
                 <ImageButton
                     android:id="@+id/go_to_alarm_button"
@@ -62,9 +75,9 @@
                     android:layout_marginRight="10.8dp"
                     android:background="@drawable/bell"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="@id/searchIconEditText"
+                    app:layout_constraintBottom_toBottomOf="@id/search_button"
                     app:layout_constraintRight_toLeftOf="@id/go_to_basket_button"
-                    app:layout_constraintTop_toTopOf="@id/searchIconEditText" />
+                    app:layout_constraintTop_toTopOf="@id/search_button" />
 
                 <ImageButton
                     android:id="@+id/go_to_basket_button"
@@ -73,9 +86,9 @@
                     android:layout_marginRight="19dp"
                     android:background="@drawable/basket"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="@id/searchIconEditText"
+                    app:layout_constraintBottom_toBottomOf="@id/search_button"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/searchIconEditText" />
+                    app:layout_constraintTop_toTopOf="@id/search_button" />
 
 
                 <com.google.android.material.tabs.TabLayout
@@ -90,12 +103,13 @@
                     app:tabBackground="@android:color/transparent" />
 
                 <Button
+
                     android:id="@+id/sort_button"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@android:color/transparent"
                     android:drawableRight="@drawable/down_arrow"
-                    android:text="항목별"
+                    android:text="구매순"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />

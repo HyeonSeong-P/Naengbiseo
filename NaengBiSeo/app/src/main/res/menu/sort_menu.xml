@@ -8,13 +8,14 @@
         android:id="@+id/category_sort"
         android:title="항목별"
         />
-    <item
-        android:id="@+id/expiration_sort"
 
-        android:title="유통기한 임박순" />
     <item
         android:id="@+id/buy_sort"
 
         android:title="구매순" />
 
+    <item
+        android:id="@+id/expiration_sort"
+
+        android:title="유통기한 임박순" />
 </menu>
