@@ -30,7 +30,6 @@ class ShoppingCartFragment: Fragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var verticalViewAdapter = ShoppingCartViewAdapter(mutableListOf())
     private var horizontalViewAdapter = ShoppingCartHorizontalAdapter(mutableListOf())
-    private val selectedIconList = mutableListOf<FoodIcon>()
     var sel:Int=0
     companion object { // static 변수처럼 사용됨. 앱이 실행될 때 딱 한 번 초기화
         private val TYPE_CATEGORY_HEADER = 0
@@ -51,20 +50,75 @@ class ShoppingCartFragment: Fragment() {
             FoodIcon("잼/양념/오일류", R.drawable.jam_seasoning_oil),
             FoodIcon("음료/제과류", R.drawable.beverage_snack),
             FoodIcon("건강식품", R.drawable.health_food),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("육류", TYPE_CATEGORY_HEADER),
+            FoodIcon("돼지고기/소고기", R.drawable.pork_beaf),
+            FoodIcon("콩고기", R.drawable.soybean_meat),
+            FoodIcon("닭고기", R.drawable.chicken),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
             FoodIcon("과일류", TYPE_CATEGORY_HEADER),
             FoodIcon("포도", R.drawable.grape),
             FoodIcon("딸기", R.drawable.strawberry),
             FoodIcon("배", R.drawable.pear),
             FoodIcon("귤", R.drawable.mandarin),
             FoodIcon("사과", R.drawable.apple),
+            FoodIcon("복숭아", R.drawable.peach),
+            FoodIcon("바나나", R.drawable.banana),
+            FoodIcon("수박", R.drawable.watermelon),
             FoodIcon("footer", TYPE_CATEGORY_FOOTER),
             FoodIcon("채소류", TYPE_CATEGORY_HEADER),
             FoodIcon("브로콜리", R.drawable.broccoli),
             FoodIcon("호박", R.drawable.pumpkin),
             FoodIcon("토마토", R.drawable.tomato),
             FoodIcon("양파", R.drawable.onion),
+            FoodIcon("가지", R.drawable.eggplant),
+            FoodIcon("피망", R.drawable.pimento),
+            FoodIcon("당근", R.drawable.carrot),
+            FoodIcon("파", R.drawable.pa),
+            FoodIcon("무", R.drawable.moo),
+            FoodIcon("버섯", R.drawable.mushroom),
+            FoodIcon("고구마", R.drawable.sweet_potato),
+            FoodIcon("감자", R.drawable.potato),
+            FoodIcon("옥수수", R.drawable.corn),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("해산물", TYPE_CATEGORY_HEADER),
+            FoodIcon("생선", R.drawable.fish),
+            FoodIcon("조개", R.drawable.clam),
+            FoodIcon("미역", R.drawable.seaweed),
+            FoodIcon("새우", R.drawable.shrimp),
+            FoodIcon("문어", R.drawable.octopus),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("곡류/견과류", TYPE_CATEGORY_HEADER),
+            FoodIcon("콩", R.drawable.bean),
+            FoodIcon("쌀", R.drawable.rice),
+            FoodIcon("땅콩", R.drawable.peanut),
+            FoodIcon("밤", R.drawable.chestnut),
+            FoodIcon("아몬드", R.drawable.almond),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("유제품/난류", TYPE_CATEGORY_HEADER),
+            FoodIcon("요거트", R.drawable.yogurt),
+            FoodIcon("치즈", R.drawable.cheese),
+            FoodIcon("우유", R.drawable.milk),
+            FoodIcon("두유", R.drawable.dooyou),
+            FoodIcon("버터", R.drawable.butter),
+            FoodIcon("달걀", R.drawable.egg),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("면류", TYPE_CATEGORY_HEADER),
+            FoodIcon("라면사리", R.drawable.ramen_noodle),
+            FoodIcon("일반면", R.drawable.ordinary_noodle),
+            FoodIcon("스파게티면", R.drawable.spaghetti_noodle),
+            FoodIcon("footer", TYPE_CATEGORY_FOOTER),
+            FoodIcon("면류", TYPE_CATEGORY_HEADER),
+            FoodIcon("마요네즈", R.drawable.mayonnaise),
+            FoodIcon("케챱", R.drawable.ketchup),
+            FoodIcon("올리브유", R.drawable.olive_oil),
+            FoodIcon("밀가루", R.drawable.flour),
+            FoodIcon("설탕", R.drawable.sugar),
+            FoodIcon("소금", R.drawable.salt),
+            FoodIcon("간장", R.drawable.ganjang),
+            FoodIcon("잼", R.drawable.jam),
             FoodIcon("footer", TYPE_CATEGORY_FOOTER)
-        )
+            )
         private val iconList = mutableListOf<FoodIcon>()
     }
     override fun onCreateView(
@@ -83,11 +137,13 @@ class ShoppingCartFragment: Fragment() {
         val factory = BasketViewModelFactory(repository)
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             BasketViewModel::class.java)
+        val selectedIconList = mutableListOf<FoodIcon>()
 
         iconList.clear() // iconList가 검색으로 인해서 바껴있을 수도 있기때문에 원소를 추가하기 전 clear부터
         iconList.addAll(allIconList)
 
         verticalViewAdapter.iconList = iconList
+        horizontalViewAdapter.iconList = selectedIconList // 이렇게 해야 다시 돌아와도 이전 기록이 안남아있음
         verticalRecyclerViewInShoppingCart.adapter = verticalViewAdapter
         horizontalRecyclerViewInShoppingCart.adapter = horizontalViewAdapter
 
@@ -113,9 +169,16 @@ class ShoppingCartFragment: Fragment() {
             Log.d("MSG","Button clicked")
         }
 
-        addIconsToBasketButton.setOnClickListener { // 등록하기 버튼 - 누를시 장바구니 페이지로 이동
-            viewModel.insertData(selectedIconList)
+        addIconsToBasketButton.setOnClickListener { // 등록하기 버튼 - 누를시 db에 insert한 후 장바구니 페이지로 이동
+            var myStr = ""
+            for(i in 0 until selectedIconList.size) {
+                myStr += selectedIconList[i].iconName + ", "
+            }
+            Log.d("MSG", "add icons name: " + myStr)
+            viewModel.insertDataList(selectedIconList)
             findNavController().navigate(R.id.action_shoppingCartFragment_to_basketFragment)
+//            selectedIconList.clear()
+//            horizontalViewAdapter.iconList = selectedIconList
 //            viewModel.setIcon(selectedIconList)
         }
 
