@@ -1,6 +1,7 @@
 package com.example.naengbiseo.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,15 @@ class ShelfFragment : Fragment(){
             MainViewModel::class.java)
         //viewModel.del_data.observe(viewLifecycleOwner, Observer{}) 없어도 되네?
 
+        //viewModel.initSortData()
+        viewModel.sort_shelf_data.observe(viewLifecycleOwner, Observer {
+            Log.d("a","반응 왔다")
+            viewModel.sort()
+
+            (search_recyclerview_shelf.adapter as FoodViewAdapter).notifyDataSetChanged()
+        })
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
+            viewModel.sort()
             (search_recyclerview_shelf.adapter as FoodViewAdapter).notifyDataSetChanged()
         }) // 버튼안에 옵저브를 안넣더라도 항상 옵저브하고 있어야 room 의 userdata 를 쓸수 있다,
 
@@ -60,22 +69,25 @@ class ShelfFragment : Fragment(){
         (search_recyclerview_shelf.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
 //                    Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
-                if (sel == 1) {
-                    v.check_box.toggle()
-                    if (v.check_box.isChecked) {
-                        viewModel.addDelData(v.food_name.text.toString(),"shelf",v.buy_date.text.toString())
-                    } else {
-                        viewModel.removeDelData(v.food_name.text.toString(),"shelf",v.buy_date.text.toString())
+                if(v.id == R.id.food_item_layout){
+                    if (sel == 1) {
+                        v.check_box.toggle()
+                        if (v.check_box.isChecked) {
+                            viewModel.addDelData(v.food_name.text.toString(),"shelf",v.buy_date.text.toString())
+                        } else {
+                            viewModel.removeDelData(v.food_name.text.toString(),"shelf",v.buy_date.text.toString())
+                        }
+                    }
+                    else{
+                        viewModel.setCompareData(
+                            v.food_name.text.toString(),
+                            "shelf",
+                            v.buy_date.text.toString()
+                        )
+                        findNavController().navigate(R.id.itemStatusFragment)
                     }
                 }
-                else{
-                    viewModel.setCompareData(
-                        v.food_name.text.toString(),
-                        "shelf",
-                        v.buy_date.text.toString()
-                    )
-                    findNavController().navigate(R.id.itemStatusFragment)
-                }
+
             }
         })
         viewModel.trash_button_shelf_event.observe(viewLifecycleOwner, Observer{

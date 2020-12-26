@@ -10,6 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.log
 
 class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewModel() {
     private val _del_data = SingleLiveEvent<MutableList<Triple<String, String, String>>>()
@@ -63,12 +66,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
 
     /** 뷰모델에서 모델로 데이터를 넣기위한거?*/
     var allFoodData: LiveData<List<FoodData>> = foodDataRepository.getAllData()
-    var fl: MutableList<FoodData>? = null
-    fun sort() {
-        if(allFoodData.value != null){
-            fl = allFoodData.value!!.sortedBy { it.foodNumber }.toMutableList()
-        }
-    }
+
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -103,24 +101,153 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
 
     }
 
+
+    var fl: MutableList<FoodData>? = null
+    private val _sort_data = SingleLiveEvent<Int>() // 정렬 관련 라이브 데이터
+    val sort_data: LiveData<Int> get() = _sort_data
+
+    private val _sort_cold_data = SingleLiveEvent<Int>() // 정렬 관련 라이브 데이터
+    val sort_cold_data: LiveData<Int> get() = _sort_cold_data
+
+    private val _sort_shelf_data = SingleLiveEvent<Int>() // 정렬 관련 라이브 데이터
+    val sort_shelf_data: LiveData<Int> get() = _sort_shelf_data
+
+    fun initSortData() {
+        _sort_data.setValue(1)
+    }
+
+    fun setSortData(i: Int) {
+        Log.d("s", i.toString())
+        _sort_data.setValue(i)
+        _sort_cold_data.setValue(i)
+        _sort_shelf_data.setValue(i)
+    }
+
+
+    fun sortedByCategory(): MutableList<FoodData> {
+        var sortedList = mutableListOf<FoodData>()
+        var foodList: List<FoodData>? = allFoodData.value
+        var categoryList = getCategory()
+        if (categoryList != null) {
+            for (category in categoryList!!) {
+                sortedList.add(
+                    FoodData(
+                        foodCategory = category.first,
+                        header = 1,
+                        storeLocation = category.second
+                    )
+                )
+                //Log.d("sd",category)
+                for (data in foodList!!) {
+                    if (data.foodCategory == category.first && data.storeLocation == category.second) sortedList.add(
+                        data
+                    )
+                }
+            }
+        }
+
+        return sortedList
+    }
+
+    fun sortedByBuyDate(): MutableList<FoodData> {
+        var sortedList = mutableListOf<FoodData>()
+        var foodList: List<FoodData>? = allFoodData.value
+        var buyDateList = getBuyDate()
+        if (buyDateList != null) {
+            for (date in buyDateList!!) {
+                sortedList.add(
+                    FoodData(
+                        buyDate = date.first,
+                        header = 1,
+                        storeLocation = date.second
+                    )
+                )
+                for (data in foodList!!) {
+                    if (data.buyDate == date.first && data.storeLocation == date.second) sortedList.add(
+                        data
+                    )
+                }
+            }
+        }
+
+        return sortedList
+    }
+
+    fun sort() {
+        when (sort_data.value) {
+            0 -> {
+                fl = sortedByCategory()
+            }
+            1 -> {
+                fl = sortedByBuyDate()
+            }
+            2 -> {
+                fl =
+                    allFoodData.value!!.sortedBy { getTime(it.expirationDate) - getTime(it.buyDate) }
+                        .toMutableList()
+            }
+            else -> {
+                fl = allFoodData.value!!.toMutableList()
+            }
+        }
+    }
+
+    fun getCategory(): MutableList<Pair<String, String>> {
+        var foodList: List<FoodData>? = allFoodData.value
+        var categorySet: MutableSet<Pair<String, String>> = mutableSetOf()
+        var categoryList: MutableList<Pair<String, String>> = mutableListOf()
+        if (foodList != null) {
+            for (data: FoodData in foodList!!) {
+                categorySet.add(Pair(data.foodCategory, data.storeLocation))
+            }
+            categoryList = categorySet.toList()!!.sortedBy { it.first }.toMutableList()
+        }
+
+        return categoryList
+    }
+
+    fun getBuyDate(): MutableList<Pair<String, String>> {
+        var foodList: List<FoodData>? = allFoodData.value
+        var buyDateSet: MutableSet<Pair<String, String>> = mutableSetOf()
+        var buyDateList: MutableList<Pair<String, String>> = mutableListOf()
+        if (foodList != null) {
+            for (data: FoodData in foodList!!) {
+                buyDateSet.add(Pair(data.buyDate, data.storeLocation))
+            }
+            buyDateList = buyDateSet.toList()!!.sortedBy { getTime(it.first) }.toMutableList()
+        }
+
+        return buyDateList
+    }
+
+
+    fun getTime(date: String): Long {
+        var simpleFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+        var realExpDate = simpleFormat.parse(date) // 문자열로 부터 날짜 들고오기!
+        return realExpDate.time
+    }
+
     fun getColdData(): List<FoodData> {
         var coldFoodData: MutableList<FoodData> = mutableListOf()
-        //var foodList: List<FoodData>? = fl?.toList()
+
         if (fl != null) {
             for (data: FoodData in fl!!) {
                 if (data.storeLocation == "cold") {
                     coldFoodData.add(data)
                 }
             }
+/*
+            for(cData in coldFoodData){
+                sortDataSet.add(cData.)
+            }*/
         }
         return coldFoodData.toList()
     }
 
     fun getCoolData(): List<FoodData> {
         var coolFoodData: MutableList<FoodData> = mutableListOf()
-        var foodList: List<FoodData>? = allFoodData.value
-        if (foodList != null) {
-            for (data: FoodData in foodList) {
+        if (fl != null) {
+            for (data: FoodData in fl!!) {
                 if (data.storeLocation == "cool") {
                     coolFoodData.add(data)
                 }
@@ -131,9 +258,8 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
 
     fun getShelfData(): List<FoodData> {
         var shelfFoodData: MutableList<FoodData> = mutableListOf()
-        var foodList: List<FoodData>? = allFoodData.value
-        if (foodList != null) {
-            for (data: FoodData in foodList) {
+        if (fl != null) {
+            for (data: FoodData in fl!!) {
                 if (data.storeLocation == "shelf") {
                     shelfFoodData.add(data)
                 }
@@ -143,6 +269,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
     }
 
 
+    // 재료 정보창으로 정보 넘기기 위한것. 시작
     private val _compare_data = SingleLiveEvent<Triple<String, String, String>>() // 내부에서 작동
     val compare_data: LiveData<Triple<String, String, String>> get() = _compare_data // 외부로 노출
 
@@ -171,5 +298,42 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
     ): Boolean {
         return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == compareTriple.third
     }
+    // 재료 정보창으로 정보 넘기기 위한것. 끝
 
+
+    // 검색창 프래그먼트 관련
+    private val _search_data = SingleLiveEvent<String>() // 내부에서 작동
+    val search_data: LiveData<String> get() = _search_data // 외부로 노출
+
+    fun setSearchData(text: String) {
+        _search_data.setValue(text)
+    }
+
+    fun getSearchData(): List<FoodData>? {
+        var foodList = allFoodData.value
+        var text = _search_data.value
+        var searchDataList: MutableList<FoodData> = mutableListOf()
+        /*if (foodList != null) {
+            searchDataList =
+                foodList.filter { it.foodName.contains(_search_data.value!!) }.toMutableList()
+            searchDataList.add(0, FoodData(header = 1))
+        } */
+        if(text == null || text == ""){
+            searchDataList.add(FoodData(header = 1))
+
+        }
+        else if (foodList != null && text != null ){
+            for(data in foodList){
+                if(data.foodName.contains(text)){
+                    searchDataList.add(data)
+                }
+            }
+            if(searchDataList.size == 0){
+                searchDataList.add(FoodData(Null = 1))
+            }
+            else searchDataList.add(0, FoodData(header = 1))
+        }
+
+        return searchDataList.toList()
+    }
 }
