@@ -75,6 +75,10 @@ class ItemStatusFragment : Fragment() {
 
 
         numMinus_button.setOnClickListener {
+            if(foodNum - 1 == 0){
+                Toast.makeText(activity as MainActivity,"다 드셨으면 삭제해주세요 :)", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             foodNum--
             food_number_edit_text.setText(foodNum.toString())
         }

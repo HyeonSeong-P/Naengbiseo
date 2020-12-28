@@ -61,8 +61,9 @@ class MainActivity : AppCompatActivity(),
         //searchIconEditText.focus
 
         viewModel.allExcelData.observe(this, Observer {
-            if (viewModel.excelIsEmpty()) {
+            if (it.isEmpty()) {
                 Log.d("empty", "비었다@@@@")
+
                 inputStream.bufferedReader().readLines().forEach {
                     var token = it.split("\t")
                     var data = ExcelData(
@@ -74,6 +75,10 @@ class MainActivity : AppCompatActivity(),
                         viewModel.insertExcelData(data)
                     }
                 }
+            }
+            else{
+                Log.d("empty", "안비었다@@@@")
+                Log.d("empty", it.toString())
             }
         })
 

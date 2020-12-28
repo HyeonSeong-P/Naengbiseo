@@ -38,9 +38,15 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(foodData: FoodData, position: Int) {
         if(foodData.header == 0 && foodData.Null != 1){
+            view.d_day.setTextColor(Color.parseColor("#666666"))
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
             var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
+            var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+
             var realExpDate =simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
+
+            var realBuyDate = simpleFormat.parse(foodData.buyDate)
+            var dateString = simpleFormat2.format(realBuyDate)
 
             var today = Calendar.getInstance() // 현재 날짜
             var dDay = (today.time.time - realExpDate.time) / (60 * 60 * 24 * 1000)
@@ -52,7 +58,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             }
             else if(dDay<0) {
                 dDayText= "D-" + abs(dDay-1).toString()
-                if(abs(dDay)<=3) view.d_day.setTextColor(Color.parseColor("#fb343e"))
+                if(abs(dDay-1) < 4) view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
             else {
                 dDayText="D-day"
@@ -60,9 +66,17 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             }
             view.food_name.setText(foodData.foodName)
             view.food_number.setText(foodData.foodNumber.toString())
-            view.buy_date.setText(foodData.buyDate)
-            view.d_day.setText(dDayText)
+            if(foodData.buyDate == "1111년 11월 11일"){
+                view.buy_date.setText("재료 정보를 기입해주세요")
+                view.d_day.setText("")
+            }
+            else{
+                view.buy_date.setText(dateString)
+                view.d_day.setText(dDayText)
+            }
             view.food_icon.setImageResource(foodData.foodIcon)
+
+
 
 
             // 체크박스 관련
@@ -80,7 +94,12 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
                 view.header_name.text = foodData.foodCategory
             }
             else if(foodData.buyDate != ""){
-                view.header_name.text = foodData.buyDate
+                if(foodData.buyDate == "1111년 11월 11일"){
+                    view.header_name.text = "재료정보 입력 요"
+                }
+                else{
+                    view.header_name.text = foodData.buyDate
+                }
             }
         }
     }

@@ -28,8 +28,14 @@ import kotlinx.android.synthetic.main.fragment_cold.*
 import kotlinx.android.synthetic.main.fragment_food_add.view.*
 import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ColdFragment : Fragment() {
+    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+    var simpleFormat2:SimpleDateFormat = SimpleDateFormat("yyyy. MM. dd")
+    var realBuyDate: Date? = null
+    lateinit var dateString:String
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -86,21 +92,38 @@ class ColdFragment : Fragment() {
             FoodViewAdapter.OnItemClickListener {
             @RequiresApi(Build.VERSION_CODES.Q)
             override fun onClick(v: View, position: Int) {
-//                    Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+                if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                    realBuyDate = simpleFormat2.parse("1111. 11. 11")
+                    dateString = simpleFormat.format(realBuyDate)
+                }
+                else{
+                    realBuyDate = simpleFormat2.parse(v.buy_date.text.toString())
+                    dateString = simpleFormat.format(realBuyDate)
+                }
                 if(v.id == R.id.food_item_layout){
                     if (sel == 1) {
                         v.check_box.toggle()
                         if (v.check_box.isChecked) {
-                            viewModel.addDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                            viewModel.addDelData(v.food_name.text.toString(),"cold",dateString)
                         } else {
-                            viewModel.removeDelData(v.food_name.text.toString(),"cold",v.buy_date.text.toString())
+                            viewModel.removeDelData(v.food_name.text.toString(),"cold",dateString)
                         }
-                    } else {
-                        viewModel.setCompareData( // 재료 정보창에서 메인에서 선택한 아이템 정보를 가져올수 있게 만든것.
-                            v.food_name.text.toString(),
-                            "cold",
-                            v.buy_date.text.toString()
-                        )
+                    }
+                    else {
+                        if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                            viewModel.setCompareData(
+                                v.food_name.text.toString(),
+                                "cold",
+                                "1111. 11. 11"
+                            )
+                        }
+                        else{
+                            viewModel.setCompareData(
+                                v.food_name.text.toString(),
+                                "cold",
+                                v.buy_date.text.toString()
+                            )
+                        }
                         findNavController().navigate(R.id.itemStatusFragment)
                     }
                 }
