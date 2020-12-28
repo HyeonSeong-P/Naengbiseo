@@ -12,7 +12,7 @@ import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.viewmodel.MainViewModel
 
 class SearchViewAdapter(private val viewModel: MainViewModel) :
-    RecyclerView.Adapter<FoodViewHolder>() {
+    RecyclerView.Adapter<SearchViewHolder>() {
     private val TYPE_NULL = 2
     private val TYPE_CATEGORY_HEADER = 1
     private val TYPE_ITEM = 0
@@ -35,21 +35,21 @@ class SearchViewAdapter(private val viewModel: MainViewModel) :
         else return TYPE_ITEM
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val myLayout: Int = when (viewType) {
             TYPE_CATEGORY_HEADER -> R.layout.main_header
             TYPE_ITEM -> R.layout.food_item_search_version
             TYPE_NULL -> R.layout.not_found_food
             else -> R.layout.fragment_error
         }
-        return FoodViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))
+        return SearchViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))
         /*val inflatedView =
             LayoutInflater.from(parent.context).inflate(R.layout.food_item, parent, false)
         return FoodViewHolder(inflatedView)*/
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
 
         holder.bind((viewModel.getSearchData() ?: return)[position],position)
 
