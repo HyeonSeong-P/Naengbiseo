@@ -64,6 +64,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
     private val _searchText = SingleLiveEvent<String>()
     val searchText get() = _searchText
 
+    private val _deleteDataList = SingleLiveEvent<MutableList<FoodData>>()
+    val deleteDataList get() = _deleteDataList
+
     fun onTrashButton(i: Int) {
         /** 뷰의 onClickListener 호출될때 얘를 호출해 싱글라이브데이터 의 Setdata를 call
         뷰와 뷰모델의 연결?....*/
@@ -96,18 +99,20 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
     fun deleteData() {
         var foodList: List<FoodData>? = allFoodData.value
         var dList = del_data.value
+        val delDataList = mutableListOf<FoodData>()
         if (foodList != null) {
             if (dList != null) {
                 for (triple in dList) {
                     for (foodData in foodList) {
                         if (foodData.foodName == triple.first && foodData.storeLocation == triple.second && foodData.buyDate == triple.third) {
+                            delDataList.add(foodData)
                             viewModelScope.launch {
                                 foodDataRepository.delete(foodData)
                             }
                         }
                     }
-
                 }
+                _deleteDataList.value = delDataList
             }
         }
 
@@ -245,7 +250,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
 
         if (fl != null) {
             for (data: FoodData in fl!!) {
-                if (data.storeLocation == "cold") {
+                if (data.storeLocation == "cold" && data.purchaseStatus == 1) {
                     coldFoodData.add(data)
                 }
             }
@@ -261,7 +266,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var coolFoodData: MutableList<FoodData> = mutableListOf()
         if (fl != null) {
             for (data: FoodData in fl!!) {
-                if (data.storeLocation == "cool") {
+                if (data.storeLocation == "cool" && data.purchaseStatus == 1) {
                     coolFoodData.add(data)
                 }
             }
@@ -273,7 +278,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var shelfFoodData: MutableList<FoodData> = mutableListOf()
         if (fl != null) {
             for (data: FoodData in fl!!) {
-                if (data.storeLocation == "shelf") {
+                if (data.storeLocation == "shelf" && data.purchaseStatus == 1) {
                     shelfFoodData.add(data)
                 }
             }

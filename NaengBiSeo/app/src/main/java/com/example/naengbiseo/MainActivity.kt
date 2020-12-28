@@ -180,8 +180,8 @@ class MainActivity : AppCompatActivity(),
             main_drawer_layout.closeDrawers()
         }
 
-        go_to_basket_button.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.shoppingCartFragment)
+        go_to_basket_button.setOnClickListener{
+            findNavController(R.id.nav_host_fragment).navigate(R.id.basketFragment)
         }
     }
 
