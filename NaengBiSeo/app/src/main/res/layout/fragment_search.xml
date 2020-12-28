@@ -30,6 +30,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@id/back_button"
             app:layout_constraintBottom_toBottomOf="@id/back_button"
+            android:paddingLeft="13dp"
+            android:textColor="#333333"
+            android:textCursorDrawable="@drawable/text_cursor"
             android:background="@drawable/search_bar"/>
         <TextView
             android:layout_width="wrap_content"

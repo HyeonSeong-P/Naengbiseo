@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         go_to_basket_button.setOnClickListener{
-            findNavController(R.id.nav_host_fragment).navigate(R.id.shoppingCartFragment)
+            findNavController(R.id.nav_host_fragment).navigate(R.id.basketFragment)
         }
     }
 

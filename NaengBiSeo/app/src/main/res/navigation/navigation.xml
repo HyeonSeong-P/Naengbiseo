@@ -100,7 +100,10 @@
         android:name="com.example.naengbiseo.fragment.ShoppingCartFragment">
         <action
             android:id="@+id/action_shoppingCartFragment_to_basketFragment"
-            app:destination="@id/basketFragment"/>
+            app:destination="@id/basketFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"
+            />
     </fragment>
 
     <fragment

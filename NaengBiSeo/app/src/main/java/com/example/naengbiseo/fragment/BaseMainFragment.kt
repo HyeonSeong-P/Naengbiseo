@@ -1,12 +1,16 @@
 package com.example.naengbiseo.fragment
 
+import android.app.AlertDialog
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +27,8 @@ import com.example.naengbiseo.viewmodel.FoodAddViewModelFactory
 import com.example.naengbiseo.viewmodel.MainViewModel
 import com.example.naengbiseo.viewmodel.MainViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.custom_dialog.*
+import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.fragment_base_main.*
 import kotlinx.android.synthetic.main.host_activity.*
@@ -38,6 +44,7 @@ class BaseMainFragment :Fragment(){
     ): View? {
         return inflater.inflate(R.layout.fragment_base_main, container, false)
     }
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mainActivity = activity as MainActivity // 프래그먼트에서 액티비티 접근하는 법 꼭 기억하자!!!!
@@ -86,6 +93,30 @@ class BaseMainFragment :Fragment(){
             findNavController().navigate(R.id.action_mainFragment_to_foodAddFragment)
         }
 
+        viewModel.deleteDataList.observe(viewLifecycleOwner, Observer{
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_dialog, null)
+            //AlertDialogBuilder
+            val builder = AlertDialog.Builder(context)
+                .setView(dialogView)
+                .setCancelable(false)
+            //show dialog
+            val alertDialog = builder.show()
+            //login button click of custom layout
 
+            val foodListToBasket = it
+            dialogView.dialogYesButton.setOnClickListener{
+                //dismiss dialog
+                alertDialog.dismiss()
+                for (foodData in foodListToBasket) {
+                    foodData.purchaseStatus = 0
+                    viewModel.insertData(foodData)
+                }
+            }
+            //cancel button click of custom layout
+            dialogView.dialogNoButton.setOnClickListener{
+                //dismiss dialog
+                alertDialog.dismiss()
+            }
+        })
     }
 }

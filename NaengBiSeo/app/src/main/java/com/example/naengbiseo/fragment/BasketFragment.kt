@@ -50,22 +50,6 @@ class BasketFragment :Fragment(){
             BasketViewModel::class.java)
         var viewAdapter = BasketViewAdapter(viewModel)
 
-        /*var foodListToPurchase = viewModel.getFoodToPurchase()
-        Log.d("MSG", "food list to buy: " + foodListToPurchase.toString())
-        if (foodListToPurchase != null) {
-            foodListToPurchase = foodListToPurchase.sortedBy { foodData -> foodData.foodName }
-            viewModel.basketFoodList = foodListToPurchase
-            viewAdapter.notifyDataSetChanged()
-            Log.d("MSG", "basket food list initialized")
-        }
-        if (viewModel.basketFoodList.isEmpty()) { // 여기서 empty가 뜨면 안됨
-            plusFoodBtn.visibility = View.INVISIBLE
-            Log.d("MSG", "button invisible")
-        } else {
-            plusFoodBtn.visibility = View.VISIBLE
-            Log.d("MSG", "button visible")
-        }*/
-
         RecyclerViewInBasketFragment.adapter = viewAdapter
         RecyclerViewInBasketFragment.layoutManager = LinearLayoutManager(activity)
 
@@ -75,12 +59,10 @@ class BasketFragment :Fragment(){
             foodListToPurchase = foodListToPurchase.sortedBy { foodData -> foodData.foodName }
             viewModel.basketFoodList = foodListToPurchase
             viewAdapter.notifyDataSetChanged()
-            if (viewModel.basketFoodList.isEmpty()) { // 여기서 empty가 뜨면 안됨
+            if (viewModel.basketFoodList.isEmpty()) {
                 plusFoodBtn.visibility = View.INVISIBLE
-                Log.d("MSG", "button invisible")
             } else {
                 plusFoodBtn.visibility = View.VISIBLE
-                Log.d("MSG", "button visible")
             }
         })
 
@@ -90,6 +72,10 @@ class BasketFragment :Fragment(){
 
         backButtonInBasketFragment.setOnClickListener {
             findNavController().popBackStack() // 이전 화면으로 이동
+        }
+
+        plusFoodBtn.setOnClickListener {
+            viewModel.foodAddButtonClicked(true)
         }
     }
 

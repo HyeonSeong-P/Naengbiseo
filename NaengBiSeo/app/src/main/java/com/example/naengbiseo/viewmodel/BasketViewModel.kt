@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class BasketViewModel (private val foodDataRepository: FoodDataRepository): ViewModel() {
-    private val _isButtonClickedData = SingleLiveEvent<Int>() // 내부에서 작동
-    val isButtonClickedData: LiveData<Int> get() = _isButtonClickedData // 외부로 노출
+    private val _isButtonClickedData = SingleLiveEvent<Boolean>() // 내부에서 작동
+    val isButtonClickedData: LiveData<Boolean> get() = _isButtonClickedData // 외부로 노출
     var basketFoodList = listOf<FoodData>()
 
     fun getBasketFoodAt(position: Int): FoodData {
@@ -48,24 +48,14 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
         }
     }
 
-    fun addFoodButtonClicked(isButtonClicked: Int) {
+    fun foodAddButtonClicked(isButtonClicked: Boolean) {
         _isButtonClickedData.setValue(isButtonClicked)
     }
-
-    /*fun delIcon(position: Int) {
-        var iconList: MutableList<FoodIcon> = icons_data.value!!
-        iconList.removeAt(position)
-        _icons_data.setValue(iconList)
-    }*/
 
     var TAG = javaClass.simpleName
 
     /** 뷰모델에서 모델로 데이터를 넣기위한거?*/
     var allFoodData: LiveData<List<FoodData>> = foodDataRepository.getAllData()
-
-    /*fun getAllFoodData(): List<FoodData>? {
-        return foodDataRepository.getAllData().value
-    }*/
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -76,7 +66,5 @@ class BasketViewModel (private val foodDataRepository: FoodDataRepository): View
                 foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cool", foodIcon = foodData.iconResource, purchaseStatus = 0, foodNumber = 1, expirationDate = "1111년 11월 11일", buyDate = "1111년 11월 11일", uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()))
             }
         }
-        /*allFoodData = foodDataRepository.getAllData()
-        Log.d("MSG","allFoodData: " + foodDataRepository.getAllData().value)*/
     }
 }
