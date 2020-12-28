@@ -9,6 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.room.FoodData
 import kotlinx.android.synthetic.main.food_icon_item.view.*
 import kotlinx.android.synthetic.main.food_item.view.*
+import kotlinx.android.synthetic.main.food_item.view.buy_date
+import kotlinx.android.synthetic.main.food_item.view.check_box
+import kotlinx.android.synthetic.main.food_item.view.d_day
+import kotlinx.android.synthetic.main.food_item.view.food_icon
+import kotlinx.android.synthetic.main.food_item.view.food_name
+import kotlinx.android.synthetic.main.food_item.view.food_number
+import kotlinx.android.synthetic.main.food_item_search_version.view.*
 import kotlinx.android.synthetic.main.main_header.view.*
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
@@ -56,6 +63,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             view.buy_date.setText(foodData.buyDate)
             view.d_day.setText(dDayText)
             view.food_icon.setImageResource(foodData.foodIcon)
+
 
             // 체크박스 관련
             if(checkbox_state == 1) {
