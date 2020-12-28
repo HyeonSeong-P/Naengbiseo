@@ -3,6 +3,8 @@ package com.example.naengbiseo.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.naengbiseo.room.ExcelData
+import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.room.FoodDataRepository
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +16,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log
 
-class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewModel() {
+class MainViewModel(private val foodDataRepository: FoodDataRepository, private val excelDataRepository: ExcelDataRepository) : ViewModel() {
+
+    var allExcelData: LiveData<List<ExcelData>> = excelDataRepository.getAllData()
+
+    fun excelIsEmpty():Boolean{
+        return allExcelData.value == null
+    }
+
     private val _del_data = SingleLiveEvent<MutableList<Triple<String, String, String>>>()
     val del_data: LiveData<MutableList<Triple<String, String, String>>> get() = _del_data
     val copyDelList: MutableList<Triple<String, String, String>> =
@@ -84,6 +93,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
         }
     }
 
+    fun insertExcelData(excelData: ExcelData) {
+        viewModelScope.launch { excelDataRepository.insert(excelData) }
+    }
     fun deleteData() {
         var foodList: List<FoodData>? = allFoodData.value
         var dList = del_data.value
@@ -190,6 +202,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository) : ViewMo
                 fl =
                     allFoodData.value!!.sortedBy { getTime(it.expirationDate) - getTime(it.buyDate) }
                         .toMutableList()
+                //fl.add(0,FoodData(header = 1))
             }
             else -> {
                 fl = allFoodData.value!!.toMutableList()

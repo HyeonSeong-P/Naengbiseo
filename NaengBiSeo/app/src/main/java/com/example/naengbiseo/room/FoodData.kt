@@ -9,9 +9,9 @@ import com.example.naengbiseo.FoodIcon
 /**데이터를 저장할 Entity, ROOM(MODEL) 관련 클래스.
  */
 
-//@Entity(tableName = "inputMsg")
 
-@Entity(indices = [Index(value = ["재료명", "보관장소","구매일자","구매유무","헤더","고유아이디"], unique = true)]) // 이걸로 푸드데이터의 유니크를 정할 수 있다!
+
+@Entity(tableName = "foodData",indices = [Index(value = ["재료명", "보관장소","구매일자","구매유무","헤더","고유아이디"], unique = true)]) // 이걸로 푸드데이터의 유니크를 정할 수 있다!
 
 data class FoodData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0, // 기본값

@@ -19,6 +19,7 @@ import com.example.naengbiseo.R
 import com.example.naengbiseo.adapter.FoodViewAdapter
 import com.example.naengbiseo.adapter.FoodViewHolder
 import com.example.naengbiseo.room.AppDatabase
+import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.*
 import kotlinx.android.synthetic.main.food_item.view.*
@@ -45,12 +46,13 @@ class ColdFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val mainActivity = activity as MainActivity // 프래그먼트에서 액티비티 접근하는 법 꼭 기억하자!!!!
-        val dao = AppDatabase.getInstance(mainActivity).foodDao()
-        val repository = FoodDataRepository.getInstance(dao)
-        val factory = MainViewModelFactory(repository)
+        val dao1 = AppDatabase.getInstance(mainActivity).foodDao()
+        val dao2 = AppDatabase.getInstance(mainActivity).excelDao()
+        val repository1 = FoodDataRepository.getInstance(dao1)
+        val repository2 = ExcelDataRepository.getInstance(dao2)
+        val factory = MainViewModelFactory(repository1, repository2)
         var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
-            MainViewModel::class.java
-        )
+            MainViewModel::class.java)
 //        viewModel.del_data.observe(viewLifecycleOwner, Observer{})
         /*val statusFactory = ItemStatusViewModelFactory(repository)
         var statusViewModel = ViewModelProvider(
