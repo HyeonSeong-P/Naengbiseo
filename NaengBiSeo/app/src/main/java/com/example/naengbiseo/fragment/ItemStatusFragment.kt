@@ -1,12 +1,14 @@
 package com.example.naengbiseo.fragment
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -23,6 +25,7 @@ import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.*
 import kotlinx.android.synthetic.main.fragment_cold.*
 import kotlinx.android.synthetic.main.fragment_food_add.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragmetn_item_status.*
 import kotlinx.android.synthetic.main.fragmetn_item_status.back_button
 import kotlinx.android.synthetic.main.fragmetn_item_status.expiration_date_text
@@ -42,6 +45,9 @@ import java.util.*
 
 
 class ItemStatusFragment : Fragment() {
+    lateinit var viewModel:MainViewModel
+    var foodData: FoodData? = null
+    private lateinit var callback: OnBackPressedCallback
     var foodIcon: Int = 0
     var foodNum: Int = 0
     override fun onCreateView(
@@ -68,7 +74,7 @@ class ItemStatusFragment : Fragment() {
             FoodAddViewModel::class.java
         )
 
-        var viewModel = ViewModelProviders.of(activity as MainActivity, factory1).get(
+        viewModel = ViewModelProviders.of(activity as MainActivity, factory1).get(
             MainViewModel::class.java
         )
 
@@ -97,7 +103,7 @@ class ItemStatusFragment : Fragment() {
             //food_edit_text.setText(it.getIconName)
         })
 
-        var foodData: FoodData? = null
+
 
         viewModel.compare_data.observe(viewLifecycleOwner, Observer {
             foodData = viewModel.getFoodData()
@@ -123,6 +129,7 @@ class ItemStatusFragment : Fragment() {
             }
 
         })
+
 
         back_button.setOnClickListener {
             val food_name = food_edit_text.text.toString()
@@ -192,5 +199,47 @@ class ItemStatusFragment : Fragment() {
             webview.loadUrl(siteString)
         }
 
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val food_name = food_edit_text.text.toString()
+                val expiration_date = expiration_date_text.text.toString()
+                val purchase_date=purchase_date_text.text.toString()
+                var memo= memo_edit_text.text.toString()
+
+                val radio_btn_id = radio_group.checkedRadioButtonId
+
+                foodData?.foodName = food_name
+                foodData?.foodNumber = foodNum
+                foodData?.buyDate = purchase_date
+                foodData?.expirationDate = expiration_date
+                foodData?.foodMemo = memo
+                viewModel.updateData(foodData!!)
+                when(radio_btn_id) {
+                    radio_btn1.id -> {
+                        foodData?.storeLocation = "shelf"
+                    }
+                    radio_btn2.id -> {
+                        foodData?.storeLocation = "cool"
+                    }
+                    radio_btn3.id -> {
+                        foodData?.storeLocation = "cold"
+                    }
+                    else -> {
+                        Toast.makeText(activity as MainActivity,"음식을 보관할 장소를 선택해주세요!!", Toast.LENGTH_SHORT).show()
+                        return
+                    }
+                }
+                findNavController().navigateUp()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 }

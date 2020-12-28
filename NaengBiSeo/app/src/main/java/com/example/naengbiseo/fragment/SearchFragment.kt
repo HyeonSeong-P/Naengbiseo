@@ -92,6 +92,10 @@ class SearchFragment: Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+        back_button.setOnClickListener {
+            search_food_edit_text.getText().clear()
+            findNavController().navigateUp()
+        }
 
 
     }
