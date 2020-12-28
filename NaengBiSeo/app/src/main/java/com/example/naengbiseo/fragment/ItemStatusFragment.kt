@@ -17,6 +17,7 @@ import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
 import com.example.naengbiseo.adapter.FoodViewAdapter
 import com.example.naengbiseo.room.AppDatabase
+import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.*
@@ -54,10 +55,12 @@ class ItemStatusFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mainActivity = activity as MainActivity // 프래그먼트에서 액티비티 접근하는 법 꼭 기억하자!!!!
-        val dao = AppDatabase.getInstance(mainActivity).foodDao()
-        val repository = FoodDataRepository.getInstance(dao)
-        val factory = ItemStatusViewModelFactory(repository)
-        val factory2 = FoodAddViewModelFactory(repository)
+        val dao1 = AppDatabase.getInstance(mainActivity).foodDao()
+        val dao2 = AppDatabase.getInstance(mainActivity).excelDao()
+        val repository1 = FoodDataRepository.getInstance(dao1)
+        val repository2 = ExcelDataRepository.getInstance(dao2)
+        val factory1 = MainViewModelFactory(repository1, repository2)
+        val factory2 = FoodAddViewModelFactory(repository1, repository2)
         var viewModel2 = ViewModelProvider(
             requireParentFragment(),
             factory2
@@ -65,7 +68,7 @@ class ItemStatusFragment : Fragment() {
             FoodAddViewModel::class.java
         )
 
-        var viewModel = ViewModelProviders.of(activity as MainActivity, factory).get(
+        var viewModel = ViewModelProviders.of(activity as MainActivity, factory1).get(
             MainViewModel::class.java
         )
 
@@ -84,22 +87,24 @@ class ItemStatusFragment : Fragment() {
 
         viewModel2.icon_data.observe(viewLifecycleOwner, Observer {
             Log.d("sd", "변경됐냐?!!")
-            foodIcon = it.first
+            foodIcon = it.getfoodIcon
 
-            go_to_select_button.setImageResource(it.first)
-            food_edit_text.setText(it.second)
+            go_to_select_button.setImageResource(it.getfoodIcon)
+            //food_edit_text.setText(it.getIconName)
         })
 
         var foodData: FoodData? = null
 
         viewModel.compare_data.observe(viewLifecycleOwner, Observer {
-            foodData = viewModel.getFoodData()!!
+            foodData = viewModel.getFoodData()
             go_to_select_button.setImageResource(foodData!!.foodIcon)
             food_edit_text.setText(foodData!!.foodName)
             food_number_edit_text.setText(foodData!!.foodNumber.toString())
             purchase_date_text.setText(foodData!!.buyDate)
             expiration_date_text.setText(foodData!!.expirationDate)
             memo_edit_text.setText(foodData!!.foodMemo)
+            store_edit_text.setText(foodData!!.storeWay)
+            treat_edit_text.setText(foodData!!.treatWay)
             foodNum = foodData!!.foodNumber
             when(foodData!!.storeLocation){
                 "shelf" -> {
