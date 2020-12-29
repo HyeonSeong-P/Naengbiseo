@@ -65,9 +65,12 @@ class BasketFragment :Fragment(){
             foodListToPurchase = foodListToPurchase.sortedBy { foodData -> foodData.foodName }
             viewModel.basketFoodList = foodListToPurchase
             viewAdapter.notifyDataSetChanged()
+            val userName = MainActivity.pref_user_name.myEditText
             if (viewModel.basketFoodList.isEmpty()) {
+                basketGuideTextView.text = userName + "님, 구매할 식품이 없어요:)"
                 plusFoodBtn.visibility = View.INVISIBLE
             } else {
+                basketGuideTextView.text = userName + "님, 잊지 말고 구매하세요!"
                 plusFoodBtn.visibility = View.VISIBLE
             }
         })
@@ -84,12 +87,12 @@ class BasketFragment :Fragment(){
             viewModel.foodAddButtonClicked(true)
         }
 
-        (RecyclerViewInBasketFragment.adapter as BasketViewAdapter).setItemClickListener(object :
+        /*(RecyclerViewInBasketFragment.adapter as BasketViewAdapter).setItemClickListener(object :
             BasketViewAdapter.OnItemClickListener {
                 override fun onClick(v: View, position: Int) {
                     Toast.makeText(context, "position: " + position, Toast.LENGTH_SHORT).show()
                 }
-        })
+        })*/
     }
 
     override fun onStop() { // back버튼, 홈버튼 누를 시에도 장바구니 최신 데이터를 db에 저장해야하기때문

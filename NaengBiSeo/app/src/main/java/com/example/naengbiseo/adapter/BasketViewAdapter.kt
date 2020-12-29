@@ -1,6 +1,7 @@
 package com.example.naengbiseo.adapter
 
 import android.app.AlertDialog
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,13 +13,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.naengbiseo.FoodIcon
+import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
 import com.example.naengbiseo.room.FoodData
 import com.example.naengbiseo.viewmodel.BasketViewModel
 import com.example.naengbiseo.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.basket_custom_dialog.view.*
 import kotlinx.android.synthetic.main.basket_empty_layout.view.*
 import kotlinx.android.synthetic.main.basket_food_item.view.*
 import kotlinx.android.synthetic.main.basket_toast_message.view.*
+import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_food_add.*
 
 class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Adapter<BasketViewHolder>() {
@@ -49,9 +53,9 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
-        holder.itemView.setOnClickListener {
+        /*holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
-        }
+        }*/
 
         if (viewModel.basketFoodList.isEmpty()) {
             holder.view.foodAddButtonInBasket.setOnClickListener{
@@ -67,6 +71,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                 val itemView = holder.view
                 var toastView = LayoutInflater.from(itemView.context)
                     .inflate(R.layout.basket_toast_message, null)
+                val storeLocation: String
                 var toast = Toast(itemView.context)
                 val radio_btn_id = itemView.radio_group.checkedRadioButtonId
 
@@ -74,15 +79,19 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                 when (radio_btn_id) {
                     itemView.radio_btn1.id -> {
                         toastView.basketToastMessageTextView.text = "선반보관 해두었습니다:>"
+                        storeLocation = "선반"
                     }
                     itemView.radio_btn2.id -> {
                         toastView.basketToastMessageTextView.text = "냉장보관 해두었습니다:>"
+                        storeLocation = "냉장"
                     }
                     itemView.radio_btn3.id -> {
                         toastView.basketToastMessageTextView.text = "냉동보관 해두었습니다:>"
+                        storeLocation = "냉동"
                     }
                     else -> {
                         toastView.basketToastMessageTextView.text = "보관 Error"
+                        storeLocation = "에러"
                     }
                 }
 
@@ -91,9 +100,19 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                     viewModel.updateData(foodData)
                 }
 
-                toast.duration = Toast.LENGTH_SHORT
+                /*toast.duration = Toast.LENGTH_SHORT
                 toast.setGravity(Gravity.CENTER, 0, 0)
-                toast.show()
+                toast.show()*/
+                val dialogView = LayoutInflater.from(itemView.context).inflate(R.layout.basket_custom_dialog, null)
+                dialogView.basketDialogTextView.text = MainActivity.pref_user_name.myEditText + "님, " + storeLocation + "보관 해두었습니다:>"
+                //AlertDialogBuilder
+                val builder = AlertDialog.Builder(itemView.context)
+                    .setView(dialogView)
+                    .setCancelable(false)
+                //show dialog
+                val alertDialog = builder.show()
+                delayTime(1200, alertDialog)
+                Toast.LENGTH_SHORT
             }
             holder.view.foodNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
@@ -157,5 +176,13 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
         this.itemClickListener = itemClickListener
+    }
+
+    fun delayTime(time: Long, d: AlertDialog){
+
+        Handler().postDelayed({
+            d.dismiss()
+        }, time)
+
     }
 }
