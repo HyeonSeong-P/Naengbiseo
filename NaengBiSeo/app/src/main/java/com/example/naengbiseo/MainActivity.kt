@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(),
         pref_dDay = MySharedPreferences(applicationContext, "d-day", "5")
         pref_alarm_state = MySharedPreferences(applicationContext, "alarmState", "1")
         val assetManager: AssetManager = resources.assets
-        val inputStream: InputStream = assetManager.open("excelData.txt")
+        val inputStream: InputStream = assetManager.open("excelData2.txt")
 
         setContentView(R.layout.host_activity)
 
@@ -82,10 +82,12 @@ class MainActivity : AppCompatActivity(),
 
                 inputStream.bufferedReader().readLines().forEach {
                     var token = it.split("\t")
+                    Log.d("empty", token.toString())
                     var data = ExcelData(
                         iconName = token[0],
-                        storeWay = token[1] + "\n" + token[2],
-                        treatWay = token[3]
+                        storeWay = token[1],
+                        useDate = token[3],
+                        treatWay = token[2]
                     )
                     CoroutineScope(Dispatchers.Main).launch {
                         viewModel.insertExcelData(data)

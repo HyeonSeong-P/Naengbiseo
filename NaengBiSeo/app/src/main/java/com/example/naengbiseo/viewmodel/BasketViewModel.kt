@@ -67,13 +67,13 @@ class BasketViewModel (
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    fun getExcelData(iconName: String): Pair<String, String>? {
-        var excelPair: Pair<String, String>? = Pair("", "")
+    fun getExcelData(iconName: String): Triple<String, String,String>? {
+        var excelPair: Triple<String, String,String>? = Triple("","", "")
         val excelList = allExcelData.value
         if (excelList != null) {
             for (data in excelList) {
                 if (data.iconName == iconName) {
-                    excelPair = Pair(data.storeWay, data.treatWay)
+                    excelPair = Triple(data.storeWay, data.useDate ,data.treatWay)
                     break
                 }
             }
@@ -85,9 +85,12 @@ class BasketViewModel (
         viewModelScope.launch {
             for (foodData in foodDataList) {
                 val excelPair = getExcelData(foodData.iconName)
+                Log.d("1st","메롱")
+                Log.d("2nd",excelPair!!.second)
                 val storeWay = excelPair!!.first
-                val treatWay = excelPair!!.second
-                foodDataRepository.insert(FoodData(foodName = foodData.iconName, storeLocation = "cool", foodIcon = foodData.iconResource, purchaseStatus = 0, foodCategory = foodData.category, foodNumber = 1, storeWay = storeWay, treatWay = treatWay, expirationDate = "1111년 11월 11일", buyDate = "1111년 11월 11일", uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()))
+                val useDate = excelPair!!.second
+                val treatWay = excelPair!!.third
+                foodDataRepository.insert(FoodData(useDate = useDate,foodName = foodData.iconName, storeLocation = "cool", foodIcon = foodData.iconResource, purchaseStatus = 0, foodCategory = foodData.category, foodNumber = 1, storeWay = storeWay, treatWay = treatWay, expirationDate = "1111년 11월 11일", buyDate = "1111년 11월 11일", uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()))
             }
         }
     }

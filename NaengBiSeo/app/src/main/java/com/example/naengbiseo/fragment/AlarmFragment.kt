@@ -77,6 +77,10 @@ class AlarmFragment : Fragment(){
         settingButton.setOnClickListener {
             findNavController().navigate(R.id.alarmSettingFragment)
         }
+
+        backButtonInAlarmFragment.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onStop() { // back버튼, 홈버튼 누를 시에도 장바구니 최신 데이터를 db에 저장해야하기때문

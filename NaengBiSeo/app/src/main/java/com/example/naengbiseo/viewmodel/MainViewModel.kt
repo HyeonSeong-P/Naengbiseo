@@ -216,7 +216,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var categoryList: MutableList<Pair<String, String>> = mutableListOf()
         if (foodList != null) {
             for (data: FoodData in foodList!!) {
-                categorySet.add(Pair(data.foodCategory, data.storeLocation))
+                if(data.purchaseStatus != 0){
+                    categorySet.add(Pair(data.foodCategory, data.storeLocation))
+                }
             }
             categoryList = categorySet.toList()!!.sortedBy { it.first }.toMutableList()
         }
@@ -230,7 +232,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var buyDateList: MutableList<Pair<String, String>> = mutableListOf()
         if (foodList != null) {
             for (data: FoodData in foodList!!) {
-                buyDateSet.add(Pair(data.buyDate, data.storeLocation))
+                if(data.purchaseStatus != 0){
+                    buyDateSet.add(Pair(data.buyDate, data.storeLocation))
+                }
             }
             buyDateList = buyDateSet.toList()!!.sortedBy { getTime(it.first) }.toMutableList()
         }

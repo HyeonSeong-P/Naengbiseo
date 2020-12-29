@@ -11,7 +11,7 @@ interface ExcelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(inputUserData: ExcelData)
 
-    @Delete // db µ•¿Ã≈Õ ªË¡¶±‚¥…
+    @Delete // db Îç∞Ïù¥ÌÑ∞ ÏÇ≠Ï†úÍ∏∞Îä•
     fun deleteData(food: ExcelData)
 
     @Update
