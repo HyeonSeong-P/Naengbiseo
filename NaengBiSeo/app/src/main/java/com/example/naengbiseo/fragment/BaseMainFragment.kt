@@ -97,28 +97,28 @@ class BaseMainFragment :Fragment(){
         }
 
         viewModel.deleteDataList.observe(viewLifecycleOwner, Observer{
-            val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_dialog, null)
-            //AlertDialogBuilder
-            val builder = AlertDialog.Builder(context)
-                .setView(dialogView)
-                .setCancelable(false)
-            //show dialog
-            val alertDialog = builder.show()
-            //login button click of custom layout
-
             val foodListToBasket = it
-            dialogView.dialogYesButton.setOnClickListener{
-                //dismiss dialog
-                alertDialog.dismiss()
-                for (foodData in foodListToBasket) {
-                    foodData.purchaseStatus = 0
-                    viewModel.insertData(foodData)
+            if (foodListToBasket.isNotEmpty()) {
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_dialog, null)
+                //AlertDialogBuilder
+                val builder = AlertDialog.Builder(context)
+                    .setView(dialogView)
+                    .setCancelable(false)
+                //show dialog
+                val alertDialog = builder.show()
+                dialogView.dialogYesButton.setOnClickListener {
+                    //dismiss dialog
+                    alertDialog.dismiss()
+                    for (foodData in foodListToBasket) {
+                        foodData.purchaseStatus = 0
+                        viewModel.insertData(foodData)
+                    }
                 }
-            }
-            //cancel button click of custom layout
-            dialogView.dialogNoButton.setOnClickListener{
-                //dismiss dialog
-                alertDialog.dismiss()
+                //cancel button click of custom layout
+                dialogView.dialogNoButton.setOnClickListener {
+                    //dismiss dialog
+                    alertDialog.dismiss()
+                }
             }
         })
     }

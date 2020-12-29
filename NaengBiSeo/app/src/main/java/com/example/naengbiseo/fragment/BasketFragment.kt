@@ -19,6 +19,7 @@ import com.example.naengbiseo.adapter.BasketViewAdapter
 import com.example.naengbiseo.adapter.FoodViewAdapter
 import com.example.naengbiseo.adapter.ShoppingCartViewAdapter
 import com.example.naengbiseo.room.AppDatabase
+import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.BasketViewModel
 import com.example.naengbiseo.viewmodel.BasketViewModelFactory
@@ -43,9 +44,11 @@ class BasketFragment :Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ac=activity as MainActivity
-        val dao = AppDatabase.getInstance(ac).foodDao()
-        val repository = FoodDataRepository.getInstance(dao)
-        val factory = BasketViewModelFactory(repository)
+        val dao1 = AppDatabase.getInstance(ac).foodDao()
+        val dao2 = AppDatabase.getInstance(ac).excelDao()
+        val repository1 = FoodDataRepository.getInstance(dao1)
+        val repository2 = ExcelDataRepository.getInstance(dao2)
+        val factory = BasketViewModelFactory(repository1, repository2)
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             BasketViewModel::class.java)
         var viewAdapter = BasketViewAdapter(viewModel)
@@ -81,9 +84,11 @@ class BasketFragment :Fragment(){
 
     override fun onStop() { // back버튼, 홈버튼 누를 시에도 장바구니 최신 데이터를 db에 저장해야하기때문
         val ac=activity as MainActivity
-        val dao = AppDatabase.getInstance(ac).foodDao()
-        val repository = FoodDataRepository.getInstance(dao)
-        val factory = BasketViewModelFactory(repository)
+        val dao1 = AppDatabase.getInstance(ac).foodDao()
+        val dao2 = AppDatabase.getInstance(ac).excelDao()
+        val repository1 = FoodDataRepository.getInstance(dao1)
+        val repository2 = ExcelDataRepository.getInstance(dao2)
+        val factory = BasketViewModelFactory(repository1, repository2)
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             BasketViewModel::class.java)
         for (foodData in viewModel.basketFoodList) { // 지금까지 수정했던 basketFoodList를 가지고 db수정
