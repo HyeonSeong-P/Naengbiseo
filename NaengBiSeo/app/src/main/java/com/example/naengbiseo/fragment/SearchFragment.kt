@@ -1,6 +1,7 @@
 package com.example.naengbiseo.fragment
 
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -41,13 +43,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 프래그먼트에서 키보드 올리기
-        val mInputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        mInputMethodManager.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
-        )
-
+        val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        search_food_edit_text.requestFocus()
+        imm?.showSoftInput(search_food_edit_text,0)
 
         val mainActivity = activity as MainActivity // 프래그먼트에서 액티비티 접근하는 법 꼭 기억하자!!!!
         val dao1 = AppDatabase.getInstance(mainActivity).foodDao()

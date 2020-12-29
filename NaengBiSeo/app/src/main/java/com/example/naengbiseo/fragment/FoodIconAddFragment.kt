@@ -206,6 +206,10 @@ class FoodIconAddFragment : Fragment() {
         //레이아웃 매니저 추가
         search_recyclerview_shopping_cart.layoutManager = gridLayoutManager
 
+        back_button.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         add_food_icon_btn.setOnClickListener{
             if(!findTrue()){
                 Toast.makeText(

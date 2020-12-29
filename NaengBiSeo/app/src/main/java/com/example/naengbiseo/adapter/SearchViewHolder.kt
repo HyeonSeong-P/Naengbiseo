@@ -42,6 +42,8 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     fun bind(foodData: FoodData, position: Int) {
         if (foodData.header == 0 && foodData.Null != 1) {
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+            view.food_icon.setImageResource(foodData.foodIcon)
+            var alpha = view.food_icon.drawable
             var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
             var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
 
@@ -55,12 +57,15 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
             var dDayText: String
             if (dDay > 0) {
+                //alpha.alpha = 153
                 dDayText = "D+" + abs(dDay).toString()
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             } else if (dDay < 0) {
+                //alpha.alpha = 255
                 dDayText = "D-" + abs(dDay - 1).toString()
                 if (abs(dDay - 1) < 4) view.d_day.setTextColor(Color.parseColor("#fb343e"))
             } else {
+                //alpha.alpha = 153
                 dDayText = "D-day"
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
@@ -70,12 +75,17 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
                 "cold" -> view.slt.setText("냉동")
             }
 
-
             view.food_name.setText(foodData.foodName)
             view.food_number.setText(foodData.foodNumber.toString())
-            view.buy_date.setText(dateString)
-            view.d_day.setText(dDayText)
-            view.food_icon.setImageResource(foodData.foodIcon)
+            if(foodData.buyDate == "1111년 11월 11일"){
+                view.buy_date.setText("재료 정보를 기입해주세요")
+                view.d_day.setText("")
+            }
+            else{
+                view.buy_date.setText(dateString)
+                view.d_day.setText(dDayText)
+            }
+
 
         }
 

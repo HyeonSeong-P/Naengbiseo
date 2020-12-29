@@ -40,6 +40,9 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
         if(foodData.header == 0 && foodData.Null != 1){
             view.d_day.setTextColor(Color.parseColor("#666666"))
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+            var foodicon = foodData.foodIcon
+            view.food_icon.setImageResource(foodicon)
+            var alpha = view.food_icon.drawable
             var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
             var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
 
@@ -53,14 +56,17 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
 
             var dDayText:String
             if(dDay>0) {
+                //alpha.alpha = 153
                 dDayText= "D+" + abs(dDay).toString()
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
             else if(dDay<0) {
+                //alpha.alpha = 255
                 dDayText= "D-" + abs(dDay-1).toString()
                 if(abs(dDay-1) < 4) view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
             else {
+                //alpha.alpha = 153
                 dDayText="D-day"
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
@@ -74,8 +80,6 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
                 view.buy_date.setText(dateString)
                 view.d_day.setText(dDayText)
             }
-            view.food_icon.setImageResource(foodData.foodIcon)
-
 
 
 

@@ -63,7 +63,7 @@ class BaseMainFragment :Fragment(){
         // 왜냐면 여기도 뷰모델 온트래쉬버튼(트래시 버튼 이벤트를 call 함)을 이용해 알려주기 때문!
         trashcan_btn.setOnClickListener {
             if(trashcan_state == 0) {
-                trashcan_btn.setBackgroundColor(Color.parseColor("#ff0000"))
+                trashcan_btn.setImageResource(R.drawable.red_trash)
                 viewModel.onTrashButton(1)
                 trashcan_state = 1
             }
@@ -73,7 +73,7 @@ class BaseMainFragment :Fragment(){
                 trashcan_state = 0
                 viewModel.onTrashButton(0)
                 viewModel.clearDelData()
-                trashcan_btn.setBackgroundColor(Color.parseColor("#00ff0000"))
+                trashcan_btn.setImageResource(R.drawable.trash)
             }
         }
 
