@@ -103,6 +103,7 @@ class BaseMainFragment :Fragment(){
             val foodListToBasket = it
             if (foodListToBasket.isNotEmpty()) {
                 val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_dialog, null)
+                dialogView.dialogTextView1.text = MainActivity.pref_user_name.myEditText + "님, 다 드셨네요!"
                 //AlertDialogBuilder
                 val builder = AlertDialog.Builder(context)
                     .setView(dialogView)

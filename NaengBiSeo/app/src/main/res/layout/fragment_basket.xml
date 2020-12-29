@@ -20,9 +20,12 @@
 
     <TextView
         android:id="@+id/basketTextView"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/view1"
+        app:layout_constraintLeft_toLeftOf="@id/view1"
+        app:layout_constraintRight_toRightOf="@id/view1"
+        android:layout_marginTop="22dp"
         android:text="장바구니"
         android:textSize="15sp"
         android:textColor="#333333"
@@ -43,14 +46,27 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
 
+    <TextView
+        android:id="@+id/basketGuideTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#666666"
+        app:layout_constraintLeft_toLeftOf="@id/basketTextView"
+        app:layout_constraintRight_toRightOf="@id/basketTextView"
+        app:layout_constraintTop_toBottomOf="@id/basketTextView"
+        android:layout_marginTop="41dp"/>
+
     <View
         android:id="@+id/basketUnderline"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="17.5dp"
         android:layout_marginHorizontal="13dp"
         android:background="@drawable/category_underline"
-        app:layout_constraintTop_toBottomOf="@id/basketTextView"/>
+        app:layout_constraintTop_toBottomOf="@id/basketGuideTextView"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewInBasketFragment"
@@ -58,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:context=".fragment.BasketFragment"
-        app:layout_constraintTop_toBottomOf="@id/basketTextView"
+        app:layout_constraintTop_toBottomOf="@id/basketUnderline"
         app:layout_constraintBottom_toBottomOf="@id/view1"
         />
 
