@@ -26,9 +26,10 @@ class FoodAddViewModel(
         iconName: String,
         category: String,
         storeWay: String,
+        useDate: String,
         treatWay: String
     ) {
-        var addData: AddData = AddData(foodIcon, iconName, category, storeWay, treatWay)
+        var addData: AddData = AddData(foodIcon, iconName, category, storeWay,useDate, treatWay)
         _icon_data.setValue(addData)
     }
 
@@ -39,13 +40,13 @@ class FoodAddViewModel(
 
     var allExcelData: LiveData<List<ExcelData>> = excelDataRepository.getAllData()
 
-    fun getExcelData(iconName: String): Pair<String, String>? {
-        var excelPair: Pair<String, String>? = Pair("", "")
+    fun getExcelData(iconName: String): Triple<String, String,String>? {
+        var excelPair: Triple<String, String,String>? = Triple("","", "")
         val excelList = allExcelData.value
         if (excelList != null) {
             for (data in excelList) {
                 if (data.iconName == iconName) {
-                    excelPair = Pair(data.storeWay, data.treatWay)
+                    excelPair = Triple(data.storeWay, data.useDate ,data.treatWay)
                     break
                 }
             }

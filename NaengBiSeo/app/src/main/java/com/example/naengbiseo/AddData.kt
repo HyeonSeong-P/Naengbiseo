@@ -8,6 +8,7 @@ class AddData(
     val iconName: String,
     val category: String,
     val storeWay: String,
+    val useData: String,
     val treatWay: String
 ) {
     val getIconName: String
@@ -27,6 +28,11 @@ class AddData(
     val getStoreWay: String
         get() {
             return storeWay
+        }
+
+    val getUseDate: String
+        get() {
+            return useData
         }
 
     val getTreatWay: String

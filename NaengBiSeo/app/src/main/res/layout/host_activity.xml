@@ -74,23 +74,44 @@
                     android:id="@+id/go_to_alarm_button"
                     android:layout_width="18.1dp"
                     android:layout_height="22.7dp"
-                    android:layout_marginRight="10.8dp"
-                    android:background="@drawable/bell"
+                    android:layout_marginRight="12dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/bell"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="@id/search_button"
                     app:layout_constraintRight_toLeftOf="@id/go_to_basket_button"
                     app:layout_constraintTop_toTopOf="@id/search_button" />
+                <ImageView
+                    android:id="@+id/red_spot1"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/red_spot"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toTopOf="@id/go_to_alarm_button"
+                    app:layout_constraintLeft_toRightOf="@id/go_to_alarm_button"/>
 
                 <ImageButton
                     android:id="@+id/go_to_basket_button"
                     android:layout_width="23.2dp"
                     android:layout_height="22.4dp"
+                    android:background="@android:color/transparent"
                     android:layout_marginRight="19dp"
-                    android:background="@drawable/basket"
+                    android:src="@drawable/basket"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="@id/search_button"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/search_button" />
+
+                <ImageView
+                    android:id="@+id/red_spot2"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/red_spot"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toTopOf="@id/go_to_basket_button"
+                    app:layout_constraintLeft_toRightOf="@id/go_to_basket_button"/>
 
 
                 <com.google.android.material.tabs.TabLayout

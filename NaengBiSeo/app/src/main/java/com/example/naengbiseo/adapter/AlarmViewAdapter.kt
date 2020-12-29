@@ -19,7 +19,7 @@ class AlarmViewAdapter(private val viewModel: AlarmViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        return AlarmViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.food_item, parent, false))
+        return AlarmViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.food_item_search_version, parent, false))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

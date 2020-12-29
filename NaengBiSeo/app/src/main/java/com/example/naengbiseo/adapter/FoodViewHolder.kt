@@ -42,7 +42,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
             var foodicon = foodData.foodIcon
             view.food_icon.setImageResource(foodicon)
-            var alpha = view.food_icon.drawable
+
             var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
             var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
 
@@ -56,23 +56,27 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
 
             var dDayText:String
             if(dDay>0) {
-                //alpha.alpha = 153
+                view.food_icon.alpha = 0.6F // 이미지뷰의 투명도 조정.
                 dDayText= "D+" + abs(dDay).toString()
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
             else if(dDay<0) {
-                //alpha.alpha = 255
+                view.food_icon.alpha = 1F
                 dDayText= "D-" + abs(dDay-1).toString()
-                if(abs(dDay-1) < 4) view.d_day.setTextColor(Color.parseColor("#fb343e"))
+                if(abs(dDay-1) < 4) {
+                    view.food_icon.alpha = 0.6F
+                    view.d_day.setTextColor(Color.parseColor("#fb343e"))
+                }
             }
             else {
-                //alpha.alpha = 153
+                view.food_icon.alpha = 0.6F
                 dDayText="D-day"
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }
             view.food_name.setText(foodData.foodName)
             view.food_number.setText(foodData.foodNumber.toString())
             if(foodData.buyDate == "1111년 11월 11일"){
+                view.food_icon.alpha = 1F
                 view.buy_date.setText("재료 정보를 기입해주세요")
                 view.d_day.setText("")
             }

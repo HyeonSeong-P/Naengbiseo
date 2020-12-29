@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity(),
         pref_dDay = MySharedPreferences(applicationContext, "d-day", "5")
         pref_alarm_state = MySharedPreferences(applicationContext, "alarmState", "1")
         val assetManager: AssetManager = resources.assets
-        val inputStream: InputStream = assetManager.open("excelData.txt")
+        val inputStream: InputStream = assetManager.open("excelData2.txt")
 
         setContentView(R.layout.host_activity)
 
@@ -79,16 +80,40 @@ class MainActivity : AppCompatActivity(),
         )
         //searchIconEditText.focus
 
+
+
+        viewModel.allFoodData.observe(this, Observer {
+            if(viewModel.alarmIn()){
+                red_spot1.visibility = View.VISIBLE
+                //go_to_alarm_button.setImageResource(R.drawable.bell_spot)
+            }
+            else if(!viewModel.alarmIn()){
+                red_spot1.visibility = View.INVISIBLE
+                //go_to_alarm_button.setImageResource(R.drawable.bell)
+            }
+
+            if(viewModel.basketIn()){
+                red_spot2.visibility = View.VISIBLE
+                //go_to_basket_button.setImageResource(R.drawable.basket_spot)
+            }
+            else if(!viewModel.basketIn()){
+                red_spot2.visibility = View.INVISIBLE
+                //go_to_basket_button.setImageResource(R.drawable.basket)
+            }
+        })
+
         viewModel.allExcelData.observe(this, Observer {
             if (it.isEmpty()) {
                 Log.d("empty", "비었다@@@@")
 
                 inputStream.bufferedReader().readLines().forEach {
                     var token = it.split("\t")
+                    Log.d("empty", token.toString())
                     var data = ExcelData(
                         iconName = token[0],
-                        storeWay = token[1] + "\n" + token[2],
-                        treatWay = token[3]
+                        storeWay = token[1],
+                        useDate = token[3],
+                        treatWay = token[2]
                     )
                     CoroutineScope(Dispatchers.Main).launch {
                         viewModel.insertExcelData(data)

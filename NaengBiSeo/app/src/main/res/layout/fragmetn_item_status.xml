@@ -292,12 +292,35 @@
                 />
 
             <TextView
+                android:id="@+id/use_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소비기한"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/expiration_date"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="17dp"
+                android:layout_marginLeft="48dp"
+                />
+
+            <EditText
+                android:background="@android:color/transparent"
+                android:id="@+id/use_date_text"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:hint="-"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                app:layout_constraintTop_toTopOf="@id/use_date"
+                app:layout_constraintLeft_toLeftOf="@id/food_edit_text"/>
+
+            <TextView
                 android:id="@+id/memo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="메모"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/expiration_date"
+                app:layout_constraintTop_toBottomOf="@id/use_date_text"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="41dp"
                 android:layout_marginLeft="48dp"
@@ -307,11 +330,10 @@
                 android:theme="@style/EditTheme"
                 android:background="@android:color/transparent"
                 android:id="@+id/memo_edit_text"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:hint="메모하실 내용을 입력해주세요"
                 app:layout_constraintTop_toTopOf="@id/memo"
-                app:layout_constraintBottom_toBottomOf="@id/memo"
                 app:layout_constraintLeft_toLeftOf="@id/food_edit_text"
                 android:textSize="12sp"
                 android:textColor="#333333"/>
@@ -321,7 +343,7 @@
                 android:layout_width="0dp"
                 android:layout_height="10dp"
                 android:background="#13323e52"
-                app:layout_constraintTop_toBottomOf="@id/memo"
+                app:layout_constraintTop_toBottomOf="@id/memo_edit_text"
                 android:layout_marginTop="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

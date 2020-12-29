@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.naengbiseo.MainActivity
 import com.example.naengbiseo.R
 import com.example.naengbiseo.viewmodel.AlarmViewModel
@@ -140,6 +141,9 @@ class AlarmSettingFragment : Fragment(){
             } else {
                 viewModel.setAlarmState(ALARM_DEACTIVATE)
             }
+        }
+        backButtonInSettingFragment.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }

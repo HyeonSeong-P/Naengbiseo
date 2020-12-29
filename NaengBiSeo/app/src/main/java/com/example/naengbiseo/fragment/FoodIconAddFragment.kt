@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_food_icon_add.search_recyclerview
 
 class FoodIconAddFragment : Fragment() {
     var storeWay:String = ""
+    var useDate:String = ""
     var treatWay:String = ""
     var selectList = mutableListOf<Boolean>()
     private val TYPE_CATEGORY_HEADER = 0
@@ -175,10 +176,9 @@ class FoodIconAddFragment : Fragment() {
                             return
                         }
                         storeWay = viewModel.getExcelData(allIconList[position].iconName)!!.first
-                        Log.d("an", storeWay)
-                        Log.d("an","메롱")
-                        treatWay = viewModel.getExcelData(allIconList[position].iconName)!!.second
-                        viewModel.setIcon(allIconList[position].iconResource,allIconList[position].iconName,allIconList[position].category,storeWay,treatWay)
+                        useDate = viewModel.getExcelData(allIconList[position].iconName)!!.second
+                        treatWay = viewModel.getExcelData(allIconList[position].iconName)!!.third
+                        viewModel.setIcon(allIconList[position].iconResource,allIconList[position].iconName,allIconList[position].category,storeWay,useDate,treatWay)
                         v.elevation = 10F
                         selectList[position] = true
                     } else {
