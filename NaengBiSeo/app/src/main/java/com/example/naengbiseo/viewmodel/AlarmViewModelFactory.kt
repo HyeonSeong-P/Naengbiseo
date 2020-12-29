@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodDataRepository
 
-class BasketViewModelFactory(
+class AlarmViewModelFactory(
     private val foodDataRepository: FoodDataRepository,
     private val excelDataRepository: ExcelDataRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return BasketViewModel(foodDataRepository, excelDataRepository) as T
+        return AlarmViewModel(foodDataRepository, excelDataRepository) as T
     }
 }

@@ -1,6 +1,9 @@
 package com.example.naengbiseo
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Rect
 import android.os.Build
@@ -12,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationManagerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.InputStream
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(),
@@ -38,15 +43,26 @@ class MainActivity : AppCompatActivity(),
     lateinit var factory: MainViewModelFactory
     lateinit var viewModel: MainViewModel
     lateinit var imm: InputMethodManager
+    companion object {
+        lateinit var pref_hour : MySharedPreferences
+        lateinit var pref_minute : MySharedPreferences
+        lateinit var pref_am_or_pm : MySharedPreferences
+        lateinit var pref_user_name : MySharedPreferences
+        lateinit var pref_dDay : MySharedPreferences
+        lateinit var pref_alarm_state : MySharedPreferences
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        pref_hour = MySharedPreferences(applicationContext, "hour", "8")
+        pref_minute = MySharedPreferences(applicationContext, "minute", "0")
+        pref_am_or_pm = MySharedPreferences(applicationContext, "am_pm", "오전")
+        pref_user_name = MySharedPreferences(applicationContext, "userName", "주인")
+        pref_dDay = MySharedPreferences(applicationContext, "d-day", "5")
+        pref_alarm_state = MySharedPreferences(applicationContext, "alarmState", "1")
         val assetManager: AssetManager = resources.assets
         val inputStream: InputStream = assetManager.open("excelData.txt")
-
-
 
         setContentView(R.layout.host_activity)
 
@@ -82,13 +98,32 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
-
-
         viewModel.initSortData()
         sort_button.text = "구매순"
         buttonEvent()
         initViewFinal()
 
+//        setAlarm(pref_hour.myEditText.toInt(), pref_minute.myEditText.toInt())
+
+    }
+
+    fun setAlarm(hour: Int, minute: Int) {
+        val alarmIntent = Intent(this, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
+
+        val manager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+        calendar.set(Calendar.SECOND, 0) // 0해도 되겠지?
+
+        manager.setRepeating(
+            AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+            AlarmManager.INTERVAL_DAY, pendingIntent
+        )
+        Log.d("MSG", "set alarm at " + hour + ":" + minute)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -188,6 +223,10 @@ class MainActivity : AppCompatActivity(),
 
         go_to_basket_button.setOnClickListener{
             findNavController(R.id.nav_host_fragment).navigate(R.id.basketFragment)
+        }
+
+        go_to_alarm_button.setOnClickListener{
+            findNavController(R.id.nav_host_fragment).navigate(R.id.alarmFragment)
         }
     }
 

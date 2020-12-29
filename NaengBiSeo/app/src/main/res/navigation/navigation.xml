@@ -123,6 +123,18 @@
         />
 
     <fragment
+        android:id="@+id/alarmFragment"
+        android:label="alarm_Fragment"
+        android:name="com.example.naengbiseo.fragment.AlarmFragment"
+        />
+
+    <fragment
+        android:id="@+id/alarmSettingFragment"
+        android:label="alarm_setting_Fragment"
+        android:name="com.example.naengbiseo.fragment.AlarmSettingFragment"
+        />
+
+    <fragment
         android:id="@+id/settingFragment"
         android:label="setting_fragment"
         android:name="com.example.naengbiseo.fragment.SettingFragment"
