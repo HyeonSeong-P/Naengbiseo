@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(),
         })
 
         viewModel.initSortData()
-        sort_button.text = "구매순"
+        sort_button.text = "항목별"
         buttonEvent()
         initViewFinal()
 

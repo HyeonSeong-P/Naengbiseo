@@ -135,7 +135,7 @@ class MainViewModel(
     val sort_shelf_data: LiveData<Int> get() = _sort_shelf_data
 
     fun initSortData() {
-        _sort_data.setValue(1)
+        _sort_data.setValue(0)
     }
 
     fun setSortData(i: Int) {
@@ -207,7 +207,7 @@ class MainViewModel(
                 fl =
                     allFoodData.value!!.sortedBy { getTime(it.expirationDate) }
                         .toMutableList()
-                //fl.add(0,FoodData(header = 1))
+                //fl!!.add(0,FoodData(header = 1))
             }
             else -> {
                 fl = allFoodData.value!!.toMutableList()

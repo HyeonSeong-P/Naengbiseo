@@ -84,7 +84,6 @@ class BasketFragment :Fragment(){
         (RecyclerViewInBasketFragment.adapter as BasketViewAdapter).setItemClickListener(object :
             BasketViewAdapter.OnItemClickListener {
                 override fun onClick(v: View, position: Int) {
-                    Toast.makeText(context, "position: " + position, Toast.LENGTH_SHORT).show()
                 }
         })
     }
