@@ -14,8 +14,10 @@ import com.example.naengbiseo.viewmodel.MainViewModel
 class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
     RecyclerView.Adapter<FoodViewHolder>() {
 
+    private val TYPE_NULL = 2
     private val TYPE_CATEGORY_HEADER = 1
     private val TYPE_ITEM = 0
+
 
     override fun getItemCount(): Int {
         //Log.d("dataSize",viewModel.getSortedData(1).size.toString())
@@ -37,7 +39,10 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
             1 -> foodList = viewModel.getCoolData()
             else -> foodList = viewModel.getColdData()
         }
-        if (foodList[position].header == 1) {
+        if(foodList!![position].Null == 1){
+            return TYPE_NULL
+        }
+        else if (foodList[position].header == 1) {
             return TYPE_CATEGORY_HEADER
         }
         else return TYPE_ITEM
@@ -47,6 +52,7 @@ class FoodViewAdapter(private val viewModel: MainViewModel, val location: Int) :
         val myLayout: Int = when (viewType) {
             TYPE_CATEGORY_HEADER -> R.layout.main_header
             TYPE_ITEM -> R.layout.food_item
+            TYPE_NULL -> R.layout.no_food_main
             else -> R.layout.fragment_error
         }
         return FoodViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))

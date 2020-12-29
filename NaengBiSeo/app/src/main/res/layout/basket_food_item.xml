@@ -26,6 +26,7 @@
         android:layout_marginLeft="95dp"/>
 
     <EditText
+        android:theme="@style/EditTheme"
         android:id="@+id/foodNameEditText"
         android:layout_width="115dp"
         android:layout_height="wrap_content"

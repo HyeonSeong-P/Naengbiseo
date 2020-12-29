@@ -200,7 +200,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
             }
             2 -> {
                 fl =
-                    allFoodData.value!!.sortedBy { getTime(it.expirationDate) - getTime(it.buyDate) }
+                    allFoodData.value!!.sortedBy { getTime(it.expirationDate) }
                         .toMutableList()
                 //fl.add(0,FoodData(header = 1))
             }
@@ -259,6 +259,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 sortDataSet.add(cData.)
             }*/
         }
+        if(coldFoodData.isEmpty()){
+            coldFoodData.add(FoodData(Null = 1))
+        }
         return coldFoodData.toList()
     }
 
@@ -271,6 +274,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 }
             }
         }
+        if(coolFoodData.isEmpty()){
+            coolFoodData.add(FoodData(Null = 1))
+        }
         return coolFoodData.toList()
     }
 
@@ -282,6 +288,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                     shelfFoodData.add(data)
                 }
             }
+        }
+        if(shelfFoodData.isEmpty()){
+            shelfFoodData.add(FoodData(Null = 1))
         }
         return shelfFoodData.toList()
     }
@@ -314,7 +323,14 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         foodData: FoodData,
         compareTriple: Triple<String, String, String>
     ): Boolean {
-        return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == compareTriple.third
+        var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
+        var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+
+        var realExpDate = simpleFormat2.parse(compareTriple.third) // 문자열로 부터 날짜 들고오기!
+
+        var dateString = simpleFormat.format(realExpDate)
+        Log.d("ss",dateString)
+        return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == dateString
     }
     // 재료 정보창으로 정보 넘기기 위한것. 끝
 
@@ -353,5 +369,12 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         }
 
         return searchDataList.toList()
+    }
+
+    private val _location_data = SingleLiveEvent<Int>() // 내부에서 작동
+    val location_data: LiveData<Int> get() = _location_data // 외부로 노출
+
+    fun setLocation(i:Int){
+        _location_data.setValue(i)
     }
 }
