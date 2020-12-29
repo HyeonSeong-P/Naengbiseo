@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -52,6 +53,8 @@ class MainActivity : AppCompatActivity(),
         lateinit var pref_dDay : MySharedPreferences
         lateinit var pref_alarm_state : MySharedPreferences
     }
+    private val ALARM_ACTIVATE = "1"
+    private val ALARM_DEACTIVATE = "0"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,27 +131,42 @@ class MainActivity : AppCompatActivity(),
         buttonEvent()
         initViewFinal()
 
-//        setAlarm(pref_hour.myEditText.toInt(), pref_minute.myEditText.toInt())
+        if(pref_alarm_state.myEditText == ALARM_ACTIVATE) {
+            setAlarm(pref_hour.myEditText.toInt(), pref_minute.myEditText.toInt())
+        } else if (pref_alarm_state.myEditText == ALARM_DEACTIVATE) {
+            cancelAlarm()
+        }
+    }
 
+    fun cancelAlarm() {
+        val manager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, BroadcastD::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
+        if (pendingIntent != null) {
+            manager.cancel(pendingIntent)
+            pendingIntent.cancel()
+//            Toast.makeText(applicationContext, "알람을 취소했습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun setAlarm(hour: Int, minute: Int) {
-        val alarmIntent = Intent(this, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
-
         val manager = getSystemService(ALARM_SERVICE) as AlarmManager
-
+        val alarmIntent = Intent(this, BroadcastD::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
         val calendar: Calendar = Calendar.getInstance()
+
+        //알람시간 calendar에 set해주기
         calendar.setTimeInMillis(System.currentTimeMillis())
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
-        calendar.set(Calendar.SECOND, 0) // 0해도 되겠지?
-
-        manager.setRepeating(
-            AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-            AlarmManager.INTERVAL_DAY, pendingIntent
-        )
-        Log.d("MSG", "set alarm at " + hour + ":" + minute)
+        calendar.set(Calendar.SECOND, 0)
+        // 이미 지난 시간을 지정했다면 다음날 같은 시간으로 설정 - 이렇게 안하면 이 함수가 호출될때마다 지나갈 알림도 뜸
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1)
+        }
+        //알람 예약 - 이미 예약된 경우 새로 덮어씀
+        manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent)
+//        Toast.makeText(applicationContext, hour.toString() + ":" + minute + "에 알람을 설정하였습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

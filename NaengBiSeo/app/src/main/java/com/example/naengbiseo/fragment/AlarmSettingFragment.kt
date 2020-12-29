@@ -35,7 +35,8 @@ class AlarmSettingFragment : Fragment(){
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var viewModel = ViewModelProvider(requireParentFragment()).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
+        val ac = activity as MainActivity
+        val viewModel = ViewModelProvider(requireParentFragment()).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             AlarmViewModel::class.java)
 
         viewModel.setUserName(MainActivity.pref_user_name.myEditText)
@@ -44,6 +45,18 @@ class AlarmSettingFragment : Fragment(){
         viewModel.set_d_day(MainActivity.pref_dDay.myEditText.toInt())
         viewModel.setAlarmState(MainActivity.pref_alarm_state.myEditText)
 
+        viewModel.alarmState.observe(viewLifecycleOwner, Observer{
+            // 알람 활성화 되면 setAlarm()
+            if (it == ALARM_ACTIVATE) {
+                alarmSwitch.isChecked = true
+                ac.setAlarm(MainActivity.pref_hour.myEditText.toInt(), MainActivity.pref_minute.myEditText.toInt())
+            }
+            // 알람 비활성화 되면 cancelAlarm()
+            else if (it == ALARM_DEACTIVATE) {
+                alarmSwitch.isChecked = false
+                ac.cancelAlarm()
+            }
+        })
         viewModel.alarm_am_or_pm.observe(viewLifecycleOwner, Observer{
             am_or_pm.text = it
         })
@@ -67,6 +80,7 @@ class AlarmSettingFragment : Fragment(){
             //AlertDialogBuilder
             val builder = AlertDialog.Builder(context)
                 .setView(dialogView)
+            // 시침 분침을 이전에 저장한 값으로 설정
             dialogView.myTimePicker.hour = MainActivity.pref_hour.myEditText.toInt()
             dialogView.myTimePicker.minute = MainActivity.pref_minute.myEditText.toInt()
             //show dialog
@@ -78,9 +92,11 @@ class AlarmSettingFragment : Fragment(){
             dialogView.dialogSaveButton.setOnClickListener {
                 val currentHourText: String = dialogView.myTimePicker.hour.toString()
                 val currentMinuteText: String = dialogView.myTimePicker.minute.toString()
-//                val am_or_pm = dialogView.myTimePicker.
-                Log.d("MSG", "hour: " + currentHourText)
-                Log.d("MSG", "minute: " + currentMinuteText)
+
+                // 알람 활성화 상태에서 시간을 수정할 경우 setAlarm()
+                if (MainActivity.pref_alarm_state.myEditText == ALARM_ACTIVATE) {
+                    ac.setAlarm(currentHourText.toInt(), currentMinuteText.toInt())
+                }
                 viewModel.setHour(currentHourText)
                 viewModel.setMinute(currentMinuteText)
 
