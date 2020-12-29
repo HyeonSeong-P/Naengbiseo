@@ -136,7 +136,8 @@ class ItemStatusFragment : Fragment() {
             val expiration_date = expiration_date_text.text.toString()
             val purchase_date=purchase_date_text.text.toString()
             var memo= memo_edit_text.text.toString()
-
+            val store_way = store_edit_text.text.toString()
+            val treat_way = treat_edit_text.text.toString()
             val radio_btn_id = radio_group.checkedRadioButtonId
 
             foodData?.foodName = food_name
@@ -144,7 +145,8 @@ class ItemStatusFragment : Fragment() {
             foodData?.buyDate = purchase_date
             foodData?.expirationDate = expiration_date
             foodData?.foodMemo = memo
-            viewModel.updateData(foodData!!)
+            foodData?.storeWay = store_way
+            foodData?.treatWay = treat_way
             when(radio_btn_id) {
                 radio_btn1.id -> {
                     foodData?.storeLocation = "shelf"
@@ -160,12 +162,13 @@ class ItemStatusFragment : Fragment() {
                     return@setOnClickListener
                 }
             }
+            viewModel.updateData(foodData!!)
             findNavController().navigateUp()
         }
 
         purchase_button.setOnClickListener{
             val cal1 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
+            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
                 var M= m+1
                 purchase_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" }, // 이상하게 월은 0월부터네.. +1 해주자
                 cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DATE)).show()
@@ -173,7 +176,7 @@ class ItemStatusFragment : Fragment() {
 
         expiration_button.setOnClickListener {
             val cal2 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
+            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
                 var M= m+1
                 expiration_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" },
                 cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DATE)).show()
@@ -208,7 +211,8 @@ class ItemStatusFragment : Fragment() {
                 val expiration_date = expiration_date_text.text.toString()
                 val purchase_date=purchase_date_text.text.toString()
                 var memo= memo_edit_text.text.toString()
-
+                val store_way = store_edit_text.text.toString()
+                val treat_way = treat_edit_text.text.toString()
                 val radio_btn_id = radio_group.checkedRadioButtonId
 
                 foodData?.foodName = food_name
@@ -216,7 +220,9 @@ class ItemStatusFragment : Fragment() {
                 foodData?.buyDate = purchase_date
                 foodData?.expirationDate = expiration_date
                 foodData?.foodMemo = memo
-                viewModel.updateData(foodData!!)
+                foodData?.storeWay = store_way
+                foodData?.treatWay = treat_way
+
                 when(radio_btn_id) {
                     radio_btn1.id -> {
                         foodData?.storeLocation = "shelf"
@@ -232,6 +238,7 @@ class ItemStatusFragment : Fragment() {
                         return
                     }
                 }
+                viewModel.updateData(foodData!!)
                 findNavController().navigateUp()
             }
         }

@@ -16,8 +16,22 @@
 
         <item name="android:textAppearanceLargePopupMenu">@style/myPopupMenuTextAppearanceLarge</item>
 
-
     </style>
+
+
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#95aed7</item>
+    </style>
+
+
+
+    <!-- Splash Screen theme.-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
 
     <!-- Change Overflow Menu ListView Divider Property -->
     <style name="PopupMenuListView" parent="@android:style/Widget.Holo.ListView.DropDown">

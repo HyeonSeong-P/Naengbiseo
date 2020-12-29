@@ -370,4 +370,11 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
 
         return searchDataList.toList()
     }
+
+    private val _location_data = SingleLiveEvent<Int>() // 내부에서 작동
+    val location_data: LiveData<Int> get() = _location_data // 외부로 노출
+
+    fun setLocation(i:Int){
+        _location_data.setValue(i)
+    }
 }

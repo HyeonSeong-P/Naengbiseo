@@ -223,6 +223,7 @@
                     android:layout_marginLeft="48dp"
                     />
                 <EditText
+                    android:inputType="number"
                     android:theme="@style/EditTheme"
                     android:id="@+id/food_number_edit_text"
                     android:layout_width="wrap_content"

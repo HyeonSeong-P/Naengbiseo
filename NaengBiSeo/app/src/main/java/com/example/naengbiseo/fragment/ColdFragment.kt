@@ -92,15 +92,16 @@ class ColdFragment : Fragment() {
             FoodViewAdapter.OnItemClickListener {
             @RequiresApi(Build.VERSION_CODES.Q)
             override fun onClick(v: View, position: Int) {
-                if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
-                    realBuyDate = simpleFormat2.parse("1111. 11. 11")
-                    dateString = simpleFormat.format(realBuyDate)
-                }
-                else{
-                    realBuyDate = simpleFormat2.parse(v.buy_date.text.toString())
-                    dateString = simpleFormat.format(realBuyDate)
-                }
+
                 if(v.id == R.id.food_item_layout){
+                    if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                        realBuyDate = simpleFormat2.parse("1111. 11. 11")
+                        dateString = simpleFormat.format(realBuyDate)
+                    }
+                    else{
+                        realBuyDate = simpleFormat2.parse(v.buy_date.text.toString())
+                        dateString = simpleFormat.format(realBuyDate)
+                    }
                     if (sel == 1) {
                         v.check_box.toggle()
                         if (v.check_box.isChecked) {

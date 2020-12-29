@@ -73,7 +73,7 @@ class BaseMainFragment :Fragment(){
                 trashcan_state = 0
                 viewModel.onTrashButton(0)
                 viewModel.clearDelData()
-                trashcan_btn.setBackgroundColor(Color.parseColor("#ffffff"))
+                trashcan_btn.setBackgroundColor(Color.parseColor("#00ff0000"))
             }
         }
 
@@ -91,6 +91,9 @@ class BaseMainFragment :Fragment(){
         //view_pager_main.currentItem = args.ar.toInt();
         view_pager_main.setCurrentItem(1, false)
 
+        viewModel.location_data.observe(viewLifecycleOwner, Observer{
+            view_pager_main.setCurrentItem(it, false)
+        })
 
         go_to_add_item_page_btn.setOnClickListener{
             findNavController().navigate(R.id.action_mainFragment_to_foodAddFragment)
