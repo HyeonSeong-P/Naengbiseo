@@ -92,9 +92,9 @@ class CoolFragment: Fragment() {
 
                         v.check_box.toggle()
                         if (v.check_box.isChecked) {
-                            viewModel.addDelData(v.food_name.text.toString(),"cool",dateString)
+                            viewModel.addDelData(v.food_name.text.toString(),"cool",dateString,v.unique_id.text.toString().toInt())
                         } else {
-                            viewModel.removeDelData(v.food_name.text.toString(),"cool",dateString)
+                            viewModel.removeDelData(v.food_name.text.toString(),"cool",dateString,v.unique_id.text.toString().toInt())
                         }
                     }
                     else{

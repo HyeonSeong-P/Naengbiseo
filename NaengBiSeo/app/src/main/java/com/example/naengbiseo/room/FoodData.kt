@@ -25,6 +25,7 @@ data class FoodData(
     @ColumnInfo(name = "보관방법") var storeWay: String = "", // 기본값
     @ColumnInfo(name = "처리방법") var treatWay: String = "", // 기본값
     @ColumnInfo(name = "유통기한") var expirationDate: String = "",
+    @ColumnInfo(name = "소비기한") var useDate: String = "",
     @ColumnInfo(name = "구매일자") var buyDate: String = "",
     @ColumnInfo(name = "헤더") var header: Int = 0,
     @ColumnInfo(name = "없음") var Null: Int = 0,

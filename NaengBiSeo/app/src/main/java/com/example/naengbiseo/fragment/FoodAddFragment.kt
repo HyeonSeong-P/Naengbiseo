@@ -36,6 +36,7 @@ class FoodAddFragment: Fragment() {
     var foodIcon: Int = 0
     var foodCategory:String = ""
     var storeWay:String = ""
+    var useDate:String = ""
     var treatWay:String = ""
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +71,7 @@ class FoodAddFragment: Fragment() {
             foodIcon = it.getfoodIcon
             foodCategory = it.getCategory
             storeWay = it.getStoreWay
+            useDate = it.getUseDate
             treatWay = it.getTreatWay
             go_to_select_button.setImageResource(it.getfoodIcon)
             food_edit_text.setText(it.getIconName)
@@ -95,17 +97,17 @@ class FoodAddFragment: Fragment() {
                 val food_number = food_number_text.toInt()
                 when(radio_btn_id) {
                     radio_btn1.id -> {
-                        viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()) ) // 음식 정보 저장
+                        viewModel.insertData(FoodData(useDate = useDate,storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()) ) // 음식 정보 저장
                         food_edit_text.setText("")
                         viewModel2.setLocation(0)
                     }
                     radio_btn2.id -> {
-                        viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
+                        viewModel.insertData(FoodData(useDate = useDate,storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
                         viewModel2.setLocation(1)
                     }
                     radio_btn3.id -> {
-                        viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
+                        viewModel.insertData(FoodData(useDate = useDate,storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
                         viewModel2.setLocation(2)
                     }

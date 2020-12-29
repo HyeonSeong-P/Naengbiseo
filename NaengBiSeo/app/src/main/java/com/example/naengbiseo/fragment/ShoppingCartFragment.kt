@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -144,6 +145,7 @@ class ShoppingCartFragment: Fragment() {
             BasketViewModel::class.java)
         val selectedIconList = mutableListOf<FoodIcon>()
 
+
         iconList.clear() // iconList가 검색으로 인해서 바껴있을 수도 있기때문에 원소를 추가하기 전 clear부터
         iconList.addAll(allIconList)
 
@@ -174,18 +176,21 @@ class ShoppingCartFragment: Fragment() {
             Log.d("MSG","Button clicked")
         }
 
-        addIconsToBasketButton.setOnClickListener { // 등록하기 버튼 - 누를시 db에 insert한 후 장바구니 페이지로 이동
-            var myStr = ""
-            for(i in 0 until selectedIconList.size) {
-                myStr += selectedIconList[i].iconName + ", "
-            }
-            Log.d("MSG", "add icons name: " + myStr)
-            viewModel.insertDataList(selectedIconList)
-            findNavController().navigate(R.id.action_shoppingCartFragment_to_basketFragment)
+        viewModel.allExcelData.observe(viewLifecycleOwner, Observer {
+            addIconsToBasketButton.setOnClickListener { // 등록하기 버튼 - 누를시 db에 insert한 후 장바구니 페이지로 이동
+                var myStr = ""
+                for(i in 0 until selectedIconList.size) {
+                    myStr += selectedIconList[i].iconName + ", "
+                }
+                Log.d("MSG", "add icons name: " + myStr)
+                viewModel.insertDataList(selectedIconList)
+                findNavController().navigate(R.id.action_shoppingCartFragment_to_basketFragment)
 //            selectedIconList.clear()
 //            horizontalViewAdapter.iconList = selectedIconList
 //            viewModel.setIcon(selectedIconList)
-        }
+            }
+        })
+
 
         (verticalRecyclerViewInShoppingCart.adapter as ShoppingCartViewAdapter).setItemClickListener(object : ShoppingCartViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {

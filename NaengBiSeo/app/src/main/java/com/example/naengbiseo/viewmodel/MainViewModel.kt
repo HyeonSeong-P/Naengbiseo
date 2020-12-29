@@ -3,6 +3,7 @@ package com.example.naengbiseo.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.naengbiseo.DelData
 import com.example.naengbiseo.room.ExcelData
 import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodData
@@ -16,28 +17,32 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.log
 
-class MainViewModel(private val foodDataRepository: FoodDataRepository, private val excelDataRepository: ExcelDataRepository) : ViewModel() {
+class MainViewModel(
+    private val foodDataRepository: FoodDataRepository,
+    private val excelDataRepository: ExcelDataRepository
+) : ViewModel() {
+
 
     var allExcelData: LiveData<List<ExcelData>> = excelDataRepository.getAllData()
 
-    fun excelIsEmpty():Boolean{
+    fun excelIsEmpty(): Boolean {
         return allExcelData.value == null
     }
 
-    private val _del_data = SingleLiveEvent<MutableList<Triple<String, String, String>>>()
-    val del_data: LiveData<MutableList<Triple<String, String, String>>> get() = _del_data
-    val copyDelList: MutableList<Triple<String, String, String>> =
-        mutableListOf<Triple<String, String, String>>()
+    private val _del_data = SingleLiveEvent<MutableList<DelData>>()
+    val del_data: LiveData<MutableList<DelData>> get() = _del_data
+    val copyDelList: MutableList<DelData> =
+        mutableListOf<DelData>()
 
-    fun addDelData(foodName: String, storeLocation: String, buyDate: String) {
+    fun addDelData(foodName: String, storeLocation: String, buyDate: String, uniqueId: Int) {
         Log.d("dd", "추가됐음")
-        copyDelList.add(Triple(foodName, storeLocation, buyDate))
+        copyDelList.add(DelData(foodName, storeLocation, buyDate, uniqueId))
         _del_data.setValue(copyDelList)
     }
 
-    fun removeDelData(foodName: String, storeLocation: String, buyDate: String) {
+    fun removeDelData(foodName: String, storeLocation: String, buyDate: String, uniqueId: Int) {
         Log.d("dd", "제거됐음")
-        copyDelList.remove(Triple(foodName, storeLocation, buyDate))
+        copyDelList.remove(DelData(foodName, storeLocation, buyDate, uniqueId))
         _del_data.setValue(copyDelList)
     }
 
@@ -45,7 +50,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         _del_data.value?.clear()
     }
 
-    fun getDelData(): MutableList<Triple<String, String, String>>? {
+    fun getDelData(): MutableList<DelData>? {
         return _del_data.value
     }
 
@@ -96,6 +101,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
     fun insertExcelData(excelData: ExcelData) {
         viewModelScope.launch { excelDataRepository.insert(excelData) }
     }
+
     fun deleteData() {
         var foodList: List<FoodData>? = allFoodData.value
         var dList = del_data.value
@@ -104,7 +110,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
             if (dList != null) {
                 for (triple in dList) {
                     for (foodData in foodList) {
-                        if (foodData.foodName == triple.first && foodData.storeLocation == triple.second && foodData.buyDate == triple.third) {
+                        if (foodData.foodName == triple.getFoodName && foodData.storeLocation == triple.getStoreLocation && foodData.buyDate == triple.getBuyDate && foodData.uniqueId == triple.getUniqueId) {
                             delDataList.add(foodData)
                             viewModelScope.launch {
                                 foodDataRepository.delete(foodData)
@@ -130,7 +136,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
     val sort_shelf_data: LiveData<Int> get() = _sort_shelf_data
 
     fun initSortData() {
-        _sort_data.setValue(1)
+        _sort_data.setValue(0)
     }
 
     fun setSortData(i: Int) {
@@ -202,7 +208,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 fl =
                     allFoodData.value!!.sortedBy { getTime(it.expirationDate) }
                         .toMutableList()
-                //fl.add(0,FoodData(header = 1))
+                //fl!!.add(0,FoodData(header = 1))
             }
             else -> {
                 fl = allFoodData.value!!.toMutableList()
@@ -216,7 +222,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var categoryList: MutableList<Pair<String, String>> = mutableListOf()
         if (foodList != null) {
             for (data: FoodData in foodList!!) {
-                categorySet.add(Pair(data.foodCategory, data.storeLocation))
+                if (data.purchaseStatus != 0) {
+                    categorySet.add(Pair(data.foodCategory, data.storeLocation))
+                }
             }
             categoryList = categorySet.toList()!!.sortedBy { it.first }.toMutableList()
         }
@@ -230,7 +238,9 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         var buyDateList: MutableList<Pair<String, String>> = mutableListOf()
         if (foodList != null) {
             for (data: FoodData in foodList!!) {
-                buyDateSet.add(Pair(data.buyDate, data.storeLocation))
+                if (data.purchaseStatus != 0) {
+                    buyDateSet.add(Pair(data.buyDate, data.storeLocation))
+                }
             }
             buyDateList = buyDateSet.toList()!!.sortedBy { getTime(it.first) }.toMutableList()
         }
@@ -259,7 +269,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 sortDataSet.add(cData.)
             }*/
         }
-        if(coldFoodData.isEmpty()){
+        if (coldFoodData.isEmpty()) {
             coldFoodData.add(FoodData(Null = 1))
         }
         return coldFoodData.toList()
@@ -274,7 +284,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 }
             }
         }
-        if(coolFoodData.isEmpty()){
+        if (coolFoodData.isEmpty()) {
             coolFoodData.add(FoodData(Null = 1))
         }
         return coolFoodData.toList()
@@ -289,7 +299,7 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 }
             }
         }
-        if(shelfFoodData.isEmpty()){
+        if (shelfFoodData.isEmpty()) {
             shelfFoodData.add(FoodData(Null = 1))
         }
         return shelfFoodData.toList()
@@ -323,13 +333,13 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
         foodData: FoodData,
         compareTriple: Triple<String, String, String>
     ): Boolean {
-        var simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
-        var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+        var simpleFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+        var simpleFormat2 = SimpleDateFormat("yyyy. MM. dd")
 
         var realExpDate = simpleFormat2.parse(compareTriple.third) // 문자열로 부터 날짜 들고오기!
 
         var dateString = simpleFormat.format(realExpDate)
-        Log.d("ss",dateString)
+        Log.d("ss", dateString)
         return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == dateString
     }
     // 재료 정보창으로 정보 넘기기 위한것. 끝
@@ -352,20 +362,18 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
                 foodList.filter { it.foodName.contains(_search_data.value!!) }.toMutableList()
             searchDataList.add(0, FoodData(header = 1))
         } */
-        if(text == null || text == ""){
+        if (text == null || text == "") {
             searchDataList.add(FoodData(header = 1))
 
-        }
-        else if (foodList != null && text != null ){
-            for(data in foodList){
-                if(data.foodName.contains(text)){
+        } else if (foodList != null && text != null) {
+            for (data in foodList) {
+                if (data.foodName.contains(text)) {
                     searchDataList.add(data)
                 }
             }
-            if(searchDataList.size == 0){
+            if (searchDataList.size == 0) {
                 searchDataList.add(FoodData(Null = 1))
-            }
-            else searchDataList.add(0, FoodData(header = 1))
+            } else searchDataList.add(0, FoodData(header = 1))
         }
 
         return searchDataList.toList()
@@ -374,7 +382,44 @@ class MainViewModel(private val foodDataRepository: FoodDataRepository, private 
     private val _location_data = SingleLiveEvent<Int>() // 내부에서 작동
     val location_data: LiveData<Int> get() = _location_data // 외부로 노출
 
-    fun setLocation(i:Int){
+    fun setLocation(i: Int) {
         _location_data.setValue(i)
+    }
+
+    fun basketIn(): Boolean {
+        var flag: Boolean = false
+        val foodList = allFoodData.value
+        if (foodList != null) {
+            for (foodData in foodList) {
+                if (foodData.purchaseStatus == 0) {
+                    flag = true
+                }
+            }
+        }
+        return flag
+    }
+
+    fun alarmIn(): Boolean {
+        var flag: Boolean = false
+        var simpleFormat: SimpleDateFormat
+        var realExpDate: Date?
+        var today: Calendar?
+        var dDay: Long
+        val foodList = allFoodData.value
+        if (foodList != null) {
+            for (foodData in foodList) {
+                simpleFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+                realExpDate = simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
+                today = Calendar.getInstance() // 현재 날짜
+                dDay = (today.time.time - realExpDate.time) / (60 * 60 * 24 * 1000)
+                if (dDay >= 0 || (Math.abs(dDay - 1) < 4 && dDay < 0)) {
+                    if (foodData.expirationDate != "1111년 11월 11일" && foodData.purchaseStatus != 0) {
+                        flag = true
+                        break
+                    }
+                }
+            }
+        }
+        return flag
     }
 }
