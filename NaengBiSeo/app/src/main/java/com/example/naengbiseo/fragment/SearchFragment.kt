@@ -25,7 +25,10 @@ import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.MainViewModel
 import com.example.naengbiseo.viewmodel.MainViewModelFactory
+import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.food_item_search_version.view.*
+import kotlinx.android.synthetic.main.food_item_search_version.view.buy_date
+import kotlinx.android.synthetic.main.food_item_search_version.view.food_name
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
@@ -68,6 +71,7 @@ class SearchFragment : Fragment() {
         (search_recyclerview.adapter as SearchViewAdapter).setItemClickListener(object :
             SearchViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
+
                 var location_text: String = ""
                 Log.d("s", "클릭")
                 when (v.slt.text.toString()) {
@@ -81,11 +85,21 @@ class SearchFragment : Fragment() {
                         location_text = "cold"
                     }
                 }
-                viewModel.setCompareData(
-                    v.food_name.text.toString(),
-                    location_text,
-                    v.buy_date.text.toString()
-                )
+                if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                    viewModel.setCompareData(
+                        v.food_name.text.toString(),
+                        location_text,
+                        "1111. 11. 11"
+                    )
+                }
+                else{
+                    viewModel.setCompareData(
+                        v.food_name.text.toString(),
+                        location_text,
+                        v.buy_date.text.toString()
+                    )
+                }
+
                 findNavController().navigate(R.id.itemStatusFragment)
             }
         })

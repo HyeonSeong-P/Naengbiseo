@@ -110,8 +110,14 @@ class ItemStatusFragment : Fragment() {
             go_to_select_button.setImageResource(foodData!!.foodIcon)
             food_edit_text.setText(foodData!!.foodName)
             food_number_edit_text.setText(foodData!!.foodNumber.toString())
-            purchase_date_text.setText(foodData!!.buyDate)
-            expiration_date_text.setText(foodData!!.expirationDate)
+            if(foodData!!.buyDate == "1111년 11월 11일" && foodData!!.expirationDate == "1111년 11월 11일"){
+                purchase_date_text.setText("구매일자를 선택하세요")
+                expiration_date_text.setText("유통기한을 선택하세요")
+            }
+            else{
+                purchase_date_text.setText(foodData!!.buyDate)
+                expiration_date_text.setText(foodData!!.expirationDate)
+            }
             memo_edit_text.setText(foodData!!.foodMemo)
             store_edit_text.setText(foodData!!.storeWay)
             use_date_text.setText(foodData!!.useDate)
@@ -144,8 +150,14 @@ class ItemStatusFragment : Fragment() {
 
             foodData?.foodName = food_name
             foodData?.foodNumber = foodNum
-            foodData?.buyDate = purchase_date
-            foodData?.expirationDate = expiration_date
+            if(purchase_date == "구매일자를 선택하세요" || expiration_date == "유통기한을 선택하세요"){
+                foodData?.buyDate = "1111년 11월 11일"
+                foodData?.expirationDate = "1111년 11월 11일"
+            }
+            else{
+                foodData?.buyDate = purchase_date
+                foodData?.expirationDate = expiration_date
+            }
             foodData?.foodMemo = memo
             foodData?.storeWay = store_way
             foodData?.treatWay = treat_way

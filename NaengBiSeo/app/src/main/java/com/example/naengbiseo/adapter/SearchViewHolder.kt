@@ -41,6 +41,7 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(foodData: FoodData, position: Int) {
         if (foodData.header == 0 && foodData.Null != 1) {
+            view.d_day.setTextColor(Color.parseColor("#666666"))
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
             view.food_icon.setImageResource(foodData.foodIcon)
             var alpha = view.food_icon.drawable
@@ -58,14 +59,20 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             var dDayText: String
             if (dDay > 0) {
                 //alpha.alpha = 153
+                view.food_icon.alpha = 0.6F
                 dDayText = "D+" + abs(dDay).toString()
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             } else if (dDay < 0) {
                 //alpha.alpha = 255
+                view.food_icon.alpha = 1.0F
                 dDayText = "D-" + abs(dDay - 1).toString()
-                if (abs(dDay - 1) < 4) view.d_day.setTextColor(Color.parseColor("#fb343e"))
+                if (abs(dDay - 1) < 4) {
+                    view.food_icon.alpha = 0.6F
+                    view.d_day.setTextColor(Color.parseColor("#fb343e"))
+                }
             } else {
                 //alpha.alpha = 153
+                view.food_icon.alpha = 0.6F
                 dDayText = "D-day"
                 view.d_day.setTextColor(Color.parseColor("#fb343e"))
             }

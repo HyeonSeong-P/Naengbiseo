@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
@@ -75,6 +76,28 @@ class MainActivity : AppCompatActivity(),
             MainViewModel::class.java
         )
         //searchIconEditText.focus
+
+
+
+        viewModel.allFoodData.observe(this, Observer {
+            if(viewModel.alarmIn()){
+                red_spot1.visibility = View.VISIBLE
+                //go_to_alarm_button.setImageResource(R.drawable.bell_spot)
+            }
+            else if(!viewModel.alarmIn()){
+                red_spot1.visibility = View.INVISIBLE
+                //go_to_alarm_button.setImageResource(R.drawable.bell)
+            }
+
+            if(viewModel.basketIn()){
+                red_spot2.visibility = View.VISIBLE
+                //go_to_basket_button.setImageResource(R.drawable.basket_spot)
+            }
+            else if(!viewModel.basketIn()){
+                red_spot2.visibility = View.INVISIBLE
+                //go_to_basket_button.setImageResource(R.drawable.basket)
+            }
+        })
 
         viewModel.allExcelData.observe(this, Observer {
             if (it.isEmpty()) {

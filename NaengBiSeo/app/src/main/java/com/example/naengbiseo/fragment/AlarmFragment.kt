@@ -20,6 +20,7 @@ import com.example.naengbiseo.room.FoodDataRepository
 import com.example.naengbiseo.viewmodel.AlarmViewModel
 import com.example.naengbiseo.viewmodel.BasketViewModel
 import com.example.naengbiseo.viewmodel.AlarmViewModelFactory
+import com.example.naengbiseo.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.alarm_fragment.*
 import kotlinx.android.synthetic.main.fragment_basket.*
 import java.text.SimpleDateFormat
@@ -36,12 +37,13 @@ class AlarmFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ac=activity as MainActivity
+        val ac= activity as MainActivity
         val dao1 = AppDatabase.getInstance(ac).foodDao()
         val dao2 = AppDatabase.getInstance(ac).excelDao()
         val repository1 = FoodDataRepository.getInstance(dao1)
         val repository2 = ExcelDataRepository.getInstance(dao2)
         val factory = AlarmViewModelFactory(repository1, repository2)
+
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             AlarmViewModel::class.java)
         var viewAdapter = AlarmViewAdapter(viewModel)
@@ -51,6 +53,7 @@ class AlarmFragment : Fragment(){
         RecyclerViewInAlarmFragment.adapter = viewAdapter
         RecyclerViewInAlarmFragment.layoutManager = LinearLayoutManager(activity)
 
+
         // db가 변동될경우 실행됨
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
             var dDayFoodList = mutableListOf<Pair<FoodData, Long>>()
@@ -59,7 +62,8 @@ class AlarmFragment : Fragment(){
             for (foodData in it) { // filtering
                 val realExpDate =simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
                 val dDay = (today.time.time - realExpDate.time) / (60 * 60 * 24 * 1000)
-                if (dDay + my_d_day > 0) {
+
+                if (dDay + my_d_day > 0 && foodData.buyDate != "1111년 11월 11일") {
                     dDayFoodList.add(Pair(foodData, dDay))
                 }
             }

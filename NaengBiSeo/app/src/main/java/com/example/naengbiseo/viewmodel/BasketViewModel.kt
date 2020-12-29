@@ -67,6 +67,19 @@ class BasketViewModel (
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    fun getBasketData(): List<FoodData> {
+        var basketList = mutableListOf<FoodData>()
+        val foodList = allFoodData.value
+        if(foodList != null){
+            for(foodData in foodList){
+                if(foodData.purchaseStatus == 0){
+                    basketList.add(foodData)
+                }
+            }
+        }
+        return basketList.toList()
+    }
+
     fun getExcelData(iconName: String): Triple<String, String,String>? {
         var excelPair: Triple<String, String,String>? = Triple("","", "")
         val excelList = allExcelData.value

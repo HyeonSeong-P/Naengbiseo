@@ -131,8 +131,6 @@ class ColdFragment : Fragment() {
                 else {
 
                 }
-
-
             }
         })
 
