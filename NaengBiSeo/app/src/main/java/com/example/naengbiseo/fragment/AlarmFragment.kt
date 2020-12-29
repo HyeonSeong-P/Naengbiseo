@@ -59,7 +59,7 @@ class AlarmFragment : Fragment(){
             for (foodData in it) { // filtering
                 val realExpDate =simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
                 val dDay = (today.time.time - realExpDate.time) / (60 * 60 * 24 * 1000)
-                if (dDay + my_d_day > 0) {
+                if (dDay + my_d_day > 0 && foodData.purchaseStatus == 1) {
                     dDayFoodList.add(Pair(foodData, dDay))
                 }
             }

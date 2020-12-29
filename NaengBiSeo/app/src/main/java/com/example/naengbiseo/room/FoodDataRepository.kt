@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 class FoodDataRepository private constructor(private val foodDao: FoodDao) {
     fun getAllData() = foodDao.getAll()
 
+    fun getAllData2() = foodDao.getAll2()
 
     suspend fun insert(foodData: FoodData) {
         withContext(Dispatchers.IO) {

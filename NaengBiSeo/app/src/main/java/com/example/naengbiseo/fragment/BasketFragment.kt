@@ -1,11 +1,13 @@
 package com.example.naengbiseo.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.basket_food_item.*
 import kotlinx.android.synthetic.main.basket_food_item.view.*
 import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.fragment_basket.*
+import kotlinx.android.synthetic.main.fragment_cold.*
 import kotlinx.android.synthetic.main.frament_cool.*
 
 class BasketFragment :Fragment(){
@@ -80,6 +83,13 @@ class BasketFragment :Fragment(){
         plusFoodBtn.setOnClickListener {
             viewModel.foodAddButtonClicked(true)
         }
+
+        (RecyclerViewInBasketFragment.adapter as BasketViewAdapter).setItemClickListener(object :
+            BasketViewAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    Toast.makeText(context, "position: " + position, Toast.LENGTH_SHORT).show()
+                }
+        })
     }
 
     override fun onStop() { // back버튼, 홈버튼 누를 시에도 장바구니 최신 데이터를 db에 저장해야하기때문

@@ -49,6 +49,10 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it, position)
+        }
+
         if (viewModel.basketFoodList.isEmpty()) {
             holder.view.foodAddButtonInBasket.setOnClickListener{
                 viewModel.foodAddButtonClicked(true)
@@ -59,6 +63,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
             holder.bind(foodData, position)
 
             holder.view.buyButton.setOnClickListener {
+                Log.d("MSG", "food list size: " + viewModel.basketFoodList.size.toString())
                 val itemView = holder.view
                 var toastView = LayoutInflater.from(itemView.context)
                     .inflate(R.layout.basket_toast_message, null)
@@ -92,10 +97,14 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
             }
             holder.view.foodNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
-                    viewModel.basketFoodList[position].foodName = p0.toString()
+                    // 지렸다
+                    if (position < viewModel.basketFoodList.size) {
+                        viewModel.basketFoodList[position].foodName = p0.toString()
+                    }
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -140,7 +149,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
     }
 
     //    ClickListener
-    /*interface OnItemClickListener {
+    interface OnItemClickListener {
         fun onClick(v: View, position: Int)
     }
 
@@ -148,5 +157,5 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
         this.itemClickListener = itemClickListener
-    }*/
+    }
 }
