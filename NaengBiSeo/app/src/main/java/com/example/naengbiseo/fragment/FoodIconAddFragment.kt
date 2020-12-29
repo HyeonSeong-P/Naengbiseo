@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.storage.StorageManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -174,6 +175,8 @@ class FoodIconAddFragment : Fragment() {
                             return
                         }
                         storeWay = viewModel.getExcelData(allIconList[position].iconName)!!.first
+                        Log.d("an", storeWay)
+                        Log.d("an","메롱")
                         treatWay = viewModel.getExcelData(allIconList[position].iconName)!!.second
                         viewModel.setIcon(allIconList[position].iconResource,allIconList[position].iconName,allIconList[position].category,storeWay,treatWay)
                         v.elevation = 10F
@@ -202,6 +205,10 @@ class FoodIconAddFragment : Fragment() {
         }
         //레이아웃 매니저 추가
         search_recyclerview_shopping_cart.layoutManager = gridLayoutManager
+
+        back_button.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         add_food_icon_btn.setOnClickListener{
             if(!findTrue()){

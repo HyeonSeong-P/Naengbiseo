@@ -27,8 +27,14 @@ import kotlinx.android.synthetic.main.fragment_cold.*
 import kotlinx.android.synthetic.main.fragment_food_add.view.*
 import kotlinx.android.synthetic.main.fragment_shelf.*
 import kotlinx.android.synthetic.main.frament_cool.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CoolFragment: Fragment() {
+    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+    var simpleFormat2:SimpleDateFormat = SimpleDateFormat("yyyy. MM. dd")
+    var realBuyDate: Date? = null
+    lateinit var dateString:String
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -72,22 +78,41 @@ class CoolFragment: Fragment() {
 
         (search_recyclerview_cool.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
+
                 if(v.id == R.id.food_item_layout){
+                    if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                        realBuyDate = simpleFormat2.parse("1111. 11. 11")
+                        dateString = simpleFormat.format(realBuyDate)
+                    }
+                    else{
+                        realBuyDate = simpleFormat2.parse(v.buy_date.text.toString())
+                        dateString = simpleFormat.format(realBuyDate)
+                    }
                     if (sel == 1) {
+
                         v.check_box.toggle()
                         if (v.check_box.isChecked) {
-                            viewModel.addDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
+                            viewModel.addDelData(v.food_name.text.toString(),"cool",dateString)
                         } else {
-                            viewModel.removeDelData(v.food_name.text.toString(),"cool",v.buy_date.text.toString())
+                            viewModel.removeDelData(v.food_name.text.toString(),"cool",dateString)
                         }
                     }
                     else{
                         Log.d("s","클릭")
-                        viewModel.setCompareData(
-                            v.food_name.text.toString(),
-                            "cool",
-                            v.buy_date.text.toString()
-                        )
+                        if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
+                            viewModel.setCompareData(
+                                v.food_name.text.toString(),
+                                "cool",
+                                "1111. 11. 11"
+                            )
+                        }
+                        else{
+                            viewModel.setCompareData(
+                                v.food_name.text.toString(),
+                                "cool",
+                                v.buy_date.text.toString()
+                            )
+                        }
                         findNavController().navigate(R.id.itemStatusFragment)
                     }
                 }

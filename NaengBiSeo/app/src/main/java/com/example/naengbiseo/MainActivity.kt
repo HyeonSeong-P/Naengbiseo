@@ -77,8 +77,9 @@ class MainActivity : AppCompatActivity(),
         //searchIconEditText.focus
 
         viewModel.allExcelData.observe(this, Observer {
-            if (viewModel.excelIsEmpty()) {
+            if (it.isEmpty()) {
                 Log.d("empty", "비었다@@@@")
+
                 inputStream.bufferedReader().readLines().forEach {
                     var token = it.split("\t")
                     var data = ExcelData(
@@ -90,6 +91,10 @@ class MainActivity : AppCompatActivity(),
                         viewModel.insertExcelData(data)
                     }
                 }
+            }
+            else{
+                Log.d("empty", "안비었다@@@@")
+                Log.d("empty", it.toString())
             }
         })
 
@@ -138,6 +143,7 @@ class MainActivity : AppCompatActivity(),
         return super.dispatchTouchEvent(ev)
     }
 
+
     /*override fun onTouchEvent(event: MotionEvent?): Boolean {
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager // as로 타입 캐스팅
         imm.hideSoftInputFromWindow(searchIconEditText.windowToken,0)
@@ -176,7 +182,7 @@ class MainActivity : AppCompatActivity(),
 
             R.id.mainFragment -> {
                 //이게 드로우어를 락 언락 정하는거
-                main_drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                main_drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 // 드로우어 툴바 쉽게 꺼내오게 서포트툴바
                 supportActionBar?.show()
             }

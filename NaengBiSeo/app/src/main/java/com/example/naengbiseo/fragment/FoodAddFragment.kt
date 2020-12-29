@@ -54,6 +54,9 @@ class FoodAddFragment: Fragment() {
         val factory = FoodAddViewModelFactory(repository1,repository2)
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             FoodAddViewModel::class.java)
+        val factory2 = MainViewModelFactory(repository1,repository2)
+        var viewModel2 = ViewModelProvider(activity as MainActivity, factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
+            MainViewModel::class.java)
 
         back_button.setOnClickListener {
             findNavController().navigateUp()
@@ -94,14 +97,17 @@ class FoodAddFragment: Fragment() {
                     radio_btn1.id -> {
                         viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "shelf",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random()) ) // 음식 정보 저장
                         food_edit_text.setText("")
+                        viewModel2.setLocation(0)
                     }
                     radio_btn2.id -> {
                         viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cool",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
+                        viewModel2.setLocation(1)
                     }
                     radio_btn3.id -> {
                         viewModel.insertData(FoodData(storeWay = storeWay,treatWay = treatWay,foodCategory = foodCategory,foodName=food_name, storeLocation = "cold",foodNumber = food_number,buyDate = purchase_date,expirationDate = expiration_date,foodMemo = memo,foodIcon=foodIcon, uniqueId = (Int.MIN_VALUE..Int.MAX_VALUE).random())) //Contacts 생성
                         food_edit_text.setText("")
+                        viewModel2.setLocation(2)
                     }
                     else -> {
                         Toast.makeText(activity as MainActivity,"음식을 보관할 장소를 선택해주세요!!", Toast.LENGTH_SHORT).show()
@@ -119,7 +125,7 @@ class FoodAddFragment: Fragment() {
 
         purchase_button.setOnClickListener{
             val cal1 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
+            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
                 var M= m+1
                 purchase_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" }, // 이상하게 월은 0월부터네.. +1 해주자
                 cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DATE)).show()
@@ -127,7 +133,7 @@ class FoodAddFragment: Fragment() {
 
         expiration_button.setOnClickListener {
             val cal2 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
+            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
                 var M= m+1
                 expiration_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" },
                 cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DATE)).show()
