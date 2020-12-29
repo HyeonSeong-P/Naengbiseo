@@ -3,6 +3,7 @@ package com.example.naengbiseo.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.naengbiseo.DelData
 import com.example.naengbiseo.room.ExcelData
 import com.example.naengbiseo.room.ExcelDataRepository
 import com.example.naengbiseo.room.FoodData
@@ -28,20 +29,20 @@ class MainViewModel(
         return allExcelData.value == null
     }
 
-    private val _del_data = SingleLiveEvent<MutableList<Triple<String, String, String>>>()
-    val del_data: LiveData<MutableList<Triple<String, String, String>>> get() = _del_data
-    val copyDelList: MutableList<Triple<String, String, String>> =
-        mutableListOf<Triple<String, String, String>>()
+    private val _del_data = SingleLiveEvent<MutableList<DelData>>()
+    val del_data: LiveData<MutableList<DelData>> get() = _del_data
+    val copyDelList: MutableList<DelData> =
+        mutableListOf<DelData>()
 
-    fun addDelData(foodName: String, storeLocation: String, buyDate: String) {
+    fun addDelData(foodName: String, storeLocation: String, buyDate: String, uniqueId: Int) {
         Log.d("dd", "추가됐음")
-        copyDelList.add(Triple(foodName, storeLocation, buyDate))
+        copyDelList.add(DelData(foodName, storeLocation, buyDate, uniqueId))
         _del_data.setValue(copyDelList)
     }
 
-    fun removeDelData(foodName: String, storeLocation: String, buyDate: String) {
+    fun removeDelData(foodName: String, storeLocation: String, buyDate: String, uniqueId: Int) {
         Log.d("dd", "제거됐음")
-        copyDelList.remove(Triple(foodName, storeLocation, buyDate))
+        copyDelList.remove(DelData(foodName, storeLocation, buyDate, uniqueId))
         _del_data.setValue(copyDelList)
     }
 
@@ -49,7 +50,7 @@ class MainViewModel(
         _del_data.value?.clear()
     }
 
-    fun getDelData(): MutableList<Triple<String, String, String>>? {
+    fun getDelData(): MutableList<DelData>? {
         return _del_data.value
     }
 
@@ -109,7 +110,7 @@ class MainViewModel(
             if (dList != null) {
                 for (triple in dList) {
                     for (foodData in foodList) {
-                        if (foodData.foodName == triple.first && foodData.storeLocation == triple.second && foodData.buyDate == triple.third) {
+                        if (foodData.foodName == triple.getFoodName && foodData.storeLocation == triple.getStoreLocation && foodData.buyDate == triple.getBuyDate && foodData.uniqueId == triple.getUniqueId) {
                             delDataList.add(foodData)
                             viewModelScope.launch {
                                 foodDataRepository.delete(foodData)

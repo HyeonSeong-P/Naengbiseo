@@ -40,6 +40,10 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
         if(foodData.header == 0 && foodData.Null != 1){
             view.d_day.setTextColor(Color.parseColor("#666666"))
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
+            var uniqueId = foodData.uniqueId.toString()
+
+            view.unique_id.text = uniqueId
+
             var foodicon = foodData.foodIcon
             view.food_icon.setImageResource(foodicon)
 
