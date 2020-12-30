@@ -1,17 +1,21 @@
 package com.example.naengbiseo
 
 import android.app.Activity
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.provider.Settings.Global.getString
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -27,9 +31,10 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BroadcastD: BroadcastReceiver() {
+    class BroadcastD: BroadcastReceiver() {
     val INTENT_ACTION = Intent.ACTION_BOOT_COMPLETED
-    val CHANNEL_ID = "test"
+    val CHANNEL_ID = "test_id"
+    val CHANNEL_NAME = "test_name"
     val notificationId = 1000
     lateinit var dao1: FoodDao
     lateinit var repository1: FoodDataRepository
@@ -60,8 +65,10 @@ class BroadcastD: BroadcastReceiver() {
 
             var title = foodNameList.size.toString() + "개의 유통기한 임박 재료가 있어요!"
             var content = foodNameList.joinToString()
-            var builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            val notificationBuilder = createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, context)
+            var builder = notificationBuilder
                 .setSmallIcon(getNotificationIcon())
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher)) // oreo 8 이상은 mipmap 안써짐
                 .setContentTitle(title)
                 .setContentText(content)
                 .setAutoCancel(true)
@@ -79,6 +86,21 @@ class BroadcastD: BroadcastReceiver() {
             R.mipmap.ic_stat_ic_launcher
         } else {
             R.mipmap.ic_launcher
+        }
+    }
+    private fun createNotificationChannel(id :String, name :String, context: Context) : NotificationCompat.Builder{
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+            val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val channel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
+
+            manager.createNotificationChannel(channel)
+
+            NotificationCompat.Builder(context, id)
+
+        } else {
+            NotificationCompat.Builder(context)
         }
     }
 }
