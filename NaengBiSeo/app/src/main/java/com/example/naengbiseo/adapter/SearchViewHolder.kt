@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.food_item_search_version.view.food_icon
 import kotlinx.android.synthetic.main.food_item_search_version.view.food_name
 import kotlinx.android.synthetic.main.food_item_search_version.view.food_number
 import kotlinx.android.synthetic.main.food_item_search_version.view.slt
+import kotlinx.android.synthetic.main.food_item_search_version.view.unique_id
 import kotlinx.android.synthetic.main.food_item_search_version.view.*
 import kotlinx.android.synthetic.main.main_header.view.*
 import java.lang.Math.abs
@@ -42,6 +43,8 @@ class SearchViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     fun bind(foodData: FoodData, position: Int) {
         if (foodData.header == 0 && foodData.Null != 1) {
             view.d_day.setTextColor(Color.parseColor("#666666"))
+            var uniqueId = foodData.uniqueId.toString()
+            view.unique_id.text = uniqueId
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
             view.food_icon.setImageResource(foodData.foodIcon)
             var alpha = view.food_icon.drawable

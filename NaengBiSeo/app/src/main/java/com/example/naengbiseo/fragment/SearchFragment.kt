@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.food_item_search_version.view.*
 import kotlinx.android.synthetic.main.food_item_search_version.view.buy_date
 import kotlinx.android.synthetic.main.food_item_search_version.view.food_name
+import kotlinx.android.synthetic.main.food_item_search_version.view.unique_id
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
