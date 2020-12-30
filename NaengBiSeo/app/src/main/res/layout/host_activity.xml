@@ -74,7 +74,7 @@
                     android:id="@+id/go_to_alarm_button"
                     android:layout_width="18.1dp"
                     android:layout_height="22.7dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="20dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/bell"
                     android:scaleType="fitCenter"
@@ -133,7 +133,8 @@
                     android:background="@android:color/transparent"
                     android:drawableRight="@drawable/down_arrow"
                     android:text="구매순"
-                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 

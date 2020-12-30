@@ -213,7 +213,7 @@ class ItemStatusFragment : Fragment() {
         google_button.setOnClickListener {
             val food_name = food_edit_text.text.toString()
             //var itemText=item_text.text.toString()
-            var siteString="https://www.google.com/search?q="+food_name+"+레시피"
+            var siteString="http://www.google.com/search?nota=1&q="+food_name+"+레시피"
             webview.loadUrl(siteString)
         }
 
@@ -233,13 +233,18 @@ class ItemStatusFragment : Fragment() {
 
                 foodData?.foodName = food_name
                 foodData?.foodNumber = foodNum
-                foodData?.buyDate = purchase_date
-                foodData?.expirationDate = expiration_date
+                if(purchase_date == "구매일자를 선택하세요" || expiration_date == "유통기한을 선택하세요"){
+                    foodData?.buyDate = "1111년 11월 11일"
+                    foodData?.expirationDate = "1111년 11월 11일"
+                }
+                else{
+                    foodData?.buyDate = purchase_date
+                    foodData?.expirationDate = expiration_date
+                }
                 foodData?.foodMemo = memo
                 foodData?.storeWay = store_way
                 foodData?.treatWay = treat_way
                 foodData?.useDate = use_date
-
                 when(radio_btn_id) {
                     radio_btn1.id -> {
                         foodData?.storeLocation = "shelf"

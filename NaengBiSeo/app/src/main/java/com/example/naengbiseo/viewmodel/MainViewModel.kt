@@ -307,11 +307,11 @@ class MainViewModel(
 
 
     // 재료 정보창으로 정보 넘기기 위한것. 시작
-    private val _compare_data = SingleLiveEvent<Triple<String, String, String>>() // 내부에서 작동
-    val compare_data: LiveData<Triple<String, String, String>> get() = _compare_data // 외부로 노출
+    private val _compare_data = SingleLiveEvent<DelData>() // 내부에서 작동
+    val compare_data: LiveData<DelData> get() = _compare_data // 외부로 노출
 
-    fun setCompareData(foodName: String, storeLocation: String, buyDate: String) {
-        var compareTriple: Triple<String, String, String> = Triple(foodName, storeLocation, buyDate)
+    fun setCompareData(foodName: String, storeLocation: String, buyDate: String,uniqueId: Int) {
+        var compareTriple: DelData = DelData(foodName, storeLocation, buyDate,uniqueId)
         _compare_data.setValue(compareTriple)
     }
 
@@ -331,16 +331,16 @@ class MainViewModel(
 
     fun compareUniqueEntity(
         foodData: FoodData,
-        compareTriple: Triple<String, String, String>
+        compareTriple: DelData
     ): Boolean {
         var simpleFormat = SimpleDateFormat("yyyy년 MM월 dd일")
         var simpleFormat2 = SimpleDateFormat("yyyy. MM. dd")
 
-        var realExpDate = simpleFormat2.parse(compareTriple.third) // 문자열로 부터 날짜 들고오기!
+        var realExpDate = simpleFormat2.parse(compareTriple.getBuyDate) // 문자열로 부터 날짜 들고오기!
 
         var dateString = simpleFormat.format(realExpDate)
         Log.d("ss", dateString)
-        return foodData.foodName == compareTriple.first && foodData.storeLocation == compareTriple.second && foodData.buyDate == dateString
+        return foodData.foodName == compareTriple.getFoodName && foodData.storeLocation == compareTriple.getStoreLocation && foodData.buyDate == dateString && foodData.uniqueId == compareTriple.getUniqueId
     }
     // 재료 정보창으로 정보 넘기기 위한것. 끝
 

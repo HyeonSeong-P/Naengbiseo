@@ -103,14 +103,16 @@ class CoolFragment: Fragment() {
                             viewModel.setCompareData(
                                 v.food_name.text.toString(),
                                 "cool",
-                                "1111. 11. 11"
+                                "1111. 11. 11",
+                                v.unique_id.text.toString().toInt()
                             )
                         }
                         else{
                             viewModel.setCompareData(
                                 v.food_name.text.toString(),
                                 "cool",
-                                v.buy_date.text.toString()
+                                v.buy_date.text.toString(),
+                                v.unique_id.text.toString().toInt()
                             )
                         }
                         findNavController().navigate(R.id.itemStatusFragment)
