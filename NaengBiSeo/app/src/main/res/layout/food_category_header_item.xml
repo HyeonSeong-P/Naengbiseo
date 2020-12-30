@@ -10,12 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="46dp"
         android:paddingLeft="22dp"
         android:gravity="start"
         android:textAlignment="textStart"
         android:textSize="15sp"
-        android:textColor="#666666"/>
+        android:textColor="#666666"
+        android:background="#FFFFFF"/>
 
     <View
         android:layout_width="match_parent"
