@@ -111,7 +111,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                     .setCancelable(false)
                 //show dialog
                 val alertDialog = builder.show()
-                delayTime(1200, alertDialog)
+                delayTime(1000, alertDialog)
                 Toast.LENGTH_SHORT
             }
             holder.view.foodNameEditText.addTextChangedListener(object : TextWatcher {

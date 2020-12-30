@@ -35,7 +35,7 @@
             android:layout_marginTop="19dp"
             />
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/base_back_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="fitCenter"
@@ -350,10 +350,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@id/base_back_button"
+            app:layout_constraintBottom_toBottomOf="@id/base_back_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="5.6dp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
 
 </LinearLayout>

@@ -31,7 +31,7 @@
         android:gravity="center"/>
 
     <ImageButton
-        android:id="@+id/backButtonInSettingFragment"
+        android:id="@+id/baseBackButtonInSettingFragment"
         android:layout_width="10dp"
         android:layout_height="15dp"
         android:src="@drawable/back_button"
@@ -42,6 +42,17 @@
         android:layout_marginLeft="20dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
+
+    <Button
+        android:id="@+id/backButtonInSettingFragment"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/settingTextView"
+        app:layout_constraintBottom_toBottomOf="@id/settingTextView"
+        app:layout_constraintLeft_toLeftOf="@id/view1"
+        android:layout_marginLeft="5.6dp"
+        />
 
     <TextView
         android:id="@+id/SettingTextView1"

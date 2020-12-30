@@ -73,7 +73,7 @@ import java.util.*
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setShowWhen(true)
-                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .setColor(ContextCompat.getColor(context, R.color.colorAccentBright))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
 
