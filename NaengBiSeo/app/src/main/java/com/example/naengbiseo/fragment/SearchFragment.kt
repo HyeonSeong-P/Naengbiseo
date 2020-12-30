@@ -125,7 +125,7 @@ class SearchFragment : Fragment() {
 
     }
 
-    override fun onAttach(context: Context) {
+    override fun onAttach(context: Context) { // 프래그먼트에서 뒤로가기 이벤트
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
