@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/notification_title"/>
 
     <ImageButton
-        android:id="@+id/backButtonInAlarmFragment"
+        android:id="@+id/baseBackButtonInAlarmFragment"
         android:layout_width="10dp"
         android:layout_height="15dp"
         android:src="@drawable/back_button"
@@ -67,6 +67,17 @@
         android:layout_marginLeft="20dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
+
+    <Button
+        android:id="@+id/backButtonInAlarmFragment"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/alarmTextView"
+        app:layout_constraintBottom_toBottomOf="@id/alarmTextView"
+        app:layout_constraintLeft_toLeftOf="@id/view1"
+        android:layout_marginLeft="5.6dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewInAlarmFragment"

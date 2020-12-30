@@ -13,7 +13,7 @@
 
         >
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/base_back_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="fitCenter"
@@ -23,7 +23,16 @@
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
             android:background="@android:color/transparent"
             android:layout_marginLeft="20dp"
-
+            />
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@id/base_back_button"
+            app:layout_constraintBottom_toBottomOf="@id/base_back_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="5.6dp"
             />
 
         <TextView
