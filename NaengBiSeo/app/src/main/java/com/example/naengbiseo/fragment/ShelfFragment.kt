@@ -101,14 +101,16 @@ class ShelfFragment : Fragment(){
                             viewModel.setCompareData(
                                 v.food_name.text.toString(),
                                 "shelf",
-                                "1111. 11. 11"
+                                "1111. 11. 11",
+                                v.unique_id.text.toString().toInt()
                             )
                         }
                         else{
                             viewModel.setCompareData(
                                 v.food_name.text.toString(),
                                 "shelf",
-                                v.buy_date.text.toString()
+                                v.buy_date.text.toString(),
+                                v.unique_id.text.toString().toInt()
                             )
                         }
                         findNavController().navigate(R.id.itemStatusFragment)

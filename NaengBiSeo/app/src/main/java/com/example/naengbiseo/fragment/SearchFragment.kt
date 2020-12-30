@@ -89,14 +89,16 @@ class SearchFragment : Fragment() {
                     viewModel.setCompareData(
                         v.food_name.text.toString(),
                         location_text,
-                        "1111. 11. 11"
+                        "1111. 11. 11",
+                        v.unique_id.text.toString().toInt()
                     )
                 }
                 else{
                     viewModel.setCompareData(
                         v.food_name.text.toString(),
                         location_text,
-                        v.buy_date.text.toString()
+                        v.buy_date.text.toString(),
+                        v.unique_id.text.toString().toInt()
                     )
                 }
 
