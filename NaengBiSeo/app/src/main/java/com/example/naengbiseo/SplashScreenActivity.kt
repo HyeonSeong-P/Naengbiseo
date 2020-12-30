@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    val SPLASH_TIME_OUT: Long = 1800 //1.8초간 보여 주고 넘어 간다.
+    val SPLASH_TIME_OUT: Long = 1500 //1.5초간 보여 주고 넘어 간다.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

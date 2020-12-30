@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.food_item.view.d_day
 import kotlinx.android.synthetic.main.food_item.view.food_icon
 import kotlinx.android.synthetic.main.food_item.view.food_name
 import kotlinx.android.synthetic.main.food_item.view.food_number
+import kotlinx.android.synthetic.main.food_item.view.unique_id
 import kotlinx.android.synthetic.main.food_item_search_version.view.*
 import kotlinx.android.synthetic.main.main_header.view.*
 import java.lang.Math.abs
