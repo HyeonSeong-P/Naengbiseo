@@ -94,7 +94,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                         storeLocation = "에러"
                     }
                 }
-
+                viewModel.basketFoodList[position].foodName = holder.view.foodNameEditText.text.toString()
                 viewModel.basketFoodList[position].purchaseStatus = 1
                 for (foodData in viewModel.basketFoodList) { // 지금까지 수정했던 basketFoodList를 가지고 db수정
                     viewModel.updateData(foodData)
@@ -117,8 +117,9 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
             holder.view.foodNameEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
                     // 지렸다
+                    Log.d("위치",position.toString())
                     if (position < viewModel.basketFoodList.size) {
-                        viewModel.basketFoodList[position].foodName = p0.toString()
+
                     }
                 }
 
