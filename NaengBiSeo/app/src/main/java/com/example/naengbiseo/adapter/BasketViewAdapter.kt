@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.basket_empty_layout.view.*
 import kotlinx.android.synthetic.main.basket_food_item.view.*
 import kotlinx.android.synthetic.main.basket_toast_message.view.*
 import kotlinx.android.synthetic.main.custom_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_basket.*
 import kotlinx.android.synthetic.main.fragment_food_add.*
 
 class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Adapter<BasketViewHolder>() {
@@ -69,40 +70,29 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
             holder.view.buyButton.setOnClickListener {
                 Log.d("MSG", "food list size: " + viewModel.basketFoodList.size.toString())
                 val itemView = holder.view
-                var toastView = LayoutInflater.from(itemView.context)
-                    .inflate(R.layout.basket_toast_message, null)
                 val storeLocation: String
-                var toast = Toast(itemView.context)
                 val radio_btn_id = itemView.radio_group.checkedRadioButtonId
 
-                toast.view = toastView
                 when (radio_btn_id) {
                     itemView.radio_btn1.id -> {
-                        toastView.basketToastMessageTextView.text = "선반보관 해두었습니다:>"
                         storeLocation = "선반"
                     }
                     itemView.radio_btn2.id -> {
-                        toastView.basketToastMessageTextView.text = "냉장보관 해두었습니다:>"
                         storeLocation = "냉장"
                     }
                     itemView.radio_btn3.id -> {
-                        toastView.basketToastMessageTextView.text = "냉동보관 해두었습니다:>"
                         storeLocation = "냉동"
                     }
                     else -> {
-                        toastView.basketToastMessageTextView.text = "보관 Error"
                         storeLocation = "에러"
                     }
                 }
-
+                // 구매 완료 상태로 바꾸기
                 viewModel.basketFoodList[position].purchaseStatus = 1
-                for (foodData in viewModel.basketFoodList) { // 지금까지 수정했던 basketFoodList를 가지고 db수정
-                    viewModel.updateData(foodData)
-                }
 
-                /*toast.duration = Toast.LENGTH_SHORT
-                toast.setGravity(Gravity.CENTER, 0, 0)
-                toast.show()*/
+                // 지금까지 수정했던 값들 업데이트 - basketFragment에서 updateLiveData observe
+                viewModel.setUpdateLiveData(true)
+
                 val dialogView = LayoutInflater.from(itemView.context).inflate(R.layout.basket_custom_dialog, null)
                 dialogView.basketDialogTextView.text = MainActivity.pref_user_name.myEditText + "님, " + storeLocation + "보관 해두었습니다:>"
                 //AlertDialogBuilder
@@ -112,23 +102,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
                 //show dialog
                 val alertDialog = builder.show()
                 delayTime(1000, alertDialog)
-                Toast.LENGTH_SHORT
             }
-            holder.view.foodNameEditText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-                    // 지렸다
-                    if (position < viewModel.basketFoodList.size) {
-                        viewModel.basketFoodList[position].foodName = p0.toString()
-                    }
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-            })
             holder.view.minusBtn.setOnClickListener {
                 val itemView = holder.view
                 var quantity = itemView.quantityTextView.text.toString().toInt()

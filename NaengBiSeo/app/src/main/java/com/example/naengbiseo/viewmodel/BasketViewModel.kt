@@ -20,6 +20,13 @@ class BasketViewModel (
 ): ViewModel() {
     private val _isButtonClickedData = SingleLiveEvent<Boolean>() // 내부에서 작동
     val isButtonClickedData: LiveData<Boolean> get() = _isButtonClickedData // 외부로 노출
+    private val _updateLiveData = SingleLiveEvent<Boolean>() // 내부에서 작동
+    val updateLiveData: LiveData<Boolean> get() = _updateLiveData // 외부로 노출
+
+    fun setUpdateLiveData(state: Boolean) {
+        _updateLiveData.value = state
+    }
+
     var basketFoodList = listOf<FoodData>()
 
     fun getBasketFoodAt(position: Int): FoodData {
