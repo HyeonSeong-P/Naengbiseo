@@ -56,6 +56,24 @@ class BasketFragment :Fragment(){
         RecyclerViewInBasketFragment.adapter = viewAdapter
         RecyclerViewInBasketFragment.layoutManager = LinearLayoutManager(activity)
 
+        viewModel.updateLiveData.observe(viewLifecycleOwner, Observer{
+            Log.d("MSG", "updating data")
+            val size = viewModel.basketFoodList.size
+
+            // 모든 아이템 뷰의 EditText의 text으로 foodName 업데이트
+            for (position in 0 until size) {
+                val itemView = (RecyclerViewInBasketFragment.layoutManager as LinearLayoutManager).findViewByPosition(position)
+                if (itemView != null) {
+                    viewModel.basketFoodList[position].foodName = itemView.foodNameEditText.text.toString()
+                }
+            }
+
+            // 지금까지 수정했던 basketFoodList를 가지고 db수정
+            for (foodData in viewModel.basketFoodList) {
+                viewModel.updateData(foodData)
+            }
+        })
+
         // db가 변동될경우 실행됨
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
             var foodListToPurchase = it.filter { it.purchaseStatus == 0 }
@@ -91,7 +109,7 @@ class BasketFragment :Fragment(){
         })*/
     }
 
-    override fun onStop() { // back버튼, 홈버튼 누를 시에도 장바구니 최신 데이터를 db에 저장해야하기때문
+    override fun onPause() {
         val ac=activity as MainActivity
         val dao1 = AppDatabase.getInstance(ac).foodDao()
         val dao2 = AppDatabase.getInstance(ac).excelDao()
@@ -100,9 +118,10 @@ class BasketFragment :Fragment(){
         val factory = BasketViewModelFactory(repository1, repository2)
         var viewModel = ViewModelProvider(requireParentFragment(), factory).get( // 메인 액티비티 안쓰고 프래그먼트끼리 뷰모델 공유하는 방법!!!!!! requireParentFragment() 사용하기!!!!
             BasketViewModel::class.java)
-        for (foodData in viewModel.basketFoodList) { // 지금까지 수정했던 basketFoodList를 가지고 db수정
-            viewModel.updateData(foodData)
-        }
-        super.onStop()
+
+        // 지금까지 수정했던 값들 업데이트 - basketFragment에서 updateLiveData observe
+        viewModel.setUpdateLiveData(true)
+        Log.d("MSG", "onPause")
+        super.onPause()
     }
 }
