@@ -3,6 +3,7 @@ package com.example.naengbiseo.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.naengbiseo.DelData
 import com.example.naengbiseo.FoodIcon
 import com.example.naengbiseo.room.ExcelData
 import com.example.naengbiseo.room.ExcelDataRepository
@@ -22,12 +23,41 @@ class BasketViewModel (
     val isButtonClickedData: LiveData<Boolean> get() = _isButtonClickedData // 외부로 노출
     private val _updateLiveData = SingleLiveEvent<Boolean>() // 내부에서 작동
     val updateLiveData: LiveData<Boolean> get() = _updateLiveData // 외부로 노출
+    private val _trash_button_event = SingleLiveEvent<Int>()
+    val trash_button_event: LiveData<Int> get() = _trash_button_event
+
+    var basketFoodList = listOf<FoodData>()
+    var deleteFoodList = mutableListOf<FoodData>()
+
+    fun onTrashButton(i: Int) {
+        _trash_button_event.value = i
+    }
+
+    fun addDelData(position: Int) {
+        Log.d("dd", "추가됐음")
+        deleteFoodList.add(basketFoodList[position])
+    }
+
+    fun removeDelData(position: Int) {
+        Log.d("dd", "제거됐음")
+        deleteFoodList.remove(basketFoodList[position])
+    }
+
+    fun deleteData() {
+        for (foodData in deleteFoodList) {
+            viewModelScope.launch {
+                foodDataRepository.delete(foodData)
+            }
+        }
+    }
+
+    fun clearDelData() {
+        deleteFoodList.clear()
+    }
 
     fun setUpdateLiveData(state: Boolean) {
         _updateLiveData.value = state
     }
-
-    var basketFoodList = listOf<FoodData>()
 
     fun getBasketFoodAt(position: Int): FoodData {
         return basketFoodList[position]

@@ -54,9 +54,9 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
-        /*holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
-        }*/
+        }
 
         if (viewModel.basketFoodList.isEmpty()) {
             holder.view.foodAddButtonInBasket.setOnClickListener{
