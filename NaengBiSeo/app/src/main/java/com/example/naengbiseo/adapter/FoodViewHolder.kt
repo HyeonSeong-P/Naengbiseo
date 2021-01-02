@@ -43,7 +43,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             //var simpleFormat2= SimpleDateFormat("yyyy. MM. dd")
             var uniqueId = foodData.uniqueId.toString()
 
-            view.unique_id.text = uniqueId
+            view.unique_id.setText(uniqueId)
 
             var foodicon = foodData.foodIcon
             view.food_icon.setImageResource(foodicon)

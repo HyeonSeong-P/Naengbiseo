@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CoolFragment: Fragment() {
-    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 M월 d일")
     var simpleFormat2:SimpleDateFormat = SimpleDateFormat("yyyy. MM. dd")
     var realBuyDate: Date? = null
     lateinit var dateString:String
@@ -78,7 +78,7 @@ class CoolFragment: Fragment() {
 
         (search_recyclerview_cool.adapter as FoodViewAdapter).setItemClickListener(object : FoodViewAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-
+                Log.d("uniq",v.unique_id.text.toString())
                 if(v.id == R.id.food_item_layout){
                     if(v.buy_date.text.toString() == "재료 정보를 기입해주세요"){
                         realBuyDate = simpleFormat2.parse("1111. 11. 11")

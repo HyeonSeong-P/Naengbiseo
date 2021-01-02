@@ -310,8 +310,8 @@ class MainViewModel(
     private val _compare_data = SingleLiveEvent<DelData>() // 내부에서 작동
     val compare_data: LiveData<DelData> get() = _compare_data // 외부로 노출
 
-    fun setCompareData(foodName: String, storeLocation: String, buyDate: String,uniqueId: Int) {
-        var compareTriple: DelData = DelData(foodName, storeLocation, buyDate,uniqueId)
+    fun setCompareData(foodName: String, storeLocation: String, buyDate: String, uniqueId: Int) {
+        var compareTriple: DelData = DelData(foodName, storeLocation, buyDate, uniqueId)
         _compare_data.setValue(compareTriple)
     }
 
@@ -333,13 +333,21 @@ class MainViewModel(
         foodData: FoodData,
         compareTriple: DelData
     ): Boolean {
-        var simpleFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+        var simpleFormat = SimpleDateFormat("yyyy년 M월 d일")
         var simpleFormat2 = SimpleDateFormat("yyyy. MM. dd")
 
         var realExpDate = simpleFormat2.parse(compareTriple.getBuyDate) // 문자열로 부터 날짜 들고오기!
 
         var dateString = simpleFormat.format(realExpDate)
-        Log.d("ss", dateString)
+        Log.d("buy", foodData.buyDate)
+        Log.d("store", foodData.storeLocation)
+        Log.d("name", foodData.foodName)
+        Log.d("ss", foodData.uniqueId.toString())
+        Log.d("buy", dateString)
+        Log.d("store", compareTriple.getStoreLocation)
+        Log.d("name", compareTriple.getFoodName)
+        Log.d("ss", compareTriple.getUniqueId.toString())
+        Log.d("ss"," ")
         return foodData.foodName == compareTriple.getFoodName && foodData.storeLocation == compareTriple.getStoreLocation && foodData.buyDate == dateString && foodData.uniqueId == compareTriple.getUniqueId
     }
     // 재료 정보창으로 정보 넘기기 위한것. 끝
