@@ -56,28 +56,43 @@ import java.util.*
                     dDayFoodList.add(Pair(foodData, dDay))
                 }
             }
-            var alarmFoodList = dDayFoodList.toList()
-            alarmFoodList = alarmFoodList.sortedBy { pair -> pair.second } // d-day를 기준으로 sorting
-            val foodNameList = alarmFoodList.map { pair -> pair.first.foodName }
+            // D-day 임박 재료가 있을때만 알림이 울림
+            if (dDayFoodList.isNotEmpty()) {
+                var alarmFoodList = dDayFoodList.toList()
+                alarmFoodList =
+                    alarmFoodList.sortedBy { pair -> pair.second } // d-day를 기준으로 sorting
+                val foodNameList = alarmFoodList.map { pair -> pair.first.foodName }
 
-            val alarmIntent = Intent(context, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val alarmIntent = Intent(context, MainActivity::class.java)
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    alarmIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
-            var title = foodNameList.size.toString() + "개의 유통기한 임박 재료가 있어요!"
-            var content = foodNameList.joinToString()
-            val notificationBuilder = createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, context)
-            var builder = notificationBuilder
-                .setSmallIcon(getNotificationIcon())
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher)) // oreo 8 이상은 mipmap 안써짐
-                .setContentTitle(title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setShowWhen(true)
-                .setColor(ContextCompat.getColor(context, R.color.colorAccentDark))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
+                var title = foodNameList.size.toString() + "개의 유통기한 임박 재료가 있어요!"
+                var content = foodNameList.joinToString()
+                val notificationBuilder =
+                    createNotificationChannel(CHANNEL_ID, CHANNEL_NAME, context)
+                var builder = notificationBuilder
+                    .setSmallIcon(getNotificationIcon())
+                    .setLargeIcon(
+                        BitmapFactory.decodeResource(
+                            context.resources,
+                            R.drawable.ic_launcher
+                        )
+                    ) // oreo 8 이상은 mipmap 안써짐
+                    .setContentTitle(title)
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setShowWhen(true)
+                    .setColor(ContextCompat.getColor(context, R.color.colorAccentDark))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
 
-            NotificationManagerCompat.from(context).notify(notificationId, builder.build())
+                NotificationManagerCompat.from(context).notify(notificationId, builder.build())
+            }
         }
     }
     private fun getNotificationIcon(): Int {

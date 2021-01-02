@@ -12,11 +12,20 @@ import com.example.naengbiseo.room.FoodData
 import kotlinx.android.synthetic.main.basket_food_item.view.*
 import kotlinx.android.synthetic.main.food_category_header_item.view.*
 import kotlinx.android.synthetic.main.food_icon_item.view.*
+import kotlinx.android.synthetic.main.food_item.view.*
 import kotlin.coroutines.coroutineContext
 
 class BasketViewHolder(v: View): RecyclerView.ViewHolder(v) {
+    companion object { // companion object는 JAVA로 치면 static
+        private var checkbox_state = 0
+        fun activateCheckbox() {
+            checkbox_state = 1
+        }
+        fun inActivateCheckbox() {
+            checkbox_state = 0
+        }
+    }
     var view: View = v
-    private val TYPE_CATEGORY_HEADER = 0
 
     fun bind(foodData: FoodData, position: Int) {
         view.foodIcon.setImageResource(foodData.foodIcon)
@@ -35,6 +44,16 @@ class BasketViewHolder(v: View): RecyclerView.ViewHolder(v) {
             else -> {
                 Toast.makeText(view.context, "radio button error", Toast.LENGTH_SHORT).show()
             }
+        }
+        // 체크박스 관련
+        if(checkbox_state == 1) {
+            view.basket_check_box.visibility = View.VISIBLE
+            view.basket_check_box.setChecked(false)
+            view.buyButton.visibility = View.GONE
+        }
+        else {
+            view.basket_check_box.visibility = View.GONE
+            view.buyButton.visibility = View.VISIBLE
         }
     }
 }

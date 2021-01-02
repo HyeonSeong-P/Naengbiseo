@@ -126,4 +126,9 @@ class BaseMainFragment :Fragment(){
             }
         })
     }
+
+    override fun onPause() {
+        FoodViewHolder.inActivateCheckbox()
+        super.onPause()
+    }
 }
