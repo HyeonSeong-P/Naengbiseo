@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ColdFragment : Fragment() {
-    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 MM월 dd일")
+    var simpleFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 M월 d일")
     var simpleFormat2:SimpleDateFormat = SimpleDateFormat("yyyy. MM. dd")
     var realBuyDate: Date? = null
     lateinit var dateString:String
