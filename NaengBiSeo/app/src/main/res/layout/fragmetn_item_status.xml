@@ -42,7 +42,7 @@
             android:textSize="15sp"
             android:text="재료 정보"
             android:textColor="#333333"
-            app:layout_constraintTop_toTopOf="@id/back_button"
+            app:layout_constraintTop_toTopOf="@id/base_back_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
 

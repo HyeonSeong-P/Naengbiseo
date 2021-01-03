@@ -26,7 +26,8 @@ import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_basket.*
 import kotlinx.android.synthetic.main.fragment_food_add.*
 
-class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Adapter<BasketViewHolder>() {
+class BasketViewAdapter(private val viewModel: BasketViewModel) :
+    RecyclerView.Adapter<BasketViewHolder>() {
     private val TYPE_BASKET_EMPTY = 0
     private val TYPE_BASKET_NOT_EMPTY = 1
     override fun getItemCount(): Int {
@@ -50,7 +51,9 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
             TYPE_BASKET_NOT_EMPTY -> myLayout = R.layout.basket_food_item
             else -> myLayout = R.layout.fragment_error
         }
-        return BasketViewHolder(LayoutInflater.from(parent.context).inflate(myLayout, parent, false))
+        return BasketViewHolder(
+            LayoutInflater.from(parent.context).inflate(myLayout, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
@@ -59,15 +62,15 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
         }
 
         if (viewModel.basketFoodList.isEmpty()) {
-            holder.view.foodAddButtonInBasket.setOnClickListener{
+            holder.view.foodAddButtonInBasket.setOnClickListener {
                 viewModel.foodAddButtonClicked(true)
             }
-        }
-        else {
+        } else {
             val foodData = viewModel.getBasketFoodAt(position)
             holder.bind(foodData, position)
 
             holder.view.buyButton.setOnClickListener {
+                Log.d("위치", position.toString())
                 Log.d("MSG", "food list size: " + viewModel.basketFoodList.size.toString())
                 val itemView = holder.view
                 val storeLocation: String
@@ -152,7 +155,7 @@ class BasketViewAdapter(private val viewModel: BasketViewModel): RecyclerView.Ad
         this.itemClickListener = itemClickListener
     }
 
-    fun delayTime(time: Long, d: AlertDialog){
+    fun delayTime(time: Long, d: AlertDialog) {
 
         Handler().postDelayed({
             d.dismiss()
