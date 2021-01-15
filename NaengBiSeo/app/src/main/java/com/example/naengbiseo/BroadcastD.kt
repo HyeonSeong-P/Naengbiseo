@@ -45,7 +45,7 @@ import java.util.*
         CoroutineScope(Dispatchers.IO).launch {
             val allFoodData = repository1.getAllData2()
             var dDayFoodList = mutableListOf<Pair<FoodData, Long>>()
-            val simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
+            val simpleFormat= SimpleDateFormat("yyyy년 M월 d일")
             val today = Calendar.getInstance() // 현재 날짜
             val my_d_day = MainActivity.pref_dDay.myEditText.toInt()
 
