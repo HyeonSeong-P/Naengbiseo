@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.naengbiseo">
+    package="com.mypackage.naengbiseo">
 
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -30,7 +30,7 @@
         android:roundIcon="@mipmap/ic_nbs_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreenActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name="com.mypackage.naengbiseo.SplashScreenActivity" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -45,10 +45,10 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.mypackage.naengbiseo.MainActivity"
             android:windowSoftInputMode = "stateHidden|adjustPan">
         </activity>
-        <receiver android:name=".BroadcastD">
+        <receiver android:name="com.mypackage.naengbiseo.BroadcastD">
 
         </receiver>
     </application>
