@@ -10,11 +10,11 @@ android {
         jvmTarget = "1.8"
     }
     defaultConfig {
-        applicationId "com.example.naengbiseo"
+        applicationId "com.mypackage.naengbiseo"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
