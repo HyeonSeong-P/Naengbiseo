@@ -57,7 +57,7 @@ class AlarmFragment : Fragment(){
         // db가 변동될경우 실행됨
         viewModel.allFoodData.observe(viewLifecycleOwner, Observer{
             var dDayFoodList = mutableListOf<Pair<FoodData, Long>>()
-            val simpleFormat= SimpleDateFormat("yyyy년 MM월 dd일")
+            val simpleFormat= SimpleDateFormat("yyyy년 M월 d일")
             val today = Calendar.getInstance() // 현재 날짜
             for (foodData in it) { // filtering
                 val realExpDate =simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
