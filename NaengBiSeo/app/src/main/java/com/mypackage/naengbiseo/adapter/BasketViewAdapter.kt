@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.app.AlertDialog
 import android.os.Handler
@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.viewmodel.BasketViewModel
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.viewmodel.BasketViewModel
 import kotlinx.android.synthetic.main.basket_custom_dialog.view.*
 import kotlinx.android.synthetic.main.basket_empty_layout.view.*
 import kotlinx.android.synthetic.main.basket_food_item.view.*

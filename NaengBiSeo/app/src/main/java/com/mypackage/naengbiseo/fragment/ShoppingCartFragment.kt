@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.fragment
+package com.mypackage.naengbiseo.fragment
 
 import android.os.Bundle
 import android.text.Editable
@@ -14,15 +14,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.FoodIcon
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.adapter.*
-import com.trinity.naengbiseo.room.AppDatabase
-import com.trinity.naengbiseo.room.ExcelDataRepository
-import com.trinity.naengbiseo.room.FoodDataRepository
-import com.trinity.naengbiseo.viewmodel.BasketViewModel
-import com.trinity.naengbiseo.viewmodel.BasketViewModelFactory
+import com.mypackage.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.adapter.*
+import com.mypackage.naengbiseo.room.AppDatabase
+import com.mypackage.naengbiseo.room.ExcelDataRepository
+import com.mypackage.naengbiseo.room.FoodDataRepository
+import com.mypackage.naengbiseo.viewmodel.BasketViewModel
+import com.mypackage.naengbiseo.viewmodel.BasketViewModelFactory
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 class ShoppingCartFragment: Fragment() {

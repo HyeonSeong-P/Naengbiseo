@@ -1,12 +1,12 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.viewmodel.AlarmViewModel
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.viewmodel.AlarmViewModel
 
 class AlarmViewAdapter(private val viewModel: AlarmViewModel) :
     RecyclerView.Adapter<AlarmViewHolder>() {

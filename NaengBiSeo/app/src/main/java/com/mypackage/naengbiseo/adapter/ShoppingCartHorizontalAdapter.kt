@@ -1,11 +1,11 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.FoodIcon
-import com.trinity.naengbiseo.R
+import com.mypackage.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.R
 
 class ShoppingCartHorizontalAdapter(var iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartHorizontalHolder>() {
     override fun getItemCount(): Int {

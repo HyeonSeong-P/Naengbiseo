@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.fragment
+package com.mypackage.naengbiseo.fragment
 
 import android.app.AlertDialog
 import android.os.Build
@@ -12,15 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.adapter.FoodViewHolder
-import com.trinity.naengbiseo.adapter.ViewPagerAdapter2
-import com.trinity.naengbiseo.room.AppDatabase
-import com.trinity.naengbiseo.room.ExcelDataRepository
-import com.trinity.naengbiseo.room.FoodDataRepository
-import com.trinity.naengbiseo.viewmodel.MainViewModel
-import com.trinity.naengbiseo.viewmodel.MainViewModelFactory
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.adapter.FoodViewHolder
+import com.mypackage.naengbiseo.adapter.ViewPagerAdapter2
+import com.mypackage.naengbiseo.room.AppDatabase
+import com.mypackage.naengbiseo.room.ExcelDataRepository
+import com.mypackage.naengbiseo.room.FoodDataRepository
+import com.mypackage.naengbiseo.viewmodel.MainViewModel
+import com.mypackage.naengbiseo.viewmodel.MainViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_base_main.*

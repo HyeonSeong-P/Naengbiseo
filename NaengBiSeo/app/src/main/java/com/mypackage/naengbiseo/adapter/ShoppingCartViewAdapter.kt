@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.FoodIcon
-import com.trinity.naengbiseo.R
+import com.mypackage.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.R
 
 class ShoppingCartViewAdapter(var iconList: MutableList<FoodIcon>): RecyclerView.Adapter<ShoppingCartViewHolder>() {
     private val TYPE_NO_ICON = -1

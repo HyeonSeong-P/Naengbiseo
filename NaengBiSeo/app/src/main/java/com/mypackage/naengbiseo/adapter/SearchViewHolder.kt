@@ -1,11 +1,11 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.graphics.Color
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.room.FoodData
+import com.mypackage.naengbiseo.room.FoodData
 import kotlinx.android.synthetic.main.food_item_search_version.view.buy_date
 import kotlinx.android.synthetic.main.food_item_search_version.view.d_day
 import kotlinx.android.synthetic.main.food_item_search_version.view.food_icon

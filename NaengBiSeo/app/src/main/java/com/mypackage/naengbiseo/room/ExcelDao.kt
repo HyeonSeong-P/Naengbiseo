@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.room
+package com.mypackage.naengbiseo.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

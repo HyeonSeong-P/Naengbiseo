@@ -1,8 +1,8 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.FoodIcon
 import kotlinx.android.synthetic.main.food_icon_item.view.*
 
 class ShoppingCartHorizontalHolder(v: View): RecyclerView.ViewHolder(v) {

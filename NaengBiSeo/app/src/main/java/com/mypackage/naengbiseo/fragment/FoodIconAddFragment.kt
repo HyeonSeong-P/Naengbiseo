@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.fragment
+package com.mypackage.naengbiseo.fragment
 
 import android.os.Build
 import android.os.Bundle
@@ -12,15 +12,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.trinity.naengbiseo.FoodIcon
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.adapter.ShoppingCartViewAdapter
-import com.trinity.naengbiseo.room.AppDatabase
-import com.trinity.naengbiseo.room.ExcelDataRepository
-import com.trinity.naengbiseo.room.FoodDataRepository
-import com.trinity.naengbiseo.viewmodel.FoodAddViewModel
-import com.trinity.naengbiseo.viewmodel.FoodAddViewModelFactory
+import com.mypackage.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.adapter.ShoppingCartViewAdapter
+import com.mypackage.naengbiseo.room.AppDatabase
+import com.mypackage.naengbiseo.room.ExcelDataRepository
+import com.mypackage.naengbiseo.room.FoodDataRepository
+import com.mypackage.naengbiseo.viewmodel.FoodAddViewModel
+import com.mypackage.naengbiseo.viewmodel.FoodAddViewModelFactory
 import kotlinx.android.synthetic.main.fragment_food_icon_add.*
 import kotlinx.android.synthetic.main.fragment_food_icon_add.search_recyclerview_shopping_cart
 

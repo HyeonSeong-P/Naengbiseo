@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.room
+package com.mypackage.naengbiseo.room
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

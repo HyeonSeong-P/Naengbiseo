@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.room.FoodData
-import com.trinity.naengbiseo.viewmodel.MainViewModel
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.room.FoodData
+import com.mypackage.naengbiseo.viewmodel.MainViewModel
 
 class SearchViewAdapter(private val viewModel: MainViewModel) :
     RecyclerView.Adapter<SearchViewHolder>() {

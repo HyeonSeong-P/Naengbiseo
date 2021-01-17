@@ -1,9 +1,9 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.room.FoodData
+import com.mypackage.naengbiseo.room.FoodData
 import kotlinx.android.synthetic.main.basket_food_item.view.*
 
 class BasketViewHolder(v: View): RecyclerView.ViewHolder(v) {

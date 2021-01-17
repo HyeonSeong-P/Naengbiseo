@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.room
+package com.mypackage.naengbiseo.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

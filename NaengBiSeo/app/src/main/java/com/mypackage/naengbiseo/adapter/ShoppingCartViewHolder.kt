@@ -1,10 +1,10 @@
-package com.trinity.naengbiseo.adapter
+package com.mypackage.naengbiseo.adapter
 
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.trinity.naengbiseo.FoodIcon
+import com.mypackage.naengbiseo.FoodIcon
 import kotlinx.android.synthetic.main.food_category_header_item.view.*
 import kotlinx.android.synthetic.main.food_icon_item.view.*
 

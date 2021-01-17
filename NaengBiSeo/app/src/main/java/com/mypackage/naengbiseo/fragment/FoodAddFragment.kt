@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.fragment
+package com.mypackage.naengbiseo.fragment
 
 import androidx.lifecycle.Observer
 import android.app.DatePickerDialog
@@ -11,16 +11,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.room.AppDatabase
-import com.trinity.naengbiseo.room.ExcelDataRepository
-import com.trinity.naengbiseo.room.FoodData
-import com.trinity.naengbiseo.room.FoodDataRepository
-import com.trinity.naengbiseo.viewmodel.FoodAddViewModel
-import com.trinity.naengbiseo.viewmodel.FoodAddViewModelFactory
-import com.trinity.naengbiseo.viewmodel.MainViewModel
-import com.trinity.naengbiseo.viewmodel.MainViewModelFactory
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.room.AppDatabase
+import com.mypackage.naengbiseo.room.ExcelDataRepository
+import com.mypackage.naengbiseo.room.FoodData
+import com.mypackage.naengbiseo.room.FoodDataRepository
+import com.mypackage.naengbiseo.viewmodel.FoodAddViewModel
+import com.mypackage.naengbiseo.viewmodel.FoodAddViewModelFactory
+import com.mypackage.naengbiseo.viewmodel.MainViewModel
+import com.mypackage.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_food_add.*
 import java.lang.NumberFormatException
 import java.util.*

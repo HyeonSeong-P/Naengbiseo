@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.room
+package com.mypackage.naengbiseo.room
 
 import android.content.Context
 import androidx.room.Database

@@ -1,4 +1,4 @@
-package com.trinity.naengbiseo.fragment
+package com.mypackage.naengbiseo.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -10,15 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.trinity.naengbiseo.MainActivity
-import com.trinity.naengbiseo.R
-import com.trinity.naengbiseo.adapter.FoodViewAdapter
-import com.trinity.naengbiseo.adapter.FoodViewHolder
-import com.trinity.naengbiseo.room.AppDatabase
-import com.trinity.naengbiseo.room.ExcelDataRepository
-import com.trinity.naengbiseo.room.FoodDataRepository
-import com.trinity.naengbiseo.viewmodel.MainViewModel
-import com.trinity.naengbiseo.viewmodel.MainViewModelFactory
+import com.mypackage.naengbiseo.MainActivity
+import com.mypackage.naengbiseo.R
+import com.mypackage.naengbiseo.adapter.FoodViewAdapter
+import com.mypackage.naengbiseo.adapter.FoodViewHolder
+import com.mypackage.naengbiseo.room.AppDatabase
+import com.mypackage.naengbiseo.room.ExcelDataRepository
+import com.mypackage.naengbiseo.room.FoodDataRepository
+import com.mypackage.naengbiseo.viewmodel.MainViewModel
+import com.mypackage.naengbiseo.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.food_item.view.*
 import kotlinx.android.synthetic.main.food_item.view.food_name
 import kotlinx.android.synthetic.main.fragment_shelf.*
