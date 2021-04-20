@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -50,9 +51,13 @@ class MainActivity : AppCompatActivity(),
         lateinit var pref_user_name : MySharedPreferences
         lateinit var pref_dDay : MySharedPreferences
         lateinit var pref_alarm_state : MySharedPreferences
+        lateinit var pref_notification : MySharedPreferences
     }
     private val ALARM_ACTIVATE = "1"
     private val ALARM_DEACTIVATE = "0"
+    private val NOTIFICATION = "notification"
+    private val NOTIFIED = "1"
+    private val NOTIFI_CLICKED = "0"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +68,7 @@ class MainActivity : AppCompatActivity(),
         pref_user_name = MySharedPreferences(applicationContext, "userName", "주인")
         pref_dDay = MySharedPreferences(applicationContext, "d-day", "5")
         pref_alarm_state = MySharedPreferences(applicationContext, "alarmState", "1")
+        pref_notification = MySharedPreferences(applicationContext, "notification", "0")
         val assetManager: AssetManager = resources.assets
         val inputStream: InputStream = assetManager.open("excelData2.txt")
 
@@ -81,20 +87,18 @@ class MainActivity : AppCompatActivity(),
 
 
         viewModel.allFoodData.observe(this, Observer {
-            if(viewModel.alarmIn()){
+            if (viewModel.alarmIn()) {
                 red_spot1.visibility = View.VISIBLE
                 //go_to_alarm_button.setImageResource(R.drawable.bell_spot)
-            }
-            else if(!viewModel.alarmIn()){
+            } else if (!viewModel.alarmIn()) {
                 red_spot1.visibility = View.INVISIBLE
                 //go_to_alarm_button.setImageResource(R.drawable.bell)
             }
 
-            if(viewModel.basketIn()){
+            if (viewModel.basketIn()) {
                 red_spot2.visibility = View.VISIBLE
                 //go_to_basket_button.setImageResource(R.drawable.basket_spot)
-            }
-            else if(!viewModel.basketIn()){
+            } else if (!viewModel.basketIn()) {
                 red_spot2.visibility = View.INVISIBLE
                 //go_to_basket_button.setImageResource(R.drawable.basket)
             }
@@ -117,8 +121,7 @@ class MainActivity : AppCompatActivity(),
                         viewModel.insertExcelData(data)
                     }
                 }
-            }
-            else{
+            } else {
                 Log.d("empty", "안비었다@@@@")
                 Log.d("empty", it.toString())
             }
@@ -133,6 +136,28 @@ class MainActivity : AppCompatActivity(),
             setAlarm(pref_hour.myEditText.toInt(), pref_minute.myEditText.toInt())
         } else if (pref_alarm_state.myEditText == ALARM_DEACTIVATE) {
             cancelAlarm()
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) { // BroadcastD.kt에서 발생시킨 푸쉬 알림 클릭시 fragment로 이동시키기 위함 - pendingIntent와 관련있음
+        super.onNewIntent(intent)
+//        setIntent(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // intent 자체가 getIntent()에서 오는건데 이미 getIntent는 copy한 값을 리턴하는거라 intent.removeExtra()해도 소용없음
+        val extras = intent.extras
+        if (extras != null) {
+            Log.d("MSG", "Intent 살아있음")
+            val fromNotification = extras.getBoolean(NOTIFICATION)
+            if (fromNotification && pref_notification.myEditText == NOTIFIED) { // 배너 클릭해서 들어올 때
+                Log.d("MSG", "배너 클릭됨")
+                findNavController(R.id.nav_host_fragment).navigate(R.id.alarmFragment)
+                pref_notification.myEditText = NOTIFI_CLICKED
+            }
+        } else {
+            Log.d("MSG", "Intent 죽음")
         }
     }
 
