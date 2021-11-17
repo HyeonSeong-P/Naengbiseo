@@ -78,6 +78,7 @@ class FoodViewHolder(v: View):RecyclerView.ViewHolder(v) {
             if(foodData.buyDate == "1111년 11월 11일"){
                 view.food_icon.alpha = 1F
                 view.buy_date.setText("재료 정보를 기입해주세요")
+                view.buy_date.setTextColor(Color.parseColor("#fb343e"))
                 view.d_day.setText("")
             }
             else{

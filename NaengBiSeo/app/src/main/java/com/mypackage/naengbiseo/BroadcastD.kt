@@ -19,7 +19,9 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-    class BroadcastD: BroadcastReceiver() {
+class BroadcastD: BroadcastReceiver() {
+    val NOTIFICATION = "notification"
+    val NOTIFIED = "1"
     val INTENT_ACTION = Intent.ACTION_BOOT_COMPLETED
     val CHANNEL_ID = "test_id"
     val CHANNEL_NAME = "test_name"
@@ -40,7 +42,7 @@ import java.util.*
             for (foodData in allFoodData) { // filtering
                 val realExpDate =simpleFormat.parse(foodData.expirationDate) // 문자열로 부터 날짜 들고오기!
                 val dDay = (today.time.time - realExpDate.time) / (60 * 60 * 24 * 1000)
-                if (dDay + my_d_day > 0 && foodData.purchaseStatus == 1) {
+                if (dDay + my_d_day > 0 && foodData.purchaseStatus == 1 && foodData.buyDate != "1111년 11월 11일") {
                     dDayFoodList.add(Pair(foodData, dDay))
                 }
             }
@@ -52,6 +54,8 @@ import java.util.*
                 val foodNameList = alarmFoodList.map { pair -> pair.first.foodName }
 
                 val alarmIntent = Intent(context, MainActivity::class.java)
+                alarmIntent.putExtra(NOTIFICATION, true);
+                alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 val pendingIntent = PendingIntent.getActivity(
                     context,
                     0,
@@ -80,6 +84,7 @@ import java.util.*
                     .setContentIntent(pendingIntent)
 
                 NotificationManagerCompat.from(context).notify(notificationId, builder.build())
+                MainActivity.pref_notification.myEditText = NOTIFIED
             }
         }
     }

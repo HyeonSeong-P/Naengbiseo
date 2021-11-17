@@ -7,6 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -22,19 +26,6 @@ import com.mypackage.naengbiseo.room.FoodData
 import com.mypackage.naengbiseo.room.FoodDataRepository
 import com.mypackage.naengbiseo.viewmodel.*
 import kotlinx.android.synthetic.main.fragmetn_item_status.*
-import kotlinx.android.synthetic.main.fragmetn_item_status.back_button
-import kotlinx.android.synthetic.main.fragmetn_item_status.expiration_date_text
-import kotlinx.android.synthetic.main.fragmetn_item_status.food_edit_text
-import kotlinx.android.synthetic.main.fragmetn_item_status.food_number_edit_text
-import kotlinx.android.synthetic.main.fragmetn_item_status.go_to_select_button
-import kotlinx.android.synthetic.main.fragmetn_item_status.purchase_date_text
-import kotlinx.android.synthetic.main.fragmetn_item_status.memo_edit_text
-import kotlinx.android.synthetic.main.fragmetn_item_status.purchase_button
-import kotlinx.android.synthetic.main.fragmetn_item_status.expiration_button
-import kotlinx.android.synthetic.main.fragmetn_item_status.radio_group
-import kotlinx.android.synthetic.main.fragmetn_item_status.radio_btn1
-import kotlinx.android.synthetic.main.fragmetn_item_status.radio_btn2
-import kotlinx.android.synthetic.main.fragmetn_item_status.radio_btn3
 import java.util.*
 
 
@@ -76,7 +67,7 @@ class ItemStatusFragment : Fragment() {
 
         numMinus_button.setOnClickListener {
             if(foodNum - 1 == 0){
-                Toast.makeText(activity as MainActivity,"다 드셨으면 삭제해주세요 :)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity as MainActivity, "다 드셨으면 삭제해주세요 :)", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             foodNum--
@@ -104,11 +95,10 @@ class ItemStatusFragment : Fragment() {
             go_to_select_button.setImageResource(foodData!!.foodIcon)
             food_edit_text.setText(foodData!!.foodName)
             food_number_edit_text.setText(foodData!!.foodNumber.toString())
-            if(foodData!!.buyDate == "1111년 11월 11일" && foodData!!.expirationDate == "1111년 11월 11일"){
+            if (foodData!!.buyDate == "1111년 11월 11일" && foodData!!.expirationDate == "1111년 11월 11일") {
                 purchase_date_text.setText("구매일자를 선택하세요")
                 expiration_date_text.setText("유통기한을 선택하세요")
-            }
-            else{
+            } else {
                 purchase_date_text.setText(foodData!!.buyDate)
                 expiration_date_text.setText(foodData!!.expirationDate)
             }
@@ -117,7 +107,7 @@ class ItemStatusFragment : Fragment() {
             use_date_text.setText(foodData!!.useDate)
             treat_edit_text.setText(foodData!!.treatWay)
             foodNum = foodData!!.foodNumber
-            when(foodData!!.storeLocation){
+            when (foodData!!.storeLocation) {
                 "shelf" -> {
                     radio_group.check(radio_btn1.id)
                 }
@@ -167,7 +157,11 @@ class ItemStatusFragment : Fragment() {
                     foodData?.storeLocation = "cold"
                 }
                 else -> {
-                    Toast.makeText(activity as MainActivity,"음식을 보관할 장소를 선택해주세요!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity as MainActivity,
+                        "음식을 보관할 장소를 선택해주세요!!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
             }
@@ -177,23 +171,47 @@ class ItemStatusFragment : Fragment() {
 
         purchase_button.setOnClickListener{
             val cal1 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
-                var M= m+1
-                purchase_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" }, // 이상하게 월은 0월부터네.. +1 해주자
-                cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DATE)).show()
+            DatePickerDialog(
+                activity as MainActivity,
+                R.style.DatePickerTheme,
+                DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+                    var M = m + 1
+                    purchase_date_text.text = "$y" + "년 " + "$M" + "월 " + "$d" + "일"
+                }, // 이상하게 월은 0월부터네.. +1 해주자
+                cal1.get(Calendar.YEAR),
+                cal1.get(Calendar.MONTH),
+                cal1.get(Calendar.DATE)
+            ).show()
         }
 
         expiration_button.setOnClickListener {
             val cal2 = Calendar.getInstance()
-            DatePickerDialog(activity as MainActivity,R.style.DatePickerTheme, DatePickerDialog.OnDateSetListener { datePicker, y, m, d->
-                var M= m+1
-                expiration_date_text.text="$y"+"년 "+"$M"+"월 "+"$d"+"일" },
-                cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DATE)).show()
+            DatePickerDialog(
+                activity as MainActivity,
+                R.style.DatePickerTheme,
+                DatePickerDialog.OnDateSetListener { datePicker, y, m, d ->
+                    var M = m + 1
+                    expiration_date_text.text = "$y" + "년 " + "$M" + "월 " + "$d" + "일"
+                },
+                cal2.get(Calendar.YEAR),
+                cal2.get(Calendar.MONTH),
+                cal2.get(Calendar.DATE)
+            ).show()
         }
         youtube_button.setOnClickListener {
             val food_name = food_edit_text.text.toString()
             //var itemText=item_text.text.toString()
             var siteString="https://www.youtube.com/results?search_query="+food_name+"+레시피"
+            webview.setWebViewClient(object : WebViewClient() { // 인터넷 연결 안돼있을 경우 예외처리
+                override fun onReceivedError(
+                    view: WebView, request: WebResourceRequest,
+                    error: WebResourceError
+                ) {
+                    super.onReceivedError(view, request, error)
+                    Toast.makeText(context, "인터넷이 연결되어 있지 않습니다.\n" +
+                            "Please connect to the internet.", Toast.LENGTH_SHORT).show()
+                }
+            })
             webview.loadUrl(siteString)
 
         }
@@ -201,6 +219,16 @@ class ItemStatusFragment : Fragment() {
             val food_name = food_edit_text.text.toString()
             //var itemText=item_text.text.toString()
             var siteString="https://www.10000recipe.com/recipe/list.html?q="+food_name+"+레시피"
+            webview.setWebViewClient(object : WebViewClient() { // 인터넷 연결 안돼있을 경우 예외처리
+                override fun onReceivedError(
+                    view: WebView, request: WebResourceRequest,
+                    error: WebResourceError
+                ) {
+                    super.onReceivedError(view, request, error)
+                    Toast.makeText(context, "인터넷이 연결되어 있지 않습니다.\n" +
+                            "Please connect to the internet.", Toast.LENGTH_SHORT).show()
+                }
+            })
             webview.loadUrl(siteString)
 
         }
@@ -208,6 +236,16 @@ class ItemStatusFragment : Fragment() {
             val food_name = food_edit_text.text.toString()
             //var itemText=item_text.text.toString()
             var siteString="http://www.google.com/search?nota=1&q="+food_name+"+레시피"
+            webview.setWebViewClient(object : WebViewClient() { // 인터넷 연결 안돼있을 경우 예외처리
+                override fun onReceivedError(
+                    view: WebView, request: WebResourceRequest,
+                    error: WebResourceError
+                ) {
+                    super.onReceivedError(view, request, error)
+                    Toast.makeText(context, "인터넷이 연결되어 있지 않습니다.\n" +
+                            "Please connect to the internet.", Toast.LENGTH_SHORT).show()
+                }
+            })
             webview.loadUrl(siteString)
         }
 
@@ -250,7 +288,11 @@ class ItemStatusFragment : Fragment() {
                         foodData?.storeLocation = "cold"
                     }
                     else -> {
-                        Toast.makeText(activity as MainActivity,"음식을 보관할 장소를 선택해주세요!!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            activity as MainActivity,
+                            "음식을 보관할 장소를 선택해주세요!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return
                     }
                 }
